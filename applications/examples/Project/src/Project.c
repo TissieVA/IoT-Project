@@ -23,7 +23,7 @@ int main(void)
   Initialize_Platform();
 
   // Battery monitoring
-  GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
+  // GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
 
   //SHT (van temp/hum)
   setI2CInterface_SHT31(&common_I2C);
@@ -39,9 +39,9 @@ int main(void)
   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
 
-  osTimerDef(batteryLevel_Tim, batteryLevel_measurement);
-  batteryTimId = osTimerCreate(osTimer(batteryLevel_Tim), osTimerPeriodic, NULL);
-  osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
+  // osTimerDef(batteryLevel_Tim, batteryLevel_measurement);
+  // batteryTimId = osTimerCreate(osTimer(batteryLevel_Tim), osTimerPeriodic, NULL);
+  // osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
 
   osTimerDef(temp_hum_Tim, temp_hum_measurement);
   temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
@@ -57,18 +57,18 @@ int main(void)
 }
 
 // Battery Level measurement
-void batteryLevel_measurement(void const *argument)
-{
-  GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
-  printINF("Vbat: %i mV, I=%i mA SoC=%i, C=%i, P=%i A=%i , CC=%d\r\n",
-         STC3115_BatteryData.Voltage, //hieruit nog selecteren welke te verwijderen
-         STC3115_BatteryData.Current,
-         STC3115_BatteryData.SOC,
-         STC3115_BatteryData.ChargeValue,
-         STC3115_BatteryData.Presence,
-         STC3115_BatteryData.StatusWord >> 13,
-         STC3115_BatteryData.ConvCounter);
-}
+// void batteryLevel_measurement(void const *argument)
+// {
+//   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
+//   printINF("Vbat: %i mV, I=%i mA SoC=%i, C=%i, P=%i A=%i , CC=%d\r\n",
+//          STC3115_BatteryData.Voltage, //hieruit nog selecteren welke te verwijderen
+//          STC3115_BatteryData.Current,
+//          STC3115_BatteryData.SOC,
+//          STC3115_BatteryData.ChargeValue,
+//          STC3115_BatteryData.Presence,
+//          STC3115_BatteryData.StatusWord >> 13,
+//          STC3115_BatteryData.ConvCounter);
+// }
 
 
 // Temperature and Humidity measurement
