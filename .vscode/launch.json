@@ -131,6 +131,17 @@
             "name": "temperature-humidity-example",
             "device": "STM32L496ZG",
             "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/Project",
+            "executable": "./build/Project.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "project",
+            "device": "STM32L496ZG",
+            "interface": "swd",
         }
 
     ]

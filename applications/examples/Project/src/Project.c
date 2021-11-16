@@ -1,9 +1,6 @@
-#include "temperature-humidity.h"
+#include "Project.h"
 #include "sht31.h"
-#include "batterylevel-example.h"
 #include "stc3115.h"
-#include "murata-dualstack-example.h"
-#include "murata.h"
 
 #define temp_hum_timer    3
 

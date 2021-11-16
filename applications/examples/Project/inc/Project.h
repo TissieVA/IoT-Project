@@ -7,9 +7,11 @@ extern "C" {
 
 #include "platform.h"
 
-osThreadId defaultTaskHandle;
 osTimerId iwdgTimId;
+osTimerId batteryTimId;
+osThreadId defaultTaskHandle;
 
+void batteryLevel_measurement(void const *argument);
 void StartDefaultTask(void const *argument);
 void temp_hum_measurement(void);
 void print_temp_hum(void);
