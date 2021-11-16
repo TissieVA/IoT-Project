@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
   44 0004 1F48     		ldr	r0, .L9
   45 0006 204B     		ldr	r3, .L9+4
   46 0008 0360     		str	r3, [r0]
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 2
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 2
 
 
   13:../../../core/platform/octa/src/rtc.c ****   hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
   86              		.loc 1 27 17 is_stmt 0 view .LVU27
   87 002e 8DF80630 		strb	r3, [sp, #6]
   28:../../../core/platform/octa/src/rtc.c ****   sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 3
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 3
 
 
   88              		.loc 1 28 3 is_stmt 1 view .LVU28
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  128 0060 0A4A     		ldr	r2, .L9+8
  129 0062 1368     		ldr	r3, [r2]
  130 0064 43F48013 		orr	r3, r3, #1048576
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 4
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 4
 
 
  131 0068 1360     		str	r3, [r2]
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  174              		.global	RTC_Set_Time_From_Unix
  175              		.syntax unified
  176              		.thumb
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 5
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 5
 
 
  177              		.thumb_func
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
   63:../../../core/platform/octa/src/rtc.c ****   sdate.Year = stmU->tm_year - 100;
  213              		.loc 1 63 3 is_stmt 1 view .LVU62
  214              		.loc 1 63 20 is_stmt 0 view .LVU63
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 6
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 6
 
 
  215 0010 4369     		ldr	r3, [r0, #20]
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
   73:../../../core/platform/octa/src/rtc.c ****   stime.Seconds = stmU->tm_sec;
  260              		.loc 1 73 3 is_stmt 1 view .LVU88
  261              		.loc 1 73 17 is_stmt 0 view .LVU89
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 7
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 7
 
 
  262 0048 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  303 0072 2046     		mov	r0, r4
  304 0074 FFF7FEFF 		bl	HAL_RTC_SetDate
  305              	.LVL11:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 8
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 8
 
 
   82:../../../core/platform/octa/src/rtc.c ****   
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  347              		.cfi_offset 4, -8
  348              		.cfi_offset 14, -4
  349 0002 90B0     		sub	sp, sp, #64
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 9
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 9
 
 
  350              	.LCFI9:
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  390 0030 9DF80430 		ldrb	r3, [sp, #4]	@ zero_extendqisi2
  391              		.loc 1 108 15 view .LVU123
  392 0034 0993     		str	r3, [sp, #36]
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 10
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 10
 
 
  109:../../../core/platform/octa/src/rtc.c ****   stmT.tm_min=stime.Minutes;  
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  438      4D2F4444 
  438      293A2025 
  439              		.align	2
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 11
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 11
 
 
  440              	.LC4:
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  483 001e 9DF81630 		ldrb	r3, [sp, #22]	@ zero_extendqisi2
  484 0022 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
  485 0026 01F5FA61 		add	r1, r1, #2000
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 12
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 12
 
 
  486 002a 0848     		ldr	r0, .L24+4
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  534              		.loc 1 131 6 is_stmt 0 view .LVU151
  535 0002 024B     		ldr	r3, .L29
  536 0004 1B68     		ldr	r3, [r3]
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 13
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 13
 
 
  537              		.loc 1 131 5 view .LVU152
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  587              		.comm	appversion_patch,1,1
  588              		.comm	appversion_minor,1,1
  589              		.comm	appversion_major,1,1
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 14
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 14
 
 
  590              		.comm	short_UID,8,8
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  646              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
  647              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
  648              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 15
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 15
 
 
  649              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
@@ -871,33 +871,33 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 1
  676              		.file 33 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
  677              		.file 34 "../../../core/platform/common/inc/print.h"
  678              		.file 35 "../../../core/platform/common/inc/error.h"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 16
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 rtc.c
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:18     .text.RTC_Init:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:26     .text.RTC_Init:00000000 RTC_Init
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:159    .text.RTC_Init:00000084 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:18     .text.RTC_Init:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:26     .text.RTC_Init:00000000 RTC_Init
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:159    .text.RTC_Init:00000084 $d
                             *COM*:00000024 hrtc
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:166    .rodata.RTC_Set_Time_From_Unix.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:173    .text.RTC_Set_Time_From_Unix:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:180    .text.RTC_Set_Time_From_Unix:00000000 RTC_Set_Time_From_Unix
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:320    .text.RTC_Set_Time_From_Unix:0000008c $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:327    .rodata.RTC_Time_To_Unix.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:331    .text.RTC_Time_To_Unix:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:338    .text.RTC_Time_To_Unix:00000000 RTC_Time_To_Unix
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:430    .text.RTC_Time_To_Unix:00000058 $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:436    .rodata.RTC_Print_DateTime.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:443    .text.RTC_Print_DateTime:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:450    .text.RTC_Print_DateTime:00000000 RTC_Print_DateTime
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:505    .text.RTC_Print_DateTime:00000048 $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:512    .text.HAL_RTCEx_WakeUpTimerEventCallback:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:519    .text.HAL_RTCEx_WakeUpTimerEventCallback:00000000 HAL_RTCEx_WakeUpTimerEventCallback
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:548    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000c $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:553    .text.RTC_SetApplicationWakeupCallback:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:560    .text.RTC_SetApplicationWakeupCallback:00000000 RTC_SetApplicationWakeupCallback
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:577    .text.RTC_SetApplicationWakeupCallback:00000008 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:166    .rodata.RTC_Set_Time_From_Unix.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:173    .text.RTC_Set_Time_From_Unix:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:180    .text.RTC_Set_Time_From_Unix:00000000 RTC_Set_Time_From_Unix
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:320    .text.RTC_Set_Time_From_Unix:0000008c $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:327    .rodata.RTC_Time_To_Unix.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:331    .text.RTC_Time_To_Unix:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:338    .text.RTC_Time_To_Unix:00000000 RTC_Time_To_Unix
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:430    .text.RTC_Time_To_Unix:00000058 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:436    .rodata.RTC_Print_DateTime.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:443    .text.RTC_Print_DateTime:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:450    .text.RTC_Print_DateTime:00000000 RTC_Print_DateTime
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:505    .text.RTC_Print_DateTime:00000048 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:512    .text.HAL_RTCEx_WakeUpTimerEventCallback:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:519    .text.HAL_RTCEx_WakeUpTimerEventCallback:00000000 HAL_RTCEx_WakeUpTimerEventCallback
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:548    .text.HAL_RTCEx_WakeUpTimerEventCallback:0000000c $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:553    .text.RTC_SetApplicationWakeupCallback:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:560    .text.RTC_SetApplicationWakeupCallback:00000000 RTC_SetApplicationWakeupCallback
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:577    .text.RTC_SetApplicationWakeupCallback:00000008 $d
                             *COM*:0000002c P3_header
                             *COM*:0000002c P2_header
                             *COM*:0000002c P1_header
@@ -931,7 +931,7 @@ C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:577    .text.RTC_SetApplicationWake
                             *COM*:00000078 FTDI_UART
                             *COM*:00000078 BLE_UART
                             *COM*:00000078 USB_UART
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s 			page 17
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s 			page 17
 
 
                             *COM*:00000010 hiwdg
@@ -955,8 +955,8 @@ C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:577    .text.RTC_SetApplicationWake
                             *COM*:00000008 P1_DIO1
                             *COM*:00000040 htim6
                             *COM*:00000040 htim1
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:637    .bss.RTC_Wakeup_ApplicationCallback:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccq21GZ2.s:641    .bss.RTC_Wakeup_ApplicationCallback:00000000 RTC_Wakeup_ApplicationCallback
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:637    .bss.RTC_Wakeup_ApplicationCallback:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccrb1YDs.s:641    .bss.RTC_Wakeup_ApplicationCallback:00000000 RTC_Wakeup_ApplicationCallback
 
 UNDEFINED SYMBOLS
 HAL_RTC_Init

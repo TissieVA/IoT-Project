@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
   35 0078 57726974 		.ascii	"Writing updated configuration to flash:\015\012\000"
   35      696E6720 
   35      75706461 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 2
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 2
 
 
   35      74656420 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
   66              		.loc 1 19 3 is_stmt 1 view .LVU2
   67              	.LVL1:
   20:../../../core/platform/common/src/flash_config.c ****   // write to flash as octa payload
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 3
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 3
 
 
   21:../../../core/platform/common/src/flash_config.c ****   uint8_t flashBuffer[OCTA_FLASH_PAGE_SIZE] = {0xff};
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
   40:../../../core/platform/common/src/flash_config.c **** 
   41:../../../core/platform/common/src/flash_config.c ****   uint16_t index = 0;
  103              		.loc 1 41 3 view .LVU14
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 4
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 4
 
 
   42:../../../core/platform/common/src/flash_config.c ****   // interval & multiplier
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  146              	.LVL14:
  147              		.loc 1 53 24 is_stmt 0 view .LVU35
  148 0068 C3F30763 		ubfx	r3, r3, #24, #8
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 5
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 5
 
 
  149 006c 8DF80731 		strb	r3, [sp, #263]
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  188              		.loc 1 68 3 is_stmt 1 view .LVU53
  189              	.LVL22:
  190              		.loc 1 68 24 is_stmt 0 view .LVU54
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 6
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 6
 
 
  191 00a0 3623     		movs	r3, #54
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  235              	.L17:
  236              		.loc 1 78 5 view .LVU73
  237              	.LBE2:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 7
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 7
 
 
  238              	.LBB3:
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
   82:../../../core/platform/common/src/flash_config.c ****         if(osKernelRunning())
  275              		.loc 1 82 9 is_stmt 1 view .LVU84
  276 00f4 3448     		ldr	r0, .L23+16
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 8
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 8
 
 
  277 00f6 FFF7FEFF 		bl	printDBG
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  319 012a FFF7FEFF 		bl	printDBG
  320              	.LVL44:
   95:../../../core/platform/common/src/flash_config.c ****   #if DEBUG
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 9
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 9
 
 
   96:../../../core/platform/common/src/flash_config.c ****     for (uint16_t i = 0; i < CONFIG_BUFFER_SIZE; ++i) {
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  355 0154 FFF7FEFF 		bl	printERR
  356              	.LVL51:
   92:../../../core/platform/common/src/flash_config.c ****   }
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 10
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 10
 
 
  357              		.loc 1 92 5 view .LVU107
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  394              	.L21:
  395              	.LBE12:
  122:../../../core/platform/common/src/flash_config.c ****   }
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 11
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 11
 
 
  123:../../../core/platform/common/src/flash_config.c ****   memset(flashBuffer, 0, OCTA_FLASH_PAGE_SIZE);
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  435              		.cfi_restore_state
  436              	.LBB13:
  127:../../../core/platform/common/src/flash_config.c ****     printERR("Flash operation NOK: %d\r\n", retval);
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 12
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 12
 
 
  437              		.loc 1 127 5 is_stmt 1 view .LVU127
@@ -700,15 +700,15 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 1
  473              		.file 7 "../../../core/platform/common/inc/datatypes.h"
  474              		.file 8 "<built-in>"
  475              		.file 9 "../../../core/drivers/octa-flash/inc/octa-flash.h"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s 			page 13
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 flash_config.c
-C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s:18     .rodata.update_flash_configuration.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s:40     .text.update_flash_configuration:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s:48     .text.update_flash_configuration:00000000 update_flash_configuration
-C:\Users\tomra\AppData\Local\Temp\ccgsXjja.s:448    .text.update_flash_configuration:000001b8 $d
+C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s:18     .rodata.update_flash_configuration.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s:40     .text.update_flash_configuration:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s:48     .text.update_flash_configuration:00000000 update_flash_configuration
+C:\Users\tomra\AppData\Local\Temp\cc7zpUm9.s:448    .text.update_flash_configuration:000001b8 $d
                             *COM*:00000004 uint32LittleEndian
                             *COM*:00000008 octa_uid
                             *COM*:00000004 float_union

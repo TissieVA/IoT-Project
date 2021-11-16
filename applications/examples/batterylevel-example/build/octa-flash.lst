@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
   28:../../../core/drivers/octa-flash/src/octa-flash.c **** //One because it's only used to read a register
   29:../../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t rxData[1];
   30:../../../core/drivers/octa-flash/src/octa-flash.c **** //Five, because the max amount of bytes is 5, in send4BCommand
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 2
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 2
 
 
   31:../../../core/drivers/octa-flash/src/octa-flash.c **** uint8_t txData[5];
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
   85:../../../core/drivers/octa-flash/src/octa-flash.c ****     #ifdef platform_octa_stm
   86:../../../core/drivers/octa-flash/src/octa-flash.c ****         printDBG("Entering 4B mode\r\n");
   87:../../../core/drivers/octa-flash/src/octa-flash.c ****         if(OCTA_FLASH_Enter_4B_Mode()!= OCTA_FLASH_OK)
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 3
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 3
 
 
   88:../../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("enter 4B mode NOK\r\n");
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  142:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  0 if successful
  143:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
  144:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_INVALID_PAGE_NR if aPageNr is invalid.
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 4
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 4
 
 
  145:../../../core/drivers/octa-flash/src/octa-flash.c ****     */
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  199:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    apData     Pointer to the uint8_t array with data to write.
  200:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \param    aSize      The number of bytes to be written.
  201:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  The number of written bytes.
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 5
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 5
 
 
  202:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  256:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
  257:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  258:../../../core/drivers/octa-flash/src/octa-flash.c ****     return (aSize-bytesLeftToWrite);
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 6
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 6
 
 
  259:../../../core/drivers/octa-flash/src/octa-flash.c **** }
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  313:../../../core/drivers/octa-flash/src/octa-flash.c **** }
  314:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  315:../../../core/drivers/octa-flash/src/octa-flash.c **** /**
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 7
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 7
 
 
  316:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \brief    Erases 256kb of data, starting from the given block.
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  370:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
  371:../../../core/drivers/octa-flash/src/octa-flash.c ****     */
  372:../../../core/drivers/octa-flash/src/octa-flash.c **** int OCTA_FLASH_erase4KBSectorFromPage(const uint32_t aPageNr)
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 8
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 8
 
 
  373:../../../core/drivers/octa-flash/src/octa-flash.c **** {
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  427:../../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
  428:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
  429:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 9
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 9
 
 
  430:../../../core/drivers/octa-flash/src/octa-flash.c ****     //Setting write enable
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  484:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns 0 if successful
  485:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_WRITE_IN_PROGRESS if the flash is performing a write action.
  486:../../../core/drivers/octa-flash/src/octa-flash.c ****     * \returns  E_SPI_ERROR if something went wrong during SPI communication.
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 10
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 10
 
 
  487:../../../core/drivers/octa-flash/src/octa-flash.c ****     */
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  541:../../../core/drivers/octa-flash/src/octa-flash.c ****     if (OCTA_FLASH_isWriteInProgress())
  542:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  543:../../../core/drivers/octa-flash/src/octa-flash.c ****         return E_WRITE_IN_PROGRESS;
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 11
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 11
 
 
  544:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  598:../../../core/drivers/octa-flash/src/octa-flash.c ****     return OCTA_FLASH_OK;
  599:../../../core/drivers/octa-flash/src/octa-flash.c **** }
  600:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 12
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 12
 
 
  601:../../../core/drivers/octa-flash/src/octa-flash.c **** /* Manually toggle enable pin, due to it not being a default SPI pin */
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
   73 0002 0122     		movs	r2, #1
   74 0004 4FF40051 		mov	r1, #8192
   75 0008 0148     		ldr	r0, .L7
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 13
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 13
 
 
   76 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  113              	.LCFI2:
  114              		.cfi_def_cfa_offset 24
  115              		.cfi_offset 4, -24
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 14
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 14
 
 
  116              		.cfi_offset 5, -20
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  157 0030 FFF7FEFF 		bl	OCTA_FLASH_Disable
  158              	.LVL5:
   54:../../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_GPIO_WritePin(OCTA_FLASH_HOLD_Port, OCTA_FLASH_HOLD_Pin, GPIO_PIN_SET);
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 15
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 15
 
 
  159              		.loc 1 54 5 view .LVU21
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  205 0078 00000000 		.word	mCurrentReadAddress
  206 007c 00000000 		.word	mCurrentWriteAddress
  207 0080 00000000 		.word	_initialised
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 16
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 16
 
 
  208 0084 00000000 		.word	flashSPI
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  259              	.LFE132:
  261              		.section	.text.OCTA_FLASH_readReg,"ax",%progbits
  262              		.align	1
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 17
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 17
 
 
  263              		.global	OCTA_FLASH_readReg
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  309 0026 2868     		ldr	r0, [r5]
  310 0028 FFF7FEFF 		bl	HAL_SPI_Transmit
  311              	.LVL16:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 18
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 18
 
 
  471:../../../core/drivers/octa-flash/src/octa-flash.c **** 
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  266:../../../core/drivers/octa-flash/src/octa-flash.c ****     HAL_Delay(SPI_WAIT);
  359              		.loc 1 266 1 is_stmt 1 view -0
  360              		.cfi_startproc
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 19
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 19
 
 
  361              		@ args = 0, pretend = 0, frame = 8
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  405              	.LFE138:
  407              		.section	.text.OCTA_FLASH_open,"ax",%progbits
  408              		.align	1
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 20
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 20
 
 
  409              		.global	OCTA_FLASH_open
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  452              	.LVL27:
  133:../../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
  453              		.loc 1 133 5 is_stmt 1 view .LVU76
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 21
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 21
 
 
  133:../../../core/drivers/octa-flash/src/octa-flash.c ****     mCurrentWriteAddress = newAddress;
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  502              		.cfi_offset 14, -4
  148:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  503              		.loc 1 148 5 view .LVU85
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 22
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 22
 
 
  504 0002 0A20     		movs	r0, #10
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  549              	.LVL34:
  550              	.LFB146:
  571:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 23
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 23
 
 
  551              		.loc 1 571 1 is_stmt 1 view -0
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  584:../../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
  591              		.loc 1 584 23 is_stmt 0 view .LVU112
  592 001a C4F30723 		ubfx	r3, r4, #8, #8
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 24
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 24
 
 
  584:../../../core/drivers/octa-flash/src/octa-flash.c ****     txData[index++] = (uint8_t)(address & 0x000000FF);
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  636 0054 00000000 		.word	txData
  637 0058 00000000 		.word	flashSPI
  638              		.cfi_endproc
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 25
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 25
 
 
  639              	.LFE146:
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  683              	.LVL50:
  182:../../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
  684              		.loc 1 182 5 view .LVU132
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 26
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 26
 
 
  182:../../../core/drivers/octa-flash/src/octa-flash.c ****     if (status!=0)
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  727              		.loc 1 185 9 is_stmt 0 view .LVU144
  728 004a FFF7FEFF 		bl	printDBG
  729              	.LVL57:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 27
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 27
 
 
  186:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  777              		.loc 1 546 5 is_stmt 1 view .LVU153
  546:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  778              		.loc 1 546 15 is_stmt 0 view .LVU154
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 28
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 28
 
 
  779 000a 124D     		ldr	r5, .L59
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  553:../../../core/drivers/octa-flash/src/octa-flash.c ****     }
  822              		.loc 1 553 16 view .LVU166
  823 004c 6FF00200 		mvn	r0, #2
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 29
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 29
 
 
  824 0050 F8E7     		b	.L54
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  872              		.cfi_endproc
  873              	.LFE133:
  875              		.section	.text.OCTA_FLASH_eraseFullFlash,"ax",%progbits
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 30
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 30
 
 
  876              		.align	1
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  307:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  920              		.loc 1 307 5 is_stmt 1 view .LVU186
  307:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 31
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 31
 
 
  921              		.loc 1 307 9 is_stmt 0 view .LVU187
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  968              		.loc 1 329 5 is_stmt 1 view .LVU196
  329:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  969              		.loc 1 329 9 is_stmt 0 view .LVU197
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 32
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 32
 
 
  970 000a FFF7FEFF 		bl	OCTA_FLASH_isWriteInProgress
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1010 0046 0420     		movs	r0, #4
  1011 0048 FFF7FEFF 		bl	OCTA_FLASH_sendCommand
  1012              	.LVL79:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 33
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 33
 
 
  355:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1061 0004 0A20     		movs	r0, #10
  1062              	.LVL82:
  375:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 34
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 34
 
 
  1063              		.loc 1 375 5 is_stmt 0 view .LVU220
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1103              		.loc 1 400 5 view .LVU234
  1104 0042 FFF7FEFF 		bl	OCTA_FLASH_Disable
  1105              	.LVL87:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 35
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 35
 
 
  403:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1154              		.cfi_offset 14, -4
  423:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  1155              		.loc 1 423 5 view .LVU243
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 36
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 36
 
 
  1156 0002 0A20     		movs	r0, #10
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  446:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  1197              		.loc 1 446 8 view .LVU257
  1198 0040 10F1030F 		cmn	r0, #3
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 37
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 37
 
 
  1199 0044 00D0     		beq	.L83
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1246              	.LVL97:
  496:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  1247              		.loc 1 496 8 view .LVU267
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 38
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 38
 
 
  1248 0010 10F1030F 		cmn	r0, #3
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  522:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  1290              		.loc 1 522 26 is_stmt 0 view .LVU280
  1291 0058 0A4A     		ldr	r2, .L94
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 39
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 39
 
 
  1292 005a 1368     		ldr	r3, [r2]
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1337              		.thumb_func
  1338              		.fpu fpv4-sp-d16
  1340              	OCTA_FLASH_write:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 40
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 40
 
 
  1341              	.LVL103:
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1383              		.loc 1 222 11 is_stmt 1 view .LVU299
  222:../../../core/drivers/octa-flash/src/octa-flash.c ****     {
  1384              		.loc 1 222 26 is_stmt 0 view .LVU300
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 41
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 41
 
 
  1385 0020 1C4B     		ldr	r3, .L109+8
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  237:../../../core/drivers/octa-flash/src/octa-flash.c ****             return flushedBytes;
  1425              		.loc 1 237 13 is_stmt 0 view .LVU315
  1426 004c FFF7FEFF 		bl	printDBG
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 42
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 42
 
 
  1427              	.LVL114:
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1467 0074 0026     		movs	r6, #0
  1468 0076 F2E7     		b	.L101
  1469              	.LVL120:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 43
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 43
 
 
  1470              	.L102:
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1508              	.LC8:
  1509 0048 50616765 		.ascii	"Page2 after: \015\012\000"
  1509      32206166 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 44
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 44
 
 
  1509      7465723A 
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1542              		.loc 1 630 5 view .LVU339
  631:../../../core/drivers/octa-flash/src/octa-flash.c **** 
  632:../../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_open(0);
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 45
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 45
 
 
  1543              		.loc 1 632 5 view .LVU340
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  655:../../../core/drivers/octa-flash/src/octa-flash.c ****     OCTA_FLASH_read(rx,SIZE);
  1575              		.loc 1 655 5 view .LVU348
  1576 0030 4FF48071 		mov	r1, #256
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 46
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 46
 
 
  1577 0034 4448     		ldr	r0, .L139+4
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  662:../../../core/drivers/octa-flash/src/octa-flash.c ****         {
  1614              		.loc 1 662 9 is_stmt 1 view .LVU362
  662:../../../core/drivers/octa-flash/src/octa-flash.c ****         {
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 47
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 47
 
 
  1615              		.loc 1 662 14 is_stmt 0 view .LVU363
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1642 007e FFF7FEFF 		bl	OCTA_FLASH_write
  1643              	.LVL138:
  691:../../../core/drivers/octa-flash/src/octa-flash.c ****     while(OCTA_FLASH_isWriteInProgress())
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 48
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 48
 
 
  1644              		.loc 1 691 5 view .LVU370
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1681 00aa 2B48     		ldr	r0, .L139+20
  1682 00ac FFF7FEFF 		bl	printERR
  1683              	.LVL144:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 49
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 49
 
 
  703:../../../core/drivers/octa-flash/src/octa-flash.c ****             printERR("Page1 NO MATCH\r\n");
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  717:../../../core/drivers/octa-flash/src/octa-flash.c ****         printf("\r\n");
  718:../../../core/drivers/octa-flash/src/octa-flash.c ****     #endif 
  719:../../../core/drivers/octa-flash/src/octa-flash.c **** 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 50
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 50
 
 
  720:../../../core/drivers/octa-flash/src/octa-flash.c ****     memset(tx, 2, SIZE);
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1753 0102 1648     		ldr	r0, .L139+24
  1754 0104 FFF7FEFF 		bl	printDBG
  1755              	.LVL155:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 51
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 51
 
 
  734:../../../core/drivers/octa-flash/src/octa-flash.c ****     for(i = 0; i<256; i++)
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1791 0122 084B     		ldr	r3, .L139
  1792 0124 1B5D     		ldrb	r3, [r3, r4]	@ zero_extendqisi2
  739:../../../core/drivers/octa-flash/src/octa-flash.c ****         {
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 52
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 52
 
 
  1793              		.loc 1 739 11 view .LVU421
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1839              		.comm	mMemPageIndex,2,2
  1840              		.comm	mMemPage,256,4
  1841              		.comm	mCurrentWriteAddress,4,4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 53
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 53
 
 
  1842              		.comm	mCurrentReadAddress,4,4
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1896              		.comm	htim6,64,4
  1897              		.comm	htim1,64,4
  1898              		.section	.bss.rx.11763,"aw",%nobits
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 54
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 54
 
 
  1899              		.align	2
@@ -3234,80 +3234,80 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 1
  1945              		.file 33 "../../../core/platform/common/inc/print.h"
  1946              		.file 34 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
  1947              		.file 35 "<built-in>"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 55
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 55
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 octa-flash.c
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:18     .text.OCTA_FLASH_Enable:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:26     .text.OCTA_FLASH_Enable:00000000 OCTA_FLASH_Enable
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:49     .text.OCTA_FLASH_Enable:00000010 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:54     .text.OCTA_FLASH_Disable:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:61     .text.OCTA_FLASH_Disable:00000000 OCTA_FLASH_Disable
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:83     .text.OCTA_FLASH_Disable:00000010 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:88     .rodata.OCTA_FLASH_Initialize.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:97     .text.OCTA_FLASH_Initialize:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:104    .text.OCTA_FLASH_Initialize:00000000 OCTA_FLASH_Initialize
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:203    .text.OCTA_FLASH_Initialize:00000070 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:18     .text.OCTA_FLASH_Enable:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:26     .text.OCTA_FLASH_Enable:00000000 OCTA_FLASH_Enable
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:49     .text.OCTA_FLASH_Enable:00000010 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:54     .text.OCTA_FLASH_Disable:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:61     .text.OCTA_FLASH_Disable:00000000 OCTA_FLASH_Disable
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:83     .text.OCTA_FLASH_Disable:00000010 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:88     .rodata.OCTA_FLASH_Initialize.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:97     .text.OCTA_FLASH_Initialize:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:104    .text.OCTA_FLASH_Initialize:00000000 OCTA_FLASH_Initialize
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:203    .text.OCTA_FLASH_Initialize:00000070 $d
                             *COM*:00000002 mMemPageIndex
                             *COM*:00000100 mMemPage
                             *COM*:00000004 mCurrentReadAddress
                             *COM*:00000004 mCurrentWriteAddress
                             *COM*:00000001 _initialised
                             *COM*:00000004 flashSPI
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:218    .text.OCTA_FLASH_ReInitialize:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:225    .text.OCTA_FLASH_ReInitialize:00000000 OCTA_FLASH_ReInitialize
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:257    .text.OCTA_FLASH_ReInitialize:00000020 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:262    .text.OCTA_FLASH_readReg:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:269    .text.OCTA_FLASH_readReg:00000000 OCTA_FLASH_readReg
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:343    .text.OCTA_FLASH_readReg:00000054 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:218    .text.OCTA_FLASH_ReInitialize:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:225    .text.OCTA_FLASH_ReInitialize:00000000 OCTA_FLASH_ReInitialize
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:257    .text.OCTA_FLASH_ReInitialize:00000020 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:262    .text.OCTA_FLASH_readReg:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:269    .text.OCTA_FLASH_readReg:00000000 OCTA_FLASH_readReg
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:343    .text.OCTA_FLASH_readReg:00000054 $d
                             *COM*:00000005 txData
                             *COM*:00000001 rxData
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:350    .text.OCTA_FLASH_isWriteInProgress:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:357    .text.OCTA_FLASH_isWriteInProgress:00000000 OCTA_FLASH_isWriteInProgress
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:408    .text.OCTA_FLASH_open:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:415    .text.OCTA_FLASH_open:00000000 OCTA_FLASH_open
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:478    .text.OCTA_FLASH_open:00000030 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:485    .text.OCTA_FLASH_openConfigSector:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:492    .text.OCTA_FLASH_openConfigSector:00000000 OCTA_FLASH_openConfigSector
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:535    .text.OCTA_FLASH_openConfigSector:00000020 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:541    .text.OCTA_FLASH_send4BCommand:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:548    .text.OCTA_FLASH_send4BCommand:00000000 OCTA_FLASH_send4BCommand
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:636    .text.OCTA_FLASH_send4BCommand:00000054 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:642    .rodata.OCTA_FLASH_read.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:646    .text.OCTA_FLASH_read:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:653    .text.OCTA_FLASH_read:00000000 OCTA_FLASH_read
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:741    .text.OCTA_FLASH_read:00000058 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:748    .text.OCTA_FLASH_sendCommand:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:755    .text.OCTA_FLASH_sendCommand:00000000 OCTA_FLASH_sendCommand
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:828    .text.OCTA_FLASH_sendCommand:00000054 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:834    .text.OCTA_FLASH_Enter_4B_Mode:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:841    .text.OCTA_FLASH_Enter_4B_Mode:00000000 OCTA_FLASH_Enter_4B_Mode
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:876    .text.OCTA_FLASH_eraseFullFlash:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:883    .text.OCTA_FLASH_eraseFullFlash:00000000 OCTA_FLASH_eraseFullFlash
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:941    .text.OCTA_FLASH_erase265KBSectorFromPage:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:948    .text.OCTA_FLASH_erase265KBSectorFromPage:00000000 OCTA_FLASH_erase265KBSectorFromPage
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1033   .text.OCTA_FLASH_erase265KBSectorFromPage:00000064 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1039   .text.OCTA_FLASH_erase4KBSectorFromPage:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1046   .text.OCTA_FLASH_erase4KBSectorFromPage:00000000 OCTA_FLASH_erase4KBSectorFromPage
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1131   .text.OCTA_FLASH_erase4KBSectorFromPage:00000064 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1137   .text.OCTA_FLASH_eraseConfigSector:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1144   .text.OCTA_FLASH_eraseConfigSector:00000000 OCTA_FLASH_eraseConfigSector
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1212   .text.OCTA_FLASH_eraseConfigSector:00000050 $d
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 56
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:350    .text.OCTA_FLASH_isWriteInProgress:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:357    .text.OCTA_FLASH_isWriteInProgress:00000000 OCTA_FLASH_isWriteInProgress
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:408    .text.OCTA_FLASH_open:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:415    .text.OCTA_FLASH_open:00000000 OCTA_FLASH_open
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:478    .text.OCTA_FLASH_open:00000030 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:485    .text.OCTA_FLASH_openConfigSector:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:492    .text.OCTA_FLASH_openConfigSector:00000000 OCTA_FLASH_openConfigSector
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:535    .text.OCTA_FLASH_openConfigSector:00000020 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:541    .text.OCTA_FLASH_send4BCommand:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:548    .text.OCTA_FLASH_send4BCommand:00000000 OCTA_FLASH_send4BCommand
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:636    .text.OCTA_FLASH_send4BCommand:00000054 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:642    .rodata.OCTA_FLASH_read.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:646    .text.OCTA_FLASH_read:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:653    .text.OCTA_FLASH_read:00000000 OCTA_FLASH_read
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:741    .text.OCTA_FLASH_read:00000058 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:748    .text.OCTA_FLASH_sendCommand:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:755    .text.OCTA_FLASH_sendCommand:00000000 OCTA_FLASH_sendCommand
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:828    .text.OCTA_FLASH_sendCommand:00000054 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:834    .text.OCTA_FLASH_Enter_4B_Mode:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:841    .text.OCTA_FLASH_Enter_4B_Mode:00000000 OCTA_FLASH_Enter_4B_Mode
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:876    .text.OCTA_FLASH_eraseFullFlash:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:883    .text.OCTA_FLASH_eraseFullFlash:00000000 OCTA_FLASH_eraseFullFlash
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:941    .text.OCTA_FLASH_erase265KBSectorFromPage:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:948    .text.OCTA_FLASH_erase265KBSectorFromPage:00000000 OCTA_FLASH_erase265KBSectorFromPage
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1033   .text.OCTA_FLASH_erase265KBSectorFromPage:00000064 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1039   .text.OCTA_FLASH_erase4KBSectorFromPage:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1046   .text.OCTA_FLASH_erase4KBSectorFromPage:00000000 OCTA_FLASH_erase4KBSectorFromPage
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1131   .text.OCTA_FLASH_erase4KBSectorFromPage:00000064 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1137   .text.OCTA_FLASH_eraseConfigSector:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1144   .text.OCTA_FLASH_eraseConfigSector:00000000 OCTA_FLASH_eraseConfigSector
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1212   .text.OCTA_FLASH_eraseConfigSector:00000050 $d
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 56
 
 
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1217   .text.OCTA_FLASH_flush:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1224   .text.OCTA_FLASH_flush:00000000 OCTA_FLASH_flush
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1321   .text.OCTA_FLASH_flush:00000084 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1329   .rodata.OCTA_FLASH_write.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1333   .text.OCTA_FLASH_write:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1340   .text.OCTA_FLASH_write:00000000 OCTA_FLASH_write
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1486   .text.OCTA_FLASH_write:0000008c $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1495   .rodata.OCTA_FLASH_TestRW.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1514   .text.OCTA_FLASH_TestRW:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1521   .text.OCTA_FLASH_TestRW:00000000 OCTA_FLASH_TestRW
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1824   .text.OCTA_FLASH_TestRW:00000144 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1217   .text.OCTA_FLASH_flush:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1224   .text.OCTA_FLASH_flush:00000000 OCTA_FLASH_flush
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1321   .text.OCTA_FLASH_flush:00000084 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1329   .rodata.OCTA_FLASH_write.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1333   .text.OCTA_FLASH_write:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1340   .text.OCTA_FLASH_write:00000000 OCTA_FLASH_write
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1486   .text.OCTA_FLASH_write:0000008c $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1495   .rodata.OCTA_FLASH_TestRW.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1514   .text.OCTA_FLASH_TestRW:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1521   .text.OCTA_FLASH_TestRW:00000000 OCTA_FLASH_TestRW
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1824   .text.OCTA_FLASH_TestRW:00000144 $d
                             *COM*:0000002c P3_header
                             *COM*:0000002c P2_header
                             *COM*:0000002c P1_header
@@ -3354,7 +3354,7 @@ C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1824   .text.OCTA_FLASH_TestRW:0000
                             *COM*:00000008 P2_DIO4
                             *COM*:00000008 P2_DIO3
                             *COM*:00000008 P2_DIO2
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s 			page 57
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s 			page 57
 
 
                             *COM*:00000008 P2_DIO1
@@ -3366,10 +3366,10 @@ C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1824   .text.OCTA_FLASH_TestRW:0000
                             *COM*:00000008 P1_DIO1
                             *COM*:00000040 htim6
                             *COM*:00000040 htim1
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1899   .bss.rx.11763:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1903   .bss.rx.11763:00000000 rx.11763
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1906   .bss.tx.11762:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\ccx9H1W9.s:1910   .bss.tx.11762:00000000 tx.11762
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1899   .bss.rx.11763:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1903   .bss.rx.11763:00000000 rx.11763
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1906   .bss.tx.11762:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccVCeJ1p.s:1910   .bss.tx.11762:00000000 tx.11762
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin

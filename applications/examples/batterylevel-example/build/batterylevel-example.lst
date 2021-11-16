@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
   18:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   IWDG_feed(NULL);
   19:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   osTimerDef(iwdgTim, IWDG_feed);
   20:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 2
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 2
 
 
   21:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
   65 001a 0193     		str	r3, [sp, #4]
   66 001c 636A     		ldr	r3, [r4, #36]
   67 001e 0093     		str	r3, [sp]
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 3
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 3
 
 
   68 0020 A368     		ldr	r3, [r4, #8]
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
  119              	.LVL5:
   18:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   IWDG_feed(NULL);
  120              		.loc 1 18 3 view .LVU11
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 4
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 4
 
 
  121 0012 0020     		movs	r0, #0
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
   31:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   }
  163              		.loc 1 31 3 discriminator 1 view .LVU24
   29:../../../applications/examples/batterylevel-example/src/batterylevel-example.c ****   while (1)
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 5
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 5
 
 
  164              		.loc 1 29 9 discriminator 1 view .LVU25
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
  219              		.comm	P3_DIO5,8,4
  220              		.comm	P3_DIO4,8,4
  221              		.comm	P3_DIO3,8,4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 6
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 6
 
 
  222              		.comm	P3_DIO2,8,4
@@ -353,20 +353,20 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 1
  271              		.file 33 "../../../applications/examples/batterylevel-example/inc/batterylevel-example.h"
  272              		.file 34 "../../../core/platform/octa/drivers/STC3115/inc/stc3115.h"
  273              		.file 35 "../../../core/platform/common/inc/print.h"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 7
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 batterylevel-example.c
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:18     .rodata.batteryLevel_measurement.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:23     .text.batteryLevel_measurement:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:31     .text.batteryLevel_measurement:00000000 batteryLevel_measurement
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:83     .text.batteryLevel_measurement:00000030 $d
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:18     .rodata.batteryLevel_measurement.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:23     .text.batteryLevel_measurement:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:31     .text.batteryLevel_measurement:00000000 batteryLevel_measurement
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:83     .text.batteryLevel_measurement:00000030 $d
                             *COM*:0000002c STC3115_BatteryData
                             *COM*:00000030 STC3115_ConfigData
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:90     .text.main:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:97     .text.main:00000000 main
-C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:169    .text.main:00000054 $d
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:90     .text.main:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:97     .text.main:00000000 main
+C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s:169    .text.main:00000054 $d
                             *COM*:0000004c common_I2C
                             *COM*:00000004 iwdgTimId
                             *COM*:00000004 batteryTimId
@@ -413,7 +413,7 @@ C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s:169    .text.main:00000054 $d
                             *COM*:00000008 P2_DIO6
                             *COM*:00000008 P2_DIO5
                             *COM*:00000008 P2_DIO4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cch1VeG2.s 			page 8
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccHtz0ep.s 			page 8
 
 
                             *COM*:00000008 P2_DIO3

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
   35 00af 00       		.align	2
   36              	.LC5:
   37 00b0 4E657720 		.ascii	"New interval: %d and multiplier: %d\015\012\000"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 2
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 2
 
 
   37      696E7465 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
   60 01be 0000     		.align	2
   61              	.LC13:
   62 01c0 554E4B4E 		.ascii	"UNKNOWN OCTA PAYLOAD TYPE RECEIVED\015\012\000"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 3
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 3
 
 
   62      4F574E20 
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  103 000e 0546     		mov	r5, r0
  104 0010 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
  105              	.LVL2:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 4
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 4
 
 
  106              		.loc 1 11 15 view .LVU6
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  141 0040 231D     		adds	r3, r4, #4
  142              		.loc 1 29 11 view .LVU17
  143 0042 9945     		cmp	r9, r3
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 5
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 5
 
 
  144 0044 2FDD     		ble	.L23
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  185              	.LVL8:
  186              	.L20:
  187              		.loc 1 42 9 is_stmt 0 view .LVU38
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 6
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 6
 
 
  188              	.LBE2:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
   72:../../../core/platform/common/src/payloadparser.c ****         }
   73:../../../core/platform/common/src/payloadparser.c ****         index += 2;
   74:../../../core/platform/common/src/payloadparser.c ****         break;
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 7
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 7
 
 
   75:../../../core/platform/common/src/payloadparser.c ****       case TYPE_CURRENT_FLASH_INDEX:
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  101:../../../core/platform/common/src/payloadparser.c ****         temp_config.last_known_timestamp = uint32LittleEndian.integer;
  236              		.loc 1 101 9 is_stmt 1 view .LVU59
  237              		.loc 1 101 62 is_stmt 0 view .LVU60
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 8
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 8
 
 
  238 0096 1968     		ldr	r1, [r3]
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
   51:../../../core/platform/common/src/payloadparser.c ****         printINF("New interval: %d and multiplier: %d\r\n", temp_config.interval, temp_config.multi
  279              		.loc 1 51 40 is_stmt 0 view .LVU77
  280 00be AA78     		ldrb	r2, [r5, #2]	@ zero_extendqisi2
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 9
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 9
 
 
   51:../../../core/platform/common/src/payloadparser.c ****         printINF("New interval: %d and multiplier: %d\r\n", temp_config.interval, temp_config.multi
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  320 00e6 0CD8     		bhi	.L27
   69:../../../core/platform/common/src/payloadparser.c ****           printINF("New DNS URL id: %d\r\n", temp_config.dns_id);
  321              		.loc 1 69 11 is_stmt 1 view .LVU93
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 10
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 10
 
 
   69:../../../core/platform/common/src/payloadparser.c ****           printINF("New DNS URL id: %d\r\n", temp_config.dns_id);
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
   76:../../../core/platform/common/src/payloadparser.c ****         {
  362              		.loc 1 76 9 is_stmt 1 view .LVU108
   76:../../../core/platform/common/src/payloadparser.c ****         {
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 11
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 11
 
 
  363              		.loc 1 76 16 is_stmt 0 view .LVU109
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  399              		.loc 1 88 9 view .LVU127
   88:../../../core/platform/common/src/payloadparser.c ****         break;
  400              		.loc 1 88 15 is_stmt 0 view .LVU128
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 12
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 12
 
 
  401 0130 0534     		adds	r4, r4, #5
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  110:../../../core/platform/common/src/payloadparser.c ****   *current_octa_configuration = temp_config;
  111:../../../core/platform/common/src/payloadparser.c ****   return PARSER_OK;
  112:../../../core/platform/common/src/payloadparser.c **** }
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 13
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 13
 
 
  442              		.loc 1 112 1 view .LVU141
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  491              	.LC14:
  492 0000 70617273 		.ascii	"parsing octa protocol downlink with size %d\015\012"
  492      696E6720 
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 14
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 14
 
 
  492      6F637461 
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  525              		.cfi_def_cfa_offset 28
  526              		.cfi_offset 4, -28
  527              		.cfi_offset 5, -24
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 15
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 15
 
 
  528              		.cfi_offset 6, -20
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  132:../../../core/platform/common/src/payloadparser.c ****   while (index<len)
  565              		.loc 1 132 9 is_stmt 1 view .LVU159
  566 0026 B442     		cmp	r4, r6
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 16
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 16
 
 
  567 0028 52D2     		bcs	.L46
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  580 0038 2C48     		ldr	r0, .L50+4
  581 003a FFF7FEFF 		bl	printERR
  582              	.LVL39:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 17
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 17
 
 
  174:../../../core/platform/common/src/payloadparser.c ****         return PARSER_UNKNOWN_TYPE;
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  143:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[1] = buffer[index+2];
  622              		.loc 1 143 44 is_stmt 0 view .LVU176
  623 0056 3D44     		add	r5, r5, r7
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 18
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 18
 
 
  624 0058 6A78     		ldrb	r2, [r5, #1]	@ zero_extendqisi2
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  660 0078 D5E7     		b	.L32
  661              	.L48:
  662              	.LBB12:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 19
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 19
 
 
  139:../../../core/platform/common/src/payloadparser.c ****           return PARSER_PARSE_ERROR;
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  701              		.loc 1 163 44 is_stmt 0 view .LVU210
  702 009e AA78     		ldrb	r2, [r5, #2]	@ zero_extendqisi2
  163:../../../core/platform/common/src/payloadparser.c ****         uint32LittleEndian.byte[2] = buffer[index+3];
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 20
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 20
 
 
  703              		.loc 1 163 36 view .LVU211
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  741              	.L49:
  742              	.LBB13:
  158:../../../core/platform/common/src/payloadparser.c ****           return PARSER_PARSE_ERROR;
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 21
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 21
 
 
  743              		.loc 1 158 11 view .LVU228
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  787              		.cfi_endproc
  788              	.LFE1:
  790              		.section	.text.parse_timestamp,"ax",%progbits
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 22
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 22
 
 
  791              		.align	1
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  838              		.comm	float_union,4,4
  839              		.comm	uint16LittleEndian,2,4
  840              		.comm	int16LittleEndian,2,4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 23
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 23
 
 
  841              		.comm	uint32LittleEndian,4,4
@@ -1328,23 +1328,23 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 1
  845              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
  846              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
  847              		.file 4 "../../../core/platform/common/inc/datatypes.h"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s 			page 24
+ARM GAS  C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s 			page 24
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 payloadparser.c
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:18     .rodata.parse_octa_configuration.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:64     .text.parse_octa_configuration:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:72     .text.parse_octa_configuration:00000000 parse_octa_configuration
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:471    .text.parse_octa_configuration:0000016c $d
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:18     .rodata.parse_octa_configuration.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:64     .text.parse_octa_configuration:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:72     .text.parse_octa_configuration:00000000 parse_octa_configuration
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:471    .text.parse_octa_configuration:0000016c $d
                             *COM*:00000004 uint32LittleEndian
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:490    .rodata.parse_octa_protocol_downlink.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:508    .text.parse_octa_protocol_downlink:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:515    .text.parse_octa_protocol_downlink:00000000 parse_octa_protocol_downlink
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:777    .text.parse_octa_protocol_downlink:000000e8 $d
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:791    .text.parse_timestamp:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:798    .text.parse_timestamp:00000000 parse_timestamp
-C:\Users\tomra\AppData\Local\Temp\cc7ygpXw.s:833    .text.parse_timestamp:00000018 $d
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:490    .rodata.parse_octa_protocol_downlink.str1.4:00000000 $d
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:508    .text.parse_octa_protocol_downlink:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:515    .text.parse_octa_protocol_downlink:00000000 parse_octa_protocol_downlink
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:777    .text.parse_octa_protocol_downlink:000000e8 $d
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:791    .text.parse_timestamp:00000000 $t
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:798    .text.parse_timestamp:00000000 parse_timestamp
+C:\Users\tomra\AppData\Local\Temp\ccUWmwXx.s:833    .text.parse_timestamp:00000018 $d
                             *COM*:00000008 octa_uid
                             *COM*:00000004 float_union
                             *COM*:00000002 uint16LittleEndian
