@@ -1,0 +1,137 @@
+// change the cwd and executable path to the current application
+{
+    "version": "0.2.0",
+    "configurations": [
+
+         {
+            "cwd": "${workspaceRoot}/applications/examples/acc-mag-sensor",
+            "executable": "./build/acc-mag-sensor.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "acc-mag-sensor",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+        {
+            "cwd": "${workspaceRoot}/applications/examples/batterylevel-example",
+            "executable": "./build/batterylevel-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "batterylevel-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+        {
+            "cwd": "${workspaceRoot}/applications/examples/gps-firefly-example",
+            "executable": "./build/gps-firefly-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "gps-firefly-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/hello-world",
+            "executable": "./build/hello-world.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "hello world",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+        
+        {
+            "cwd": "${workspaceRoot}/applications/examples/lightsensor-example",
+            "executable": "./build/lightsensor-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "lightsensor-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/lora-gps-example",
+            "executable": "./build/lora-gps-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "lora-gps-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/murata-dualstack-example",
+            "executable": "./build/murata-dualstack-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "murata-dualstack-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/murata-dualstack-example-ns",
+            "executable": "./build/murata-dualstack-example-ns.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "murata-dualstack-example-ns",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/no-scheduler-example",
+            "executable": "./build/no-scheduler-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "no-scheduler-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/octa-flash-example",
+            "executable": "./build/octa-flash-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "octa-flash-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+        
+        {
+            "cwd": "${workspaceRoot}/applications/examples/scd30-example",
+            "executable": "./build/scd30-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "scd30-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        },
+
+        {
+            "cwd": "${workspaceRoot}/applications/examples/temperature-humidity-example",
+            "executable": "./build/temperature-humidity-example.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "name": "temperature-humidity-example",
+            "device": "STM32L496ZG",
+            "interface": "swd",
+        }
+
+    ]
+}
