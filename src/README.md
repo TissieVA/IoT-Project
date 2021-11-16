@@ -1,1 +1,1 @@
-﻿# SOurce code for the Frost Detector project
+﻿# Source code for the Frost Detector project
