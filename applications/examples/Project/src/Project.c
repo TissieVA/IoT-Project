@@ -80,8 +80,8 @@ void temp_hum_measurement(void)
 
 void print_temp_hum(void)
 {
-  printINF("Temperature: %.2f degC \r\n", SHTData[0]);
-  printINF("Humidity: %.2f %% \r\n", SHTData[1]);
+  printf("Temperature: %.2f degC \r\n", SHTData[0]);
+  printf("Humidity: %.2f %% \r\n", SHTData[1]);
 }
 
 void StartDefaultTask(void const *argument)
