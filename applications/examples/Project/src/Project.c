@@ -100,14 +100,9 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
 void batteryLevel_measurement(void const *argument)
 {
   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
-  printf("Vbat: %i mV, I=%i mA SoC=%i, C=%i, P=%i A=%i , CC=%d\r\n",
+  printf("Battery Percentage = %i and voltage = %i\r\n", //voltage drops from 4.2 to 3.7 if empty
          STC3115_BatteryData.Voltage, //hieruit nog selecteren welke te verwijderen
-         STC3115_BatteryData.Current,
-         STC3115_BatteryData.SOC,
-         STC3115_BatteryData.ChargeValue,
-         STC3115_BatteryData.Presence,
-         STC3115_BatteryData.StatusWord >> 13,
-         STC3115_BatteryData.ConvCounter);
+         STC3115_BatteryData.SOC);
 }
 
 // Temperature and Humidity measurement
