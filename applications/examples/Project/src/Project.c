@@ -3,7 +3,7 @@
 #include "stc3115.h"
 #include "murata.h"
 
-#define temp_hum_timer    30
+#define temp_hum_timer    60
 
 #define IWDG_INTERVAL                   5         //seconds
 #define BATTERYLEVEL_INTERVAL           60        //seconds
@@ -68,17 +68,17 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
 
-  osTimerDef(loraWANTim, LoRaWAN_send);
-  loraWANTimId = osTimerCreate(osTimer(loraWANTim), osTimerPeriodic, NULL);
-  osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+  osTimerDef(temp_hum_Tim, temp_hum_measurement);
+  temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
+  osTimerStart(temp_hum_timer_id, temp_hum_timer * 1000);
 
   osTimerDef(batteryLevel_Tim, batteryLevel_measurement);
   batteryTimId = osTimerCreate(osTimer(batteryLevel_Tim), osTimerPeriodic, NULL);
   osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
 
-  osTimerDef(temp_hum_Tim, temp_hum_measurement);
-  temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
-  osTimerStart(temp_hum_timer_id, temp_hum_timer * 1000);
+  osTimerDef(loraWANTim, LoRaWAN_send);
+  loraWANTimId = osTimerCreate(osTimer(loraWANTim), osTimerPeriodic, NULL);
+  osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
 
   osTimerDef(moduleCheckTim, check_modules);
   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
@@ -110,7 +110,6 @@ void batteryLevel_measurement(void const *argument)
          STC3115_BatteryData.ConvCounter);
 }
 
-
 // Temperature and Humidity measurement
 void temp_hum_measurement(void)
 {
@@ -138,7 +137,9 @@ void LoRaWAN_send(void const *argument)
   if (murata_init)
   {
     uint8_t loraMessage[8];
-    float_union.fl = SHTData[0];
+    //float_union changes datatype from floats to bytes (see core/platform/common/inc/datatypes.h)
+    //1 float needs 4 bytes so we need loraMessage to be 8 bytes
+    float_union.fl = SHTData[0];             
     loraMessage[0] = float_union.bytes.b1;
     loraMessage[1] = float_union.bytes.b2;
     loraMessage[2] = float_union.bytes.b3;
@@ -151,7 +152,7 @@ void LoRaWAN_send(void const *argument)
     
     osMutexWait(txMutexId, osWaitForever);
     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, 8)) 
-      printINF("Send completed!");
+      printINF("Message sent!");
     
     //BLOCK TX MUTEX FOR 3s
     osDelay(3000);
