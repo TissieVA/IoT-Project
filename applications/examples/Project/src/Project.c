@@ -47,7 +47,7 @@ UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONN
 
 if (murata_init)
 {
-  printfINF("Murata dualstack module init OK\r\n\r\n");
+  printINF("Murata dualstack module init OK\r\n\r\n");
 }
 
 // TX MUTEX ensuring no transmits are happening at the same time
@@ -161,13 +161,13 @@ void LoRaWAN_send(void const *argument)
     LoRaWAN_Counter++;
   }
   else{
-    printfINF("murata not initialized, not sending\r\n");
+    printINF("murata not initialized, not sending\r\n");
   }
 }
 
 void check_modules(void const *argument)
 {
-  printfINF("checking the status of the modules\r\n");
+  printINF("checking the status of the modules\r\n");
   if (!murata_init)
   {
     // LORAWAN
@@ -191,7 +191,7 @@ void murata_process_rx_response(void const *argument)
       // The transmission ended as expected.
       while(murata_data_ready)
       {
-        printfINF("processing murata fifo\r\n");
+        printINF("processing murata fifo\r\n");
         murata_data_ready = !Murata_process_fifo();
         osDelay(50);
       }
