@@ -139,19 +139,19 @@ void LoRaWAN_send(void const *argument)
   {
     uint8_t loraMessage[8];
     float_union.float = SHTData[0];
-    loraMessage[0] = float_union.bytes.b1
-    loraMessage[1] = float_union.bytes.b2
-    loraMessage[2] = float_union.bytes.b3
-    loraMessage[3] = float_union.bytes.b4
+    loraMessage[0] = float_union.bytes.b1;
+    loraMessage[1] = float_union.bytes.b2;
+    loraMessage[2] = float_union.bytes.b3;
+    loraMessage[3] = float_union.bytes.b4;
     float_union.float = SHTData[1];
-    loraMessage[4] = float_union.bytes.b1
-    loraMessage[5] = float_union.bytes.b2
-    loraMessage[6] = float_union.bytes.b3
-    loraMessage[7] = float_union.bytes.b4
+    loraMessage[4] = float_union.bytes.b1;
+    loraMessage[5] = float_union.bytes.b2;
+    loraMessage[6] = float_union.bytes.b3;
+    loraMessage[7] = float_union.bytes.b4;
     
     osMutexWait(txMutexId, osWaitForever);
     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, 8)) 
-      printINF("Send completed!")
+      printINF("Send completed!");
     
     //BLOCK TX MUTEX FOR 3s
     osDelay(3000);
