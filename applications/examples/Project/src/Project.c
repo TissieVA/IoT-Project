@@ -3,7 +3,7 @@
 #include "stc3115.h"
 #include "murata.h"
 
-#define temp_hum_timer    3
+#define temp_hum_timer    30
 
 #define IWDG_INTERVAL                   5         //seconds
 #define BATTERYLEVEL_INTERVAL           60        //seconds
@@ -47,7 +47,7 @@ UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONN
 
 if (murata_init)
 {
-  printf("Murata dualstack module init OK\r\n\r\n");
+  printfINF("Murata dualstack module init OK\r\n\r\n");
 }
 
 // TX MUTEX ensuring no transmits are happening at the same time
@@ -161,13 +161,13 @@ void LoRaWAN_send(void const *argument)
     LoRaWAN_Counter++;
   }
   else{
-    printf("murata not initialized, not sending\r\n");
+    printfINF("murata not initialized, not sending\r\n");
   }
 }
 
 void check_modules(void const *argument)
 {
-  printf("checking the status of the modules\r\n");
+  printfINF("checking the status of the modules\r\n");
   if (!murata_init)
   {
     // LORAWAN
@@ -191,7 +191,7 @@ void murata_process_rx_response(void const *argument)
       // The transmission ended as expected.
       while(murata_data_ready)
       {
-        printf("processing murata fifo\r\n");
+        printfINF("processing murata fifo\r\n");
         murata_data_ready = !Murata_process_fifo();
         osDelay(50);
       }
