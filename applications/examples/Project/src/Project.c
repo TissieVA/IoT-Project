@@ -138,12 +138,12 @@ void LoRaWAN_send(void const *argument)
   if (murata_init)
   {
     uint8_t loraMessage[8];
-    float_union.float = SHTData[0];
+    float_union.fl = SHTData[0];
     loraMessage[0] = float_union.bytes.b1;
     loraMessage[1] = float_union.bytes.b2;
     loraMessage[2] = float_union.bytes.b3;
     loraMessage[3] = float_union.bytes.b4;
-    float_union.float = SHTData[1];
+    float_union.fl = SHTData[1];
     loraMessage[4] = float_union.bytes.b1;
     loraMessage[5] = float_union.bytes.b2;
     loraMessage[6] = float_union.bytes.b3;
