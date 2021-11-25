@@ -10,4 +10,8 @@ PRINT_FLOATS = 1
 STACKBASE ?= ../../..
 FOLDER = examples
 
+# Defined in Makefile.core:158
+# Starts BLE UART => octa/src/octa.c:36
+USE_BLE = 1
+
 include $(STACKBASE)/core/Makefile.core
