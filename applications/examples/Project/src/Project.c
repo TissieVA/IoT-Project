@@ -101,8 +101,9 @@ void batteryLevel_measurement(void const *argument)
 {
   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
   printf("Battery Percentage = %i and voltage = %i\r\n", //voltage drops from 4.2 to 3.7 if empty
-         STC3115_BatteryData.Voltage, //hieruit nog selecteren welke te verwijderen
-         STC3115_BatteryData.SOC);
+         STC3115_BatteryData.SOC
+         STC3115_BatteryData.Voltage //hieruit nog selecteren welke te verwijderen
+        );
 }
 
 // Temperature and Humidity measurement
