@@ -47,7 +47,7 @@ UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONN
 
 if (murata_init)
 {
-  printINF("Murata dualstack module init OK\r\n\r\n");
+  printf("Murata dualstack module init OK\r\n\r\n");
 }
 
 // TX MUTEX ensuring no transmits are happening at the same time
@@ -100,7 +100,7 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
 void batteryLevel_measurement(void const *argument)
 {
   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
-  printINF("Vbat: %i mV, I=%i mA SoC=%i, C=%i, P=%i A=%i , CC=%d\r\n",
+  printf("Vbat: %i mV, I=%i mA SoC=%i, C=%i, P=%i A=%i , CC=%d\r\n",
          STC3115_BatteryData.Voltage, //hieruit nog selecteren welke te verwijderen
          STC3115_BatteryData.Current,
          STC3115_BatteryData.SOC,
@@ -120,8 +120,8 @@ void temp_hum_measurement(void)
 
 void print_temp_hum(void)
 {
-  print("Temperature: %.2f degC \r\n", SHTData[0]);
-  print("Humidity: %.2f %% \r\n", SHTData[1]);
+  printf("Temperature: %.2f degC \r\n", SHTData[0]);
+  printf("Humidity: %.2f %% \r\n", SHTData[1]);
 }
 
 void StartDefaultTask(void const *argument)
@@ -161,13 +161,13 @@ void LoRaWAN_send(void const *argument)
     LoRaWAN_Counter++;
   }
   else{
-    printINF("murata not initialized, not sending\r\n");
+    printf("murata not initialized, not sending\r\n");
   }
 }
 
 void check_modules(void const *argument)
 {
-  printINF("checking the status of the modules\r\n");
+  printf("checking the status of the modules\r\n");
   if (!murata_init)
   {
     // LORAWAN
@@ -191,7 +191,7 @@ void murata_process_rx_response(void const *argument)
       // The transmission ended as expected.
       while(murata_data_ready)
       {
-        printINF("processing murata fifo\r\n");
+        printf("processing murata fifo\r\n");
         murata_data_ready = !Murata_process_fifo();
         osDelay(50);
       }
