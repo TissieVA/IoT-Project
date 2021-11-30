@@ -6,11 +6,11 @@
 #define temp_hum_timer    60
 
 #define IWDG_INTERVAL                   5         //seconds
-#define BATTERYLEVEL_INTERVAL           30        //seconds
+#define BATTERYLEVEL_INTERVAL           60        //seconds
 
-#define LORAWAN_INTERVAL        30                //seconds
+#define LORAWAN_INTERVAL        60                //seconds
 #define MODULE_CHECK_INTERVAL   3600              //seconds
-#define LORA_MESSAGE_SIZE       11                //bytes
+#define LORA_MESSAGE_SIZE       10                //bytes
 
 //Murata Code
 uint16_t LoRaWAN_Counter = 0;
@@ -104,8 +104,7 @@ void batteryLevel_measurement(void const *argument)
   batteryPercentage = STC3115_BatteryData.SOC; 
   batteryVoltage = STC3115_BatteryData.Voltage;
   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
-  printf("Battery Percentage = %i and voltage = %i mV\r\n", //voltage drops from 4.2 to 3.7 if empty
-         batteryPercentage, 
+  printf("Battery Voltage = %i mV\r\n", //voltage drops from 4.2 to 3.7 if empty
          batteryVoltage);
 }
 
@@ -151,11 +150,9 @@ void LoRaWAN_send(void const *argument)
     loraMessage[5] = float_union.bytes.b2;
     loraMessage[6] = float_union.bytes.b3;
     loraMessage[7] = float_union.bytes.b4;
-    int32LittleEndian.integer = batteryPercentage;     //battery percentage
-    loraMessage[8] = int32LittleEndian.byte[0];
     int32LittleEndian.integer = batteryVoltage;        //battery voltage
-    loraMessage[9] = int32LittleEndian.byte[0];
-    loraMessage[10] = int32LittleEndian.byte[1];
+    loraMessage[8] = int32LittleEndian.byte[0];
+    loraMessage[9] = int32LittleEndian.byte[1];
     
     osMutexWait(txMutexId, osWaitForever);
     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, LORA_MESSAGE_SIZE)) 
