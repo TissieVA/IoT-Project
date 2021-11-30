@@ -148,12 +148,12 @@ void LoRaWAN_send(void const *argument)
     loraMessage[5] = float_union.bytes.b2;
     loraMessage[6] = float_union.bytes.b3;
     loraMessage[7] = float_union.bytes.b4;
-    int16LittleEndian.integer = batteryPercentage;     //battery percentage
-    loraMessage[8] = int16LittleEndian.byte[1];
-    loraMessage[9] = int16LittleEndian.byte[2];
-    int16LittleEndian.integer = batteryVoltage;        //battery voltage
-    loraMessage[10] = int16LittleEndian.byte[1];
-    loraMessage[11] = int16LittleEndian.byte[2];
+    int32LittleEndian.integer = batteryPercentage;     //battery percentage
+    loraMessage[8] = int32LittleEndian.byte[1];
+    loraMessage[9] = int32LittleEndian.byte[2];
+    int32LittleEndian.integer = batteryVoltage;        //battery voltage
+    loraMessage[10] = int32LittleEndian.byte[1];
+    loraMessage[11] = int32LittleEndian.byte[2];
     
     osMutexWait(txMutexId, osWaitForever);
     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, 12)) 
