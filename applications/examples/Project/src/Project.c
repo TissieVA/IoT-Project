@@ -6,10 +6,11 @@
 #define temp_hum_timer    60
 
 #define IWDG_INTERVAL                   5         //seconds
-#define BATTERYLEVEL_INTERVAL           60        //seconds
+#define BATTERYLEVEL_INTERVAL           30        //seconds
 
-#define LORAWAN_INTERVAL        60   //seconds
-#define MODULE_CHECK_INTERVAL   3600 //seconds
+#define LORAWAN_INTERVAL        30                //seconds
+#define MODULE_CHECK_INTERVAL   3600              //seconds
+#define LORA_MESSAGE_SIZE       11                //bytes
 
 //Murata Code
 uint16_t LoRaWAN_Counter = 0;
@@ -134,10 +135,12 @@ void LoRaWAN_send(void const *argument)
 {
   if (murata_init)
   {
-    uint8_t loraMessage[12];
+    
+    uint8_t loraMessage[LORA_MESSAGE_SIZE];
     //float_union changes datatype from floats to bytes (see core/platform/common/inc/datatypes.h)
     //1 float needs 4 bytes so we need loraMessage to be 8 bytes 
     //Found in core/platform/common/inc/datatypes.h
+    //Check converter at UINT16 Little Endion
     float_union.fl = SHTData[0];                        //temperature      
     loraMessage[0] = float_union.bytes.b1; 
     loraMessage[1] = float_union.bytes.b2;
@@ -149,14 +152,14 @@ void LoRaWAN_send(void const *argument)
     loraMessage[6] = float_union.bytes.b3;
     loraMessage[7] = float_union.bytes.b4;
     int32LittleEndian.integer = batteryPercentage;     //battery percentage
-    loraMessage[8] = int32LittleEndian.byte[1];
-    loraMessage[9] = int32LittleEndian.byte[2];
+    loraMessage[8] = int32LittleEndian.byte[0];
     int32LittleEndian.integer = batteryVoltage;        //battery voltage
+    loraMessage[9] = int32LittleEndian.byte[0];
     loraMessage[10] = int32LittleEndian.byte[1];
-    loraMessage[11] = int32LittleEndian.byte[2];
+    
     
     osMutexWait(txMutexId, osWaitForever);
-    if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, 12)) 
+    if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, LORA_MESSAGE_SIZE)) 
       printINF("Message sent!");
     
     //BLOCK TX MUTEX FOR 3s
