@@ -157,7 +157,6 @@ void LoRaWAN_send(void const *argument)
     loraMessage[9] = int32LittleEndian.byte[0];
     loraMessage[10] = int32LittleEndian.byte[1];
     
-    
     osMutexWait(txMutexId, osWaitForever);
     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, LORA_MESSAGE_SIZE)) 
       printINF("Message sent!");
