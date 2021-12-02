@@ -3,12 +3,12 @@
 #include "stc3115.h"
 #include "murata.h"
 
-#define temp_hum_timer    60
+#define temp_hum_timer    30
 
 #define IWDG_INTERVAL                   5         //seconds
-#define BATTERYLEVEL_INTERVAL           60        //seconds
+#define BATTERYLEVEL_INTERVAL           30        //seconds
 
-#define LORAWAN_INTERVAL        60                //seconds
+#define LORAWAN_INTERVAL        30                //seconds
 #define MODULE_CHECK_INTERVAL   3600              //seconds
 #define LORA_MESSAGE_SIZE       10                //bytes
 
@@ -101,9 +101,8 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
 // Battery Level measurement
 void batteryLevel_measurement(void const *argument)
 {
-  batteryPercentage = STC3115_BatteryData.SOC; 
-  batteryVoltage = STC3115_BatteryData.Voltage;
   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
+  batteryVoltage = STC3115_BatteryData.Voltage;
   printf("Battery Voltage = %i mV\r\n", //voltage drops from 4.2 to 3.7 if empty
          batteryVoltage);
 }
