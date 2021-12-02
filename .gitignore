@@ -57,4 +57,4 @@ Project/applications/*/build/*
 Project/applications/*/*/build/*
 Project/shields/Murata/inc/keys.h
 Project/shields/NB-IoT/inc/SARAN21X_Params.h
-./keys.h
+**/keys.h
