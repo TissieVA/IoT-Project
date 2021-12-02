@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Configure Frost Detector
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Configure Frost Detector</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <br>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2" size-sm>
+        <ion-toggle color="primary"></ion-toggle>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>Set Alarm</ion-label>
+          <ion-datetime displayFormat="HH:mm"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="block">Connect</ion-button>
+      <ion-button expand="block" disabled="true">Update Settings</ion-button>
+    </ion-toolbar>
+  </ion-footer>
+  
+
+</ion-content>
