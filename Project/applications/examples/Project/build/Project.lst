@@ -1,0 +1,1580 @@
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"Project.c"
+  14              		.section	.rodata.str1.4,"aMS",%progbits,1
+  15              		.align	2
+  16              	.LC0:
+  17 0000 64656661 		.ascii	"defaultTask\000"
+  17      756C7454 
+  17      61736B00 
+  18              		.align	2
+  19              	.LC2:
+  20 000c 6D757261 		.ascii	"murata_rx_processing\000"
+  20      74615F72 
+  20      785F7072 
+  20      6F636573 
+  20      73696E67 
+  21              		.text
+  22              	.Ltext0:
+  23              		.cfi_sections	.debug_frame
+  24              		.section	.text.Dualstack_ApplicationCallback,"ax",%progbits
+  25              		.align	1
+  26              		.global	Dualstack_ApplicationCallback
+  27              		.arch armv7e-m
+  28              		.syntax unified
+  29              		.thumb
+  30              		.thumb_func
+  31              		.fpu fpv4-sp-d16
+  33              	Dualstack_ApplicationCallback:
+  34              	.LFB140:
+  35              		.file 1 "../../../applications/examples/Project/src/Project.c"
+   1:../../../applications/examples/Project/src/Project.c **** #include "Project.h"
+   2:../../../applications/examples/Project/src/Project.c **** #include "sht31.h"
+   3:../../../applications/examples/Project/src/Project.c **** #include "stc3115.h"
+   4:../../../applications/examples/Project/src/Project.c **** #include "murata.h"
+   5:../../../applications/examples/Project/src/Project.c **** 
+   6:../../../applications/examples/Project/src/Project.c **** #define temp_hum_timer    60
+   7:../../../applications/examples/Project/src/Project.c **** 
+   8:../../../applications/examples/Project/src/Project.c **** #define IWDG_INTERVAL                   5         //seconds
+   9:../../../applications/examples/Project/src/Project.c **** #define BATTERYLEVEL_INTERVAL           60        //seconds
+  10:../../../applications/examples/Project/src/Project.c **** 
+  11:../../../applications/examples/Project/src/Project.c **** #define LORAWAN_INTERVAL        60                //seconds
+  12:../../../applications/examples/Project/src/Project.c **** #define MODULE_CHECK_INTERVAL   3600              //seconds
+  13:../../../applications/examples/Project/src/Project.c **** #define LORA_MESSAGE_SIZE       10                //bytes
+  14:../../../applications/examples/Project/src/Project.c **** 
+  15:../../../applications/examples/Project/src/Project.c **** //Murata Code
+  16:../../../applications/examples/Project/src/Project.c **** uint16_t LoRaWAN_Counter = 0;
+  17:../../../applications/examples/Project/src/Project.c **** uint8_t murata_init = 0;
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 2
+
+
+  18:../../../applications/examples/Project/src/Project.c **** uint64_t short_UID;
+  19:../../../applications/examples/Project/src/Project.c **** uint8_t murata_data_ready = 0;
+  20:../../../applications/examples/Project/src/Project.c **** 
+  21:../../../applications/examples/Project/src/Project.c **** //Battery Level Code
+  22:../../../applications/examples/Project/src/Project.c **** STC3115_ConfigData_TypeDef STC3115_ConfigData;
+  23:../../../applications/examples/Project/src/Project.c **** STC3115_BatteryData_TypeDef STC3115_BatteryData;
+  24:../../../applications/examples/Project/src/Project.c **** int batteryPercentage, batteryVoltage;
+  25:../../../applications/examples/Project/src/Project.c **** 
+  26:../../../applications/examples/Project/src/Project.c **** //Temp/Hum Code
+  27:../../../applications/examples/Project/src/Project.c **** osTimerId temp_hum_timer_id;
+  28:../../../applications/examples/Project/src/Project.c **** float SHTData[2];
+  29:../../../applications/examples/Project/src/Project.c **** 
+  30:../../../applications/examples/Project/src/Project.c **** int main(void)
+  31:../../../applications/examples/Project/src/Project.c **** {
+  32:../../../applications/examples/Project/src/Project.c ****   Initialize_Platform();
+  33:../../../applications/examples/Project/src/Project.c **** 
+  34:../../../applications/examples/Project/src/Project.c **** // Battery monitoring
+  35:../../../applications/examples/Project/src/Project.c ****   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
+  36:../../../applications/examples/Project/src/Project.c **** //
+  37:../../../applications/examples/Project/src/Project.c **** 
+  38:../../../applications/examples/Project/src/Project.c **** //SHT (van temp/hum)
+  39:../../../applications/examples/Project/src/Project.c ****   setI2CInterface_SHT31(&common_I2C);
+  40:../../../applications/examples/Project/src/Project.c ****   SHT31_begin();
+  41:../../../applications/examples/Project/src/Project.c **** 
+  42:../../../applications/examples/Project/src/Project.c ****   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
+  43:../../../applications/examples/Project/src/Project.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  44:../../../applications/examples/Project/src/Project.c **** //
+  45:../../../applications/examples/Project/src/Project.c **** 
+  46:../../../applications/examples/Project/src/Project.c **** //Lorawan Code
+  47:../../../applications/examples/Project/src/Project.c **** murata_init = Murata_Initialize(short_UID); //short_UID = devEUI
+  48:../../../applications/examples/Project/src/Project.c **** UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONNECTOR);
+  49:../../../applications/examples/Project/src/Project.c **** 
+  50:../../../applications/examples/Project/src/Project.c **** if (murata_init)
+  51:../../../applications/examples/Project/src/Project.c **** {
+  52:../../../applications/examples/Project/src/Project.c ****   printINF("Murata dualstack module init OK\r\n\r\n");
+  53:../../../applications/examples/Project/src/Project.c **** }
+  54:../../../applications/examples/Project/src/Project.c **** 
+  55:../../../applications/examples/Project/src/Project.c **** // TX MUTEX ensuring no transmits are happening at the same time
+  56:../../../applications/examples/Project/src/Project.c **** osMutexDef(txMutex);
+  57:../../../applications/examples/Project/src/Project.c **** txMutexId = osMutexCreate(osMutex(txMutex));
+  58:../../../applications/examples/Project/src/Project.c **** // Thread gemaakt voor murata acties
+  59:../../../applications/examples/Project/src/Project.c **** osThreadDef(murata_rx_processing, murata_process_rx_response, osPriorityNormal, 0, 512);
+  60:../../../applications/examples/Project/src/Project.c **** murata_rx_processing_handle = osThreadCreate(osThread(murata_rx_processing), NULL);
+  61:../../../applications/examples/Project/src/Project.c **** 
+  62:../../../applications/examples/Project/src/Project.c **** // pass processing thread handle to murata driver
+  63:../../../applications/examples/Project/src/Project.c **** Murata_SetProcessingThread(murata_rx_processing_handle);
+  64:../../../applications/examples/Project/src/Project.c **** //
+  65:../../../applications/examples/Project/src/Project.c **** 
+  66:../../../applications/examples/Project/src/Project.c **** 
+  67:../../../applications/examples/Project/src/Project.c ****   //feed IWDG every 5 seconds
+  68:../../../applications/examples/Project/src/Project.c ****   IWDG_feed(NULL);
+  69:../../../applications/examples/Project/src/Project.c ****   osTimerDef(iwdgTim, IWDG_feed);
+  70:../../../applications/examples/Project/src/Project.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+  71:../../../applications/examples/Project/src/Project.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
+  72:../../../applications/examples/Project/src/Project.c **** 
+  73:../../../applications/examples/Project/src/Project.c ****   osTimerDef(temp_hum_Tim, temp_hum_measurement);
+  74:../../../applications/examples/Project/src/Project.c ****   temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 3
+
+
+  75:../../../applications/examples/Project/src/Project.c ****   osTimerStart(temp_hum_timer_id, temp_hum_timer * 1000);
+  76:../../../applications/examples/Project/src/Project.c **** 
+  77:../../../applications/examples/Project/src/Project.c ****   osTimerDef(batteryLevel_Tim, batteryLevel_measurement);
+  78:../../../applications/examples/Project/src/Project.c ****   batteryTimId = osTimerCreate(osTimer(batteryLevel_Tim), osTimerPeriodic, NULL);
+  79:../../../applications/examples/Project/src/Project.c ****   osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
+  80:../../../applications/examples/Project/src/Project.c **** 
+  81:../../../applications/examples/Project/src/Project.c ****   osTimerDef(loraWANTim, LoRaWAN_send);
+  82:../../../applications/examples/Project/src/Project.c ****   loraWANTimId = osTimerCreate(osTimer(loraWANTim), osTimerPeriodic, NULL);
+  83:../../../applications/examples/Project/src/Project.c ****   osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+  84:../../../applications/examples/Project/src/Project.c **** 
+  85:../../../applications/examples/Project/src/Project.c ****   osTimerDef(moduleCheckTim, check_modules);
+  86:../../../applications/examples/Project/src/Project.c ****   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
+  87:../../../applications/examples/Project/src/Project.c ****   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
+  88:../../../applications/examples/Project/src/Project.c **** 
+  89:../../../applications/examples/Project/src/Project.c **** 
+  90:../../../applications/examples/Project/src/Project.c **** //Join before starting the kernel
+  91:../../../applications/examples/Project/src/Project.c ****   Murata_LoRaWAN_Join();
+  92:../../../applications/examples/Project/src/Project.c **** 
+  93:../../../applications/examples/Project/src/Project.c ****   osKernelStart();
+  94:../../../applications/examples/Project/src/Project.c **** 
+  95:../../../applications/examples/Project/src/Project.c ****   while (1)
+  96:../../../applications/examples/Project/src/Project.c ****   {
+  97:../../../applications/examples/Project/src/Project.c ****   }
+  98:../../../applications/examples/Project/src/Project.c **** 
+  99:../../../applications/examples/Project/src/Project.c **** }
+ 100:../../../applications/examples/Project/src/Project.c **** 
+ 101:../../../applications/examples/Project/src/Project.c **** // Battery Level measurement
+ 102:../../../applications/examples/Project/src/Project.c **** void batteryLevel_measurement(void const *argument)
+ 103:../../../applications/examples/Project/src/Project.c **** {
+ 104:../../../applications/examples/Project/src/Project.c ****   batteryPercentage = STC3115_BatteryData.SOC; 
+ 105:../../../applications/examples/Project/src/Project.c ****   batteryVoltage = STC3115_BatteryData.Voltage;
+ 106:../../../applications/examples/Project/src/Project.c ****   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
+ 107:../../../applications/examples/Project/src/Project.c ****   printf("Battery Voltage = %i mV\r\n", //voltage drops from 4.2 to 3.7 if empty
+ 108:../../../applications/examples/Project/src/Project.c ****          batteryVoltage);
+ 109:../../../applications/examples/Project/src/Project.c **** }
+ 110:../../../applications/examples/Project/src/Project.c **** 
+ 111:../../../applications/examples/Project/src/Project.c **** // Temperature and Humidity measurement
+ 112:../../../applications/examples/Project/src/Project.c **** void temp_hum_measurement(void)
+ 113:../../../applications/examples/Project/src/Project.c **** {
+ 114:../../../applications/examples/Project/src/Project.c ****   SHT31_get_temp_hum(SHTData);
+ 115:../../../applications/examples/Project/src/Project.c ****   print_temp_hum();
+ 116:../../../applications/examples/Project/src/Project.c **** }
+ 117:../../../applications/examples/Project/src/Project.c **** 
+ 118:../../../applications/examples/Project/src/Project.c **** void print_temp_hum(void)
+ 119:../../../applications/examples/Project/src/Project.c **** {
+ 120:../../../applications/examples/Project/src/Project.c ****   printf("Temperature: %.2f degC \r\n", SHTData[0]);
+ 121:../../../applications/examples/Project/src/Project.c ****   printf("Humidity: %.2f %% \r\n", SHTData[1]);
+ 122:../../../applications/examples/Project/src/Project.c **** }
+ 123:../../../applications/examples/Project/src/Project.c **** 
+ 124:../../../applications/examples/Project/src/Project.c **** void StartDefaultTask(void const *argument)
+ 125:../../../applications/examples/Project/src/Project.c **** {
+ 126:../../../applications/examples/Project/src/Project.c ****   for (;;)
+ 127:../../../applications/examples/Project/src/Project.c ****   {
+ 128:../../../applications/examples/Project/src/Project.c ****     osDelay(1);
+ 129:../../../applications/examples/Project/src/Project.c ****   }
+ 130:../../../applications/examples/Project/src/Project.c **** }
+ 131:../../../applications/examples/Project/src/Project.c **** 
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 4
+
+
+ 132:../../../applications/examples/Project/src/Project.c **** // Lorawan 
+ 133:../../../applications/examples/Project/src/Project.c **** void LoRaWAN_send(void const *argument)
+ 134:../../../applications/examples/Project/src/Project.c **** {
+ 135:../../../applications/examples/Project/src/Project.c ****   if (murata_init)
+ 136:../../../applications/examples/Project/src/Project.c ****   {
+ 137:../../../applications/examples/Project/src/Project.c ****     
+ 138:../../../applications/examples/Project/src/Project.c ****     uint8_t loraMessage[LORA_MESSAGE_SIZE];
+ 139:../../../applications/examples/Project/src/Project.c ****     //float_union changes datatype from floats to bytes (see core/platform/common/inc/datatypes.h)
+ 140:../../../applications/examples/Project/src/Project.c ****     //1 float needs 4 bytes so we need loraMessage to be 8 bytes 
+ 141:../../../applications/examples/Project/src/Project.c ****     //Found in core/platform/common/inc/datatypes.h
+ 142:../../../applications/examples/Project/src/Project.c ****     //Check converter at UINT16 Little Endion
+ 143:../../../applications/examples/Project/src/Project.c ****     float_union.fl = SHTData[0];                        //temperature      
+ 144:../../../applications/examples/Project/src/Project.c ****     loraMessage[0] = float_union.bytes.b1; 
+ 145:../../../applications/examples/Project/src/Project.c ****     loraMessage[1] = float_union.bytes.b2;
+ 146:../../../applications/examples/Project/src/Project.c ****     loraMessage[2] = float_union.bytes.b3;
+ 147:../../../applications/examples/Project/src/Project.c ****     loraMessage[3] = float_union.bytes.b4;
+ 148:../../../applications/examples/Project/src/Project.c ****     float_union.fl = SHTData[1];                        //humidity
+ 149:../../../applications/examples/Project/src/Project.c ****     loraMessage[4] = float_union.bytes.b1;
+ 150:../../../applications/examples/Project/src/Project.c ****     loraMessage[5] = float_union.bytes.b2;
+ 151:../../../applications/examples/Project/src/Project.c ****     loraMessage[6] = float_union.bytes.b3;
+ 152:../../../applications/examples/Project/src/Project.c ****     loraMessage[7] = float_union.bytes.b4;
+ 153:../../../applications/examples/Project/src/Project.c ****     int32LittleEndian.integer = batteryVoltage;        //battery voltage
+ 154:../../../applications/examples/Project/src/Project.c ****     loraMessage[8] = int32LittleEndian.byte[0];
+ 155:../../../applications/examples/Project/src/Project.c ****     loraMessage[9] = int32LittleEndian.byte[1];
+ 156:../../../applications/examples/Project/src/Project.c ****     
+ 157:../../../applications/examples/Project/src/Project.c ****     osMutexWait(txMutexId, osWaitForever);
+ 158:../../../applications/examples/Project/src/Project.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, LORA_MESSAGE_SIZE)) 
+ 159:../../../applications/examples/Project/src/Project.c ****       printINF("Message sent!");
+ 160:../../../applications/examples/Project/src/Project.c ****     
+ 161:../../../applications/examples/Project/src/Project.c ****     //BLOCK TX MUTEX FOR 3s
+ 162:../../../applications/examples/Project/src/Project.c ****     osDelay(3000);
+ 163:../../../applications/examples/Project/src/Project.c ****     osMutexRelease(txMutexId);
+ 164:../../../applications/examples/Project/src/Project.c ****     LoRaWAN_Counter++;
+ 165:../../../applications/examples/Project/src/Project.c ****   }
+ 166:../../../applications/examples/Project/src/Project.c ****   else{
+ 167:../../../applications/examples/Project/src/Project.c ****     printINF("murata not initialized, not sending\r\n");
+ 168:../../../applications/examples/Project/src/Project.c ****   }
+ 169:../../../applications/examples/Project/src/Project.c **** }
+ 170:../../../applications/examples/Project/src/Project.c **** 
+ 171:../../../applications/examples/Project/src/Project.c **** void check_modules(void const *argument)
+ 172:../../../applications/examples/Project/src/Project.c **** {
+ 173:../../../applications/examples/Project/src/Project.c ****   printINF("checking the status of the modules\r\n");
+ 174:../../../applications/examples/Project/src/Project.c ****   if (!murata_init)
+ 175:../../../applications/examples/Project/src/Project.c ****   {
+ 176:../../../applications/examples/Project/src/Project.c ****     // LORAWAN
+ 177:../../../applications/examples/Project/src/Project.c ****     murata_init = Murata_Initialize(short_UID);
+ 178:../../../applications/examples/Project/src/Project.c ****     Murata_toggleResetPin();
+ 179:../../../applications/examples/Project/src/Project.c ****   }
+ 180:../../../applications/examples/Project/src/Project.c **** }
+ 181:../../../applications/examples/Project/src/Project.c **** 
+ 182:../../../applications/examples/Project/src/Project.c **** void murata_process_rx_response(void const *argument)
+ 183:../../../applications/examples/Project/src/Project.c **** {
+ 184:../../../applications/examples/Project/src/Project.c ****   uint32_t startProcessing;
+ 185:../../../applications/examples/Project/src/Project.c ****   while (1)
+ 186:../../../applications/examples/Project/src/Project.c ****   {
+ 187:../../../applications/examples/Project/src/Project.c ****     // Wait to be notified that the transmission is complete.  Note the first
+ 188:../../../applications/examples/Project/src/Project.c ****     //parameter is pdTRUE, which has the effect of clearing the task's notification
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 5
+
+
+ 189:../../../applications/examples/Project/src/Project.c ****     //value back to 0, making the notification value act like a binary (rather than
+ 190:../../../applications/examples/Project/src/Project.c ****     //a counting) semaphore.
+ 191:../../../applications/examples/Project/src/Project.c ****     startProcessing = ulTaskNotifyTake(pdTRUE, osWaitForever);
+ 192:../../../applications/examples/Project/src/Project.c ****     if (startProcessing == 1)
+ 193:../../../applications/examples/Project/src/Project.c ****     {
+ 194:../../../applications/examples/Project/src/Project.c ****       // The transmission ended as expected.
+ 195:../../../applications/examples/Project/src/Project.c ****       while(murata_data_ready)
+ 196:../../../applications/examples/Project/src/Project.c ****       {
+ 197:../../../applications/examples/Project/src/Project.c ****         printINF("processing murata fifo\r\n");
+ 198:../../../applications/examples/Project/src/Project.c ****         murata_data_ready = !Murata_process_fifo();
+ 199:../../../applications/examples/Project/src/Project.c ****         osDelay(50);
+ 200:../../../applications/examples/Project/src/Project.c ****       }
+ 201:../../../applications/examples/Project/src/Project.c ****     }
+ 202:../../../applications/examples/Project/src/Project.c ****     else
+ 203:../../../applications/examples/Project/src/Project.c ****     {
+ 204:../../../applications/examples/Project/src/Project.c ****     }
+ 205:../../../applications/examples/Project/src/Project.c ****     osDelay(1);
+ 206:../../../applications/examples/Project/src/Project.c ****   }
+ 207:../../../applications/examples/Project/src/Project.c ****   osThreadTerminate(NULL);
+ 208:../../../applications/examples/Project/src/Project.c **** }
+ 209:../../../applications/examples/Project/src/Project.c **** 
+ 210:../../../applications/examples/Project/src/Project.c **** void Dualstack_ApplicationCallback(void)
+ 211:../../../applications/examples/Project/src/Project.c **** {
+  36              		.loc 1 211 1 view -0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 0
+  39              		@ frame_needed = 0, uses_anonymous_args = 0
+  40              		@ link register save eliminated.
+ 212:../../../applications/examples/Project/src/Project.c ****   murata_data_ready = 1;
+  41              		.loc 1 212 3 view .LVU1
+  42              		.loc 1 212 21 is_stmt 0 view .LVU2
+  43 0000 014B     		ldr	r3, .L2
+  44 0002 0122     		movs	r2, #1
+  45 0004 1A70     		strb	r2, [r3]
+ 213:../../../applications/examples/Project/src/Project.c **** }
+  46              		.loc 1 213 1 view .LVU3
+  47 0006 7047     		bx	lr
+  48              	.L3:
+  49              		.align	2
+  50              	.L2:
+  51 0008 00000000 		.word	.LANCHOR0
+  52              		.cfi_endproc
+  53              	.LFE140:
+  55              		.section	.rodata.batteryLevel_measurement.str1.4,"aMS",%progbits,1
+  56              		.align	2
+  57              	.LC4:
+  58 0000 42617474 		.ascii	"Battery Voltage = %i mV\015\012\000"
+  58      65727920 
+  58      566F6C74 
+  58      61676520 
+  58      3D202569 
+  59              		.section	.text.batteryLevel_measurement,"ax",%progbits
+  60              		.align	1
+  61              		.global	batteryLevel_measurement
+  62              		.syntax unified
+  63              		.thumb
+  64              		.thumb_func
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 6
+
+
+  65              		.fpu fpv4-sp-d16
+  67              	batteryLevel_measurement:
+  68              	.LVL0:
+  69              	.LFB133:
+ 103:../../../applications/examples/Project/src/Project.c ****   batteryPercentage = STC3115_BatteryData.SOC; 
+  70              		.loc 1 103 1 is_stmt 1 view -0
+  71              		.cfi_startproc
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103:../../../applications/examples/Project/src/Project.c ****   batteryPercentage = STC3115_BatteryData.SOC; 
+  74              		.loc 1 103 1 is_stmt 0 view .LVU5
+  75 0000 10B5     		push	{r4, lr}
+  76              	.LCFI0:
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 4, -8
+  79              		.cfi_offset 14, -4
+ 104:../../../applications/examples/Project/src/Project.c ****   batteryVoltage = STC3115_BatteryData.Voltage;
+  80              		.loc 1 104 3 is_stmt 1 view .LVU6
+ 104:../../../applications/examples/Project/src/Project.c ****   batteryVoltage = STC3115_BatteryData.Voltage;
+  81              		.loc 1 104 42 is_stmt 0 view .LVU7
+  82 0002 0749     		ldr	r1, .L6
+  83 0004 8A68     		ldr	r2, [r1, #8]
+ 104:../../../applications/examples/Project/src/Project.c ****   batteryVoltage = STC3115_BatteryData.Voltage;
+  84              		.loc 1 104 21 view .LVU8
+  85 0006 074B     		ldr	r3, .L6+4
+  86 0008 1A60     		str	r2, [r3]
+ 105:../../../applications/examples/Project/src/Project.c ****   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
+  87              		.loc 1 105 3 is_stmt 1 view .LVU9
+ 105:../../../applications/examples/Project/src/Project.c ****   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
+  88              		.loc 1 105 39 is_stmt 0 view .LVU10
+  89 000a CB68     		ldr	r3, [r1, #12]
+ 105:../../../applications/examples/Project/src/Project.c ****   GasGauge_Task(&STC3115_ConfigData, &STC3115_BatteryData);
+  90              		.loc 1 105 18 view .LVU11
+  91 000c 064C     		ldr	r4, .L6+8
+  92 000e 2360     		str	r3, [r4]
+ 106:../../../applications/examples/Project/src/Project.c ****   printf("Battery Voltage = %i mV\r\n", //voltage drops from 4.2 to 3.7 if empty
+  93              		.loc 1 106 3 is_stmt 1 view .LVU12
+  94 0010 0648     		ldr	r0, .L6+12
+  95              	.LVL1:
+ 106:../../../applications/examples/Project/src/Project.c ****   printf("Battery Voltage = %i mV\r\n", //voltage drops from 4.2 to 3.7 if empty
+  96              		.loc 1 106 3 is_stmt 0 view .LVU13
+  97 0012 FFF7FEFF 		bl	GasGauge_Task
+  98              	.LVL2:
+ 107:../../../applications/examples/Project/src/Project.c ****          batteryVoltage);
+  99              		.loc 1 107 3 is_stmt 1 view .LVU14
+ 100 0016 2168     		ldr	r1, [r4]
+ 101 0018 0548     		ldr	r0, .L6+16
+ 102 001a FFF7FEFF 		bl	printf
+ 103              	.LVL3:
+ 109:../../../applications/examples/Project/src/Project.c **** 
+ 104              		.loc 1 109 1 is_stmt 0 view .LVU15
+ 105 001e 10BD     		pop	{r4, pc}
+ 106              	.L7:
+ 107              		.align	2
+ 108              	.L6:
+ 109 0020 00000000 		.word	STC3115_BatteryData
+ 110 0024 00000000 		.word	batteryPercentage
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 7
+
+
+ 111 0028 00000000 		.word	batteryVoltage
+ 112 002c 00000000 		.word	STC3115_ConfigData
+ 113 0030 00000000 		.word	.LC4
+ 114              		.cfi_endproc
+ 115              	.LFE133:
+ 117              		.section	.text.StartDefaultTask,"ax",%progbits
+ 118              		.align	1
+ 119              		.global	StartDefaultTask
+ 120              		.syntax unified
+ 121              		.thumb
+ 122              		.thumb_func
+ 123              		.fpu fpv4-sp-d16
+ 125              	StartDefaultTask:
+ 126              	.LFB136:
+ 125:../../../applications/examples/Project/src/Project.c ****   for (;;)
+ 127              		.loc 1 125 1 is_stmt 1 view -0
+ 128              		.cfi_startproc
+ 129              		@ Volatile: function does not return.
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              	.LVL4:
+ 125:../../../applications/examples/Project/src/Project.c ****   for (;;)
+ 133              		.loc 1 125 1 is_stmt 0 view .LVU17
+ 134 0000 08B5     		push	{r3, lr}
+ 135              	.LCFI1:
+ 136              		.cfi_def_cfa_offset 8
+ 137              		.cfi_offset 3, -8
+ 138              		.cfi_offset 14, -4
+ 139              	.LVL5:
+ 140              	.L9:
+ 126:../../../applications/examples/Project/src/Project.c ****   {
+ 141              		.loc 1 126 3 is_stmt 1 discriminator 1 view .LVU18
+ 128:../../../applications/examples/Project/src/Project.c ****   }
+ 142              		.loc 1 128 5 discriminator 1 view .LVU19
+ 143 0002 0120     		movs	r0, #1
+ 144 0004 FFF7FEFF 		bl	osDelay
+ 145              	.LVL6:
+ 126:../../../applications/examples/Project/src/Project.c ****   {
+ 146              		.loc 1 126 9 discriminator 1 view .LVU20
+ 147 0008 FBE7     		b	.L9
+ 148              		.cfi_endproc
+ 149              	.LFE136:
+ 151              		.section	.rodata.LoRaWAN_send.str1.4,"aMS",%progbits,1
+ 152              		.align	2
+ 153              	.LC5:
+ 154 0000 4D657373 		.ascii	"Message sent!\000"
+ 154      61676520 
+ 154      73656E74 
+ 154      2100
+ 155 000e 0000     		.align	2
+ 156              	.LC6:
+ 157 0010 6D757261 		.ascii	"murata not initialized, not sending\015\012\000"
+ 157      7461206E 
+ 157      6F742069 
+ 157      6E697469 
+ 157      616C697A 
+ 158              		.section	.text.LoRaWAN_send,"ax",%progbits
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 8
+
+
+ 159              		.align	1
+ 160              		.global	LoRaWAN_send
+ 161              		.syntax unified
+ 162              		.thumb
+ 163              		.thumb_func
+ 164              		.fpu fpv4-sp-d16
+ 166              	LoRaWAN_send:
+ 167              	.LVL7:
+ 168              	.LFB137:
+ 134:../../../applications/examples/Project/src/Project.c ****   if (murata_init)
+ 169              		.loc 1 134 1 view -0
+ 170              		.cfi_startproc
+ 171              		@ args = 0, pretend = 0, frame = 16
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134:../../../applications/examples/Project/src/Project.c ****   if (murata_init)
+ 173              		.loc 1 134 1 is_stmt 0 view .LVU22
+ 174 0000 00B5     		push	{lr}
+ 175              	.LCFI2:
+ 176              		.cfi_def_cfa_offset 4
+ 177              		.cfi_offset 14, -4
+ 178 0002 85B0     		sub	sp, sp, #20
+ 179              	.LCFI3:
+ 180              		.cfi_def_cfa_offset 24
+ 135:../../../applications/examples/Project/src/Project.c ****   {
+ 181              		.loc 1 135 3 is_stmt 1 view .LVU23
+ 135:../../../applications/examples/Project/src/Project.c ****   {
+ 182              		.loc 1 135 7 is_stmt 0 view .LVU24
+ 183 0004 284B     		ldr	r3, .L17
+ 184 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 135:../../../applications/examples/Project/src/Project.c ****   {
+ 185              		.loc 1 135 6 view .LVU25
+ 186 0008 002B     		cmp	r3, #0
+ 187 000a 48D0     		beq	.L12
+ 188              	.LBB2:
+ 138:../../../applications/examples/Project/src/Project.c ****     //float_union changes datatype from floats to bytes (see core/platform/common/inc/datatypes.h)
+ 189              		.loc 1 138 5 is_stmt 1 view .LVU26
+ 143:../../../applications/examples/Project/src/Project.c ****     loraMessage[0] = float_union.bytes.b1; 
+ 190              		.loc 1 143 5 view .LVU27
+ 143:../../../applications/examples/Project/src/Project.c ****     loraMessage[0] = float_union.bytes.b1; 
+ 191              		.loc 1 143 29 is_stmt 0 view .LVU28
+ 192 000c 274A     		ldr	r2, .L17+4
+ 144:../../../applications/examples/Project/src/Project.c ****     loraMessage[1] = float_union.bytes.b2;
+ 193              		.loc 1 144 5 is_stmt 1 view .LVU29
+ 144:../../../applications/examples/Project/src/Project.c ****     loraMessage[1] = float_union.bytes.b2;
+ 194              		.loc 1 144 20 is_stmt 0 view .LVU30
+ 195 000e 1368     		ldr	r3, [r2]
+ 196 0010 8DF80430 		strb	r3, [sp, #4]
+ 145:../../../applications/examples/Project/src/Project.c ****     loraMessage[2] = float_union.bytes.b3;
+ 197              		.loc 1 145 5 is_stmt 1 view .LVU31
+ 145:../../../applications/examples/Project/src/Project.c ****     loraMessage[2] = float_union.bytes.b3;
+ 198              		.loc 1 145 20 is_stmt 0 view .LVU32
+ 199 0014 C3F30721 		ubfx	r1, r3, #8, #8
+ 200 0018 8DF80510 		strb	r1, [sp, #5]
+ 146:../../../applications/examples/Project/src/Project.c ****     loraMessage[3] = float_union.bytes.b4;
+ 201              		.loc 1 146 5 is_stmt 1 view .LVU33
+ 146:../../../applications/examples/Project/src/Project.c ****     loraMessage[3] = float_union.bytes.b4;
+ 202              		.loc 1 146 20 is_stmt 0 view .LVU34
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 9
+
+
+ 203 001c C3F30741 		ubfx	r1, r3, #16, #8
+ 204 0020 8DF80610 		strb	r1, [sp, #6]
+ 147:../../../applications/examples/Project/src/Project.c ****     float_union.fl = SHTData[1];                        //humidity
+ 205              		.loc 1 147 5 is_stmt 1 view .LVU35
+ 147:../../../applications/examples/Project/src/Project.c ****     float_union.fl = SHTData[1];                        //humidity
+ 206              		.loc 1 147 20 is_stmt 0 view .LVU36
+ 207 0024 C3F30763 		ubfx	r3, r3, #24, #8
+ 208 0028 8DF80730 		strb	r3, [sp, #7]
+ 148:../../../applications/examples/Project/src/Project.c ****     loraMessage[4] = float_union.bytes.b1;
+ 209              		.loc 1 148 5 is_stmt 1 view .LVU37
+ 148:../../../applications/examples/Project/src/Project.c ****     loraMessage[4] = float_union.bytes.b1;
+ 210              		.loc 1 148 29 is_stmt 0 view .LVU38
+ 211 002c 5368     		ldr	r3, [r2, #4]	@ float
+ 148:../../../applications/examples/Project/src/Project.c ****     loraMessage[4] = float_union.bytes.b1;
+ 212              		.loc 1 148 20 view .LVU39
+ 213 002e 204A     		ldr	r2, .L17+8
+ 214 0030 1360     		str	r3, [r2]	@ float
+ 149:../../../applications/examples/Project/src/Project.c ****     loraMessage[5] = float_union.bytes.b2;
+ 215              		.loc 1 149 5 is_stmt 1 view .LVU40
+ 149:../../../applications/examples/Project/src/Project.c ****     loraMessage[5] = float_union.bytes.b2;
+ 216              		.loc 1 149 20 is_stmt 0 view .LVU41
+ 217 0032 8DF80830 		strb	r3, [sp, #8]
+ 150:../../../applications/examples/Project/src/Project.c ****     loraMessage[6] = float_union.bytes.b3;
+ 218              		.loc 1 150 5 is_stmt 1 view .LVU42
+ 150:../../../applications/examples/Project/src/Project.c ****     loraMessage[6] = float_union.bytes.b3;
+ 219              		.loc 1 150 20 is_stmt 0 view .LVU43
+ 220 0036 C3F30722 		ubfx	r2, r3, #8, #8
+ 221 003a 8DF80920 		strb	r2, [sp, #9]
+ 151:../../../applications/examples/Project/src/Project.c ****     loraMessage[7] = float_union.bytes.b4;
+ 222              		.loc 1 151 5 is_stmt 1 view .LVU44
+ 151:../../../applications/examples/Project/src/Project.c ****     loraMessage[7] = float_union.bytes.b4;
+ 223              		.loc 1 151 20 is_stmt 0 view .LVU45
+ 224 003e C3F30742 		ubfx	r2, r3, #16, #8
+ 225 0042 8DF80A20 		strb	r2, [sp, #10]
+ 152:../../../applications/examples/Project/src/Project.c ****     int32LittleEndian.integer = batteryVoltage;        //battery voltage
+ 226              		.loc 1 152 5 is_stmt 1 view .LVU46
+ 152:../../../applications/examples/Project/src/Project.c ****     int32LittleEndian.integer = batteryVoltage;        //battery voltage
+ 227              		.loc 1 152 20 is_stmt 0 view .LVU47
+ 228 0046 C3F30763 		ubfx	r3, r3, #24, #8
+ 229 004a 8DF80B30 		strb	r3, [sp, #11]
+ 153:../../../applications/examples/Project/src/Project.c ****     loraMessage[8] = int32LittleEndian.byte[0];
+ 230              		.loc 1 153 5 is_stmt 1 view .LVU48
+ 153:../../../applications/examples/Project/src/Project.c ****     loraMessage[8] = int32LittleEndian.byte[0];
+ 231              		.loc 1 153 31 is_stmt 0 view .LVU49
+ 232 004e 194B     		ldr	r3, .L17+12
+ 233 0050 1B68     		ldr	r3, [r3]
+ 234 0052 194A     		ldr	r2, .L17+16
+ 235 0054 1360     		str	r3, [r2]
+ 154:../../../applications/examples/Project/src/Project.c ****     loraMessage[9] = int32LittleEndian.byte[1];
+ 236              		.loc 1 154 5 is_stmt 1 view .LVU50
+ 154:../../../applications/examples/Project/src/Project.c ****     loraMessage[9] = int32LittleEndian.byte[1];
+ 237              		.loc 1 154 20 is_stmt 0 view .LVU51
+ 238 0056 8DF80C30 		strb	r3, [sp, #12]
+ 155:../../../applications/examples/Project/src/Project.c ****     
+ 239              		.loc 1 155 5 is_stmt 1 view .LVU52
+ 155:../../../applications/examples/Project/src/Project.c ****     
+ 240              		.loc 1 155 20 is_stmt 0 view .LVU53
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 10
+
+
+ 241 005a C3F30723 		ubfx	r3, r3, #8, #8
+ 242 005e 8DF80D30 		strb	r3, [sp, #13]
+ 157:../../../applications/examples/Project/src/Project.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, LORA_MESSAGE_SIZE)) 
+ 243              		.loc 1 157 5 is_stmt 1 view .LVU54
+ 244 0062 4FF0FF31 		mov	r1, #-1
+ 245 0066 154B     		ldr	r3, .L17+20
+ 246 0068 1868     		ldr	r0, [r3]
+ 247              	.LVL8:
+ 157:../../../applications/examples/Project/src/Project.c ****     if(!Murata_LoRaWAN_Send((uint8_t *)loraMessage, LORA_MESSAGE_SIZE)) 
+ 248              		.loc 1 157 5 is_stmt 0 view .LVU55
+ 249 006a FFF7FEFF 		bl	osMutexWait
+ 250              	.LVL9:
+ 158:../../../applications/examples/Project/src/Project.c ****       printINF("Message sent!");
+ 251              		.loc 1 158 5 is_stmt 1 view .LVU56
+ 158:../../../applications/examples/Project/src/Project.c ****       printINF("Message sent!");
+ 252              		.loc 1 158 9 is_stmt 0 view .LVU57
+ 253 006e 0A21     		movs	r1, #10
+ 254 0070 01A8     		add	r0, sp, #4
+ 255 0072 FFF7FEFF 		bl	Murata_LoRaWAN_Send
+ 256              	.LVL10:
+ 158:../../../applications/examples/Project/src/Project.c ****       printINF("Message sent!");
+ 257              		.loc 1 158 7 view .LVU58
+ 258 0076 70B1     		cbz	r0, .L16
+ 259              	.L13:
+ 162:../../../applications/examples/Project/src/Project.c ****     osMutexRelease(txMutexId);
+ 260              		.loc 1 162 5 is_stmt 1 view .LVU59
+ 261 0078 40F6B830 		movw	r0, #3000
+ 262 007c FFF7FEFF 		bl	osDelay
+ 263              	.LVL11:
+ 163:../../../applications/examples/Project/src/Project.c ****     LoRaWAN_Counter++;
+ 264              		.loc 1 163 5 view .LVU60
+ 265 0080 0E4B     		ldr	r3, .L17+20
+ 266 0082 1868     		ldr	r0, [r3]
+ 267 0084 FFF7FEFF 		bl	osMutexRelease
+ 268              	.LVL12:
+ 164:../../../applications/examples/Project/src/Project.c ****   }
+ 269              		.loc 1 164 5 view .LVU61
+ 164:../../../applications/examples/Project/src/Project.c ****   }
+ 270              		.loc 1 164 20 is_stmt 0 view .LVU62
+ 271 0088 0D4A     		ldr	r2, .L17+24
+ 272 008a 1388     		ldrh	r3, [r2]
+ 273 008c 0133     		adds	r3, r3, #1
+ 274 008e 1380     		strh	r3, [r2]	@ movhi
+ 275              	.L11:
+ 276              	.LBE2:
+ 169:../../../applications/examples/Project/src/Project.c **** 
+ 277              		.loc 1 169 1 view .LVU63
+ 278 0090 05B0     		add	sp, sp, #20
+ 279              	.LCFI4:
+ 280              		.cfi_remember_state
+ 281              		.cfi_def_cfa_offset 4
+ 282              		@ sp needed
+ 283 0092 5DF804FB 		ldr	pc, [sp], #4
+ 284              	.L16:
+ 285              	.LCFI5:
+ 286              		.cfi_restore_state
+ 287              	.LBB3:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 11
+
+
+ 159:../../../applications/examples/Project/src/Project.c ****     
+ 288              		.loc 1 159 7 is_stmt 1 view .LVU64
+ 289 0096 0B48     		ldr	r0, .L17+28
+ 290 0098 FFF7FEFF 		bl	printINF
+ 291              	.LVL13:
+ 292 009c ECE7     		b	.L13
+ 293              	.LVL14:
+ 294              	.L12:
+ 159:../../../applications/examples/Project/src/Project.c ****     
+ 295              		.loc 1 159 7 is_stmt 0 view .LVU65
+ 296              	.LBE3:
+ 167:../../../applications/examples/Project/src/Project.c ****   }
+ 297              		.loc 1 167 5 is_stmt 1 view .LVU66
+ 298 009e 0A48     		ldr	r0, .L17+32
+ 299              	.LVL15:
+ 167:../../../applications/examples/Project/src/Project.c ****   }
+ 300              		.loc 1 167 5 is_stmt 0 view .LVU67
+ 301 00a0 FFF7FEFF 		bl	printINF
+ 302              	.LVL16:
+ 169:../../../applications/examples/Project/src/Project.c **** 
+ 303              		.loc 1 169 1 view .LVU68
+ 304 00a4 F4E7     		b	.L11
+ 305              	.L18:
+ 306 00a6 00BF     		.align	2
+ 307              	.L17:
+ 308 00a8 00000000 		.word	.LANCHOR1
+ 309 00ac 00000000 		.word	SHTData
+ 310 00b0 00000000 		.word	float_union
+ 311 00b4 00000000 		.word	batteryVoltage
+ 312 00b8 00000000 		.word	int32LittleEndian
+ 313 00bc 00000000 		.word	txMutexId
+ 314 00c0 00000000 		.word	.LANCHOR2
+ 315 00c4 00000000 		.word	.LC5
+ 316 00c8 10000000 		.word	.LC6
+ 317              		.cfi_endproc
+ 318              	.LFE137:
+ 320              		.section	.rodata.check_modules.str1.4,"aMS",%progbits,1
+ 321              		.align	2
+ 322              	.LC7:
+ 323 0000 63686563 		.ascii	"checking the status of the modules\015\012\000"
+ 323      6B696E67 
+ 323      20746865 
+ 323      20737461 
+ 323      74757320 
+ 324              		.section	.text.check_modules,"ax",%progbits
+ 325              		.align	1
+ 326              		.global	check_modules
+ 327              		.syntax unified
+ 328              		.thumb
+ 329              		.thumb_func
+ 330              		.fpu fpv4-sp-d16
+ 332              	check_modules:
+ 333              	.LVL17:
+ 334              	.LFB138:
+ 172:../../../applications/examples/Project/src/Project.c ****   printINF("checking the status of the modules\r\n");
+ 335              		.loc 1 172 1 is_stmt 1 view -0
+ 336              		.cfi_startproc
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 12
+
+
+ 337              		@ args = 0, pretend = 0, frame = 0
+ 338              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172:../../../applications/examples/Project/src/Project.c ****   printINF("checking the status of the modules\r\n");
+ 339              		.loc 1 172 1 is_stmt 0 view .LVU70
+ 340 0000 08B5     		push	{r3, lr}
+ 341              	.LCFI6:
+ 342              		.cfi_def_cfa_offset 8
+ 343              		.cfi_offset 3, -8
+ 344              		.cfi_offset 14, -4
+ 173:../../../applications/examples/Project/src/Project.c ****   if (!murata_init)
+ 345              		.loc 1 173 3 is_stmt 1 view .LVU71
+ 346 0002 0848     		ldr	r0, .L23
+ 347              	.LVL18:
+ 173:../../../applications/examples/Project/src/Project.c ****   if (!murata_init)
+ 348              		.loc 1 173 3 is_stmt 0 view .LVU72
+ 349 0004 FFF7FEFF 		bl	printINF
+ 350              	.LVL19:
+ 174:../../../applications/examples/Project/src/Project.c ****   {
+ 351              		.loc 1 174 3 is_stmt 1 view .LVU73
+ 174:../../../applications/examples/Project/src/Project.c ****   {
+ 352              		.loc 1 174 7 is_stmt 0 view .LVU74
+ 353 0008 074B     		ldr	r3, .L23+4
+ 354 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 174:../../../applications/examples/Project/src/Project.c ****   {
+ 355              		.loc 1 174 6 view .LVU75
+ 356 000c 03B1     		cbz	r3, .L22
+ 357              	.L19:
+ 180:../../../applications/examples/Project/src/Project.c **** 
+ 358              		.loc 1 180 1 view .LVU76
+ 359 000e 08BD     		pop	{r3, pc}
+ 360              	.L22:
+ 177:../../../applications/examples/Project/src/Project.c ****     Murata_toggleResetPin();
+ 361              		.loc 1 177 5 is_stmt 1 view .LVU77
+ 177:../../../applications/examples/Project/src/Project.c ****     Murata_toggleResetPin();
+ 362              		.loc 1 177 19 is_stmt 0 view .LVU78
+ 363 0010 064B     		ldr	r3, .L23+8
+ 364 0012 D3E90001 		ldrd	r0, [r3]
+ 365 0016 FFF7FEFF 		bl	Murata_Initialize
+ 366              	.LVL20:
+ 177:../../../applications/examples/Project/src/Project.c ****     Murata_toggleResetPin();
+ 367              		.loc 1 177 17 view .LVU79
+ 368 001a 034B     		ldr	r3, .L23+4
+ 369 001c 1870     		strb	r0, [r3]
+ 178:../../../applications/examples/Project/src/Project.c ****   }
+ 370              		.loc 1 178 5 is_stmt 1 view .LVU80
+ 371 001e FFF7FEFF 		bl	Murata_toggleResetPin
+ 372              	.LVL21:
+ 180:../../../applications/examples/Project/src/Project.c **** 
+ 373              		.loc 1 180 1 is_stmt 0 view .LVU81
+ 374 0022 F4E7     		b	.L19
+ 375              	.L24:
+ 376              		.align	2
+ 377              	.L23:
+ 378 0024 00000000 		.word	.LC7
+ 379 0028 00000000 		.word	.LANCHOR1
+ 380 002c 00000000 		.word	short_UID
+ 381              		.cfi_endproc
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 13
+
+
+ 382              	.LFE138:
+ 384              		.section	.rodata.murata_process_rx_response.str1.4,"aMS",%progbits,1
+ 385              		.align	2
+ 386              	.LC8:
+ 387 0000 70726F63 		.ascii	"processing murata fifo\015\012\000"
+ 387      65737369 
+ 387      6E67206D 
+ 387      75726174 
+ 387      61206669 
+ 388              		.section	.text.murata_process_rx_response,"ax",%progbits
+ 389              		.align	1
+ 390              		.global	murata_process_rx_response
+ 391              		.syntax unified
+ 392              		.thumb
+ 393              		.thumb_func
+ 394              		.fpu fpv4-sp-d16
+ 396              	murata_process_rx_response:
+ 397              	.LFB139:
+ 183:../../../applications/examples/Project/src/Project.c ****   uint32_t startProcessing;
+ 398              		.loc 1 183 1 is_stmt 1 view -0
+ 399              		.cfi_startproc
+ 400              		@ args = 0, pretend = 0, frame = 0
+ 401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 402              	.LVL22:
+ 183:../../../applications/examples/Project/src/Project.c ****   uint32_t startProcessing;
+ 403              		.loc 1 183 1 is_stmt 0 view .LVU83
+ 404 0000 08B5     		push	{r3, lr}
+ 405              	.LCFI7:
+ 406              		.cfi_def_cfa_offset 8
+ 407              		.cfi_offset 3, -8
+ 408              		.cfi_offset 14, -4
+ 409 0002 02E0     		b	.L29
+ 410              	.LVL23:
+ 411              	.L27:
+ 204:../../../applications/examples/Project/src/Project.c ****     osDelay(1);
+ 412              		.loc 1 204 5 is_stmt 1 view .LVU84
+ 205:../../../applications/examples/Project/src/Project.c ****   }
+ 413              		.loc 1 205 5 view .LVU85
+ 414 0004 0120     		movs	r0, #1
+ 415 0006 FFF7FEFF 		bl	osDelay
+ 416              	.LVL24:
+ 185:../../../applications/examples/Project/src/Project.c ****   {
+ 417              		.loc 1 185 9 view .LVU86
+ 418              	.L29:
+ 184:../../../applications/examples/Project/src/Project.c ****   while (1)
+ 419              		.loc 1 184 3 view .LVU87
+ 185:../../../applications/examples/Project/src/Project.c ****   {
+ 420              		.loc 1 185 3 view .LVU88
+ 191:../../../applications/examples/Project/src/Project.c ****     if (startProcessing == 1)
+ 421              		.loc 1 191 5 view .LVU89
+ 191:../../../applications/examples/Project/src/Project.c ****     if (startProcessing == 1)
+ 422              		.loc 1 191 23 is_stmt 0 view .LVU90
+ 423 000a 4FF0FF31 		mov	r1, #-1
+ 424 000e 0120     		movs	r0, #1
+ 425 0010 FFF7FEFF 		bl	ulTaskNotifyTake
+ 426              	.LVL25:
+ 192:../../../applications/examples/Project/src/Project.c ****     {
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 14
+
+
+ 427              		.loc 1 192 5 is_stmt 1 view .LVU91
+ 192:../../../applications/examples/Project/src/Project.c ****     {
+ 428              		.loc 1 192 8 is_stmt 0 view .LVU92
+ 429 0014 0128     		cmp	r0, #1
+ 430 0016 F5D1     		bne	.L27
+ 431              	.LVL26:
+ 432              	.L26:
+ 195:../../../applications/examples/Project/src/Project.c ****       {
+ 433              		.loc 1 195 12 is_stmt 1 view .LVU93
+ 195:../../../applications/examples/Project/src/Project.c ****       {
+ 434              		.loc 1 195 13 is_stmt 0 view .LVU94
+ 435 0018 084B     		ldr	r3, .L31
+ 436 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 195:../../../applications/examples/Project/src/Project.c ****       {
+ 437              		.loc 1 195 12 view .LVU95
+ 438 001c 002B     		cmp	r3, #0
+ 439 001e F1D0     		beq	.L27
+ 197:../../../applications/examples/Project/src/Project.c ****         murata_data_ready = !Murata_process_fifo();
+ 440              		.loc 1 197 9 is_stmt 1 view .LVU96
+ 441 0020 0748     		ldr	r0, .L31+4
+ 442 0022 FFF7FEFF 		bl	printINF
+ 443              	.LVL27:
+ 198:../../../applications/examples/Project/src/Project.c ****         osDelay(50);
+ 444              		.loc 1 198 9 view .LVU97
+ 198:../../../applications/examples/Project/src/Project.c ****         osDelay(50);
+ 445              		.loc 1 198 30 is_stmt 0 view .LVU98
+ 446 0026 FFF7FEFF 		bl	Murata_process_fifo
+ 447              	.LVL28:
+ 198:../../../applications/examples/Project/src/Project.c ****         osDelay(50);
+ 448              		.loc 1 198 29 view .LVU99
+ 449 002a B0FA80F0 		clz	r0, r0
+ 450 002e 4009     		lsrs	r0, r0, #5
+ 198:../../../applications/examples/Project/src/Project.c ****         osDelay(50);
+ 451              		.loc 1 198 27 view .LVU100
+ 452 0030 024B     		ldr	r3, .L31
+ 453 0032 1870     		strb	r0, [r3]
+ 199:../../../applications/examples/Project/src/Project.c ****       }
+ 454              		.loc 1 199 9 is_stmt 1 view .LVU101
+ 455 0034 3220     		movs	r0, #50
+ 456 0036 FFF7FEFF 		bl	osDelay
+ 457              	.LVL29:
+ 458 003a EDE7     		b	.L26
+ 459              	.L32:
+ 460              		.align	2
+ 461              	.L31:
+ 462 003c 00000000 		.word	.LANCHOR0
+ 463 0040 00000000 		.word	.LC8
+ 464              		.cfi_endproc
+ 465              	.LFE139:
+ 467              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ 468              		.align	2
+ 469              	.LC10:
+ 470 0000 4D757261 		.ascii	"Murata dualstack module init OK\015\012\015\012\000"
+ 470      74612064 
+ 470      75616C73 
+ 470      7461636B 
+ 470      206D6F64 
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 15
+
+
+ 471              		.section	.text.main,"ax",%progbits
+ 472              		.align	1
+ 473              		.global	main
+ 474              		.syntax unified
+ 475              		.thumb
+ 476              		.thumb_func
+ 477              		.fpu fpv4-sp-d16
+ 479              	main:
+ 480              	.LFB132:
+  31:../../../applications/examples/Project/src/Project.c ****   Initialize_Platform();
+ 481              		.loc 1 31 1 view -0
+ 482              		.cfi_startproc
+ 483              		@ Volatile: function does not return.
+ 484              		@ args = 0, pretend = 0, frame = 64
+ 485              		@ frame_needed = 0, uses_anonymous_args = 0
+ 486 0000 00B5     		push	{lr}
+ 487              	.LCFI8:
+ 488              		.cfi_def_cfa_offset 4
+ 489              		.cfi_offset 14, -4
+ 490 0002 91B0     		sub	sp, sp, #68
+ 491              	.LCFI9:
+ 492              		.cfi_def_cfa_offset 72
+  32:../../../applications/examples/Project/src/Project.c **** 
+ 493              		.loc 1 32 3 view .LVU103
+ 494 0004 FFF7FEFF 		bl	Initialize_Platform
+ 495              	.LVL30:
+  35:../../../applications/examples/Project/src/Project.c **** //
+ 496              		.loc 1 35 3 view .LVU104
+ 497 0008 424C     		ldr	r4, .L38
+ 498 000a 434A     		ldr	r2, .L38+4
+ 499 000c 4349     		ldr	r1, .L38+8
+ 500 000e 2046     		mov	r0, r4
+ 501 0010 FFF7FEFF 		bl	GasGauge_Initialization
+ 502              	.LVL31:
+  39:../../../applications/examples/Project/src/Project.c ****   SHT31_begin();
+ 503              		.loc 1 39 3 view .LVU105
+ 504 0014 2046     		mov	r0, r4
+ 505 0016 FFF7FEFF 		bl	setI2CInterface_SHT31
+ 506              	.LVL32:
+  40:../../../applications/examples/Project/src/Project.c **** 
+ 507              		.loc 1 40 3 view .LVU106
+ 508 001a FFF7FEFF 		bl	SHT31_begin
+ 509              	.LVL33:
+  42:../../../applications/examples/Project/src/Project.c ****   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+ 510              		.loc 1 42 3 view .LVU107
+ 511 001e 0BAC     		add	r4, sp, #44
+ 512 0020 3F4D     		ldr	r5, .L38+12
+ 513 0022 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 514 0024 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 515 0026 2B68     		ldr	r3, [r5]
+ 516 0028 2360     		str	r3, [r4]
+  43:../../../applications/examples/Project/src/Project.c **** //
+ 517              		.loc 1 43 3 view .LVU108
+  43:../../../applications/examples/Project/src/Project.c **** //
+ 518              		.loc 1 43 23 is_stmt 0 view .LVU109
+ 519 002a 0021     		movs	r1, #0
+ 520 002c 0BA8     		add	r0, sp, #44
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 16
+
+
+ 521 002e FFF7FEFF 		bl	osThreadCreate
+ 522              	.LVL34:
+  43:../../../applications/examples/Project/src/Project.c **** //
+ 523              		.loc 1 43 21 view .LVU110
+ 524 0032 3C4B     		ldr	r3, .L38+16
+ 525 0034 1860     		str	r0, [r3]
+  47:../../../applications/examples/Project/src/Project.c **** UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONNECTOR);
+ 526              		.loc 1 47 1 is_stmt 1 view .LVU111
+  47:../../../applications/examples/Project/src/Project.c **** UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONNECTOR);
+ 527              		.loc 1 47 15 is_stmt 0 view .LVU112
+ 528 0036 3C4B     		ldr	r3, .L38+20
+ 529 0038 D3E90001 		ldrd	r0, [r3]
+ 530 003c FFF7FEFF 		bl	Murata_Initialize
+ 531              	.LVL35:
+  47:../../../applications/examples/Project/src/Project.c **** UART_SetApplicationCallback(&Dualstack_ApplicationCallback, (uint8_t)MURATA_CONNECTOR);
+ 532              		.loc 1 47 13 view .LVU113
+ 533 0040 3A4C     		ldr	r4, .L38+24
+ 534 0042 2070     		strb	r0, [r4]
+  48:../../../applications/examples/Project/src/Project.c **** 
+ 535              		.loc 1 48 1 is_stmt 1 view .LVU114
+ 536 0044 0321     		movs	r1, #3
+ 537 0046 3A48     		ldr	r0, .L38+28
+ 538 0048 FFF7FEFF 		bl	UART_SetApplicationCallback
+ 539              	.LVL36:
+  50:../../../applications/examples/Project/src/Project.c **** {
+ 540              		.loc 1 50 1 view .LVU115
+  50:../../../applications/examples/Project/src/Project.c **** {
+ 541              		.loc 1 50 5 is_stmt 0 view .LVU116
+ 542 004c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  50:../../../applications/examples/Project/src/Project.c **** {
+ 543              		.loc 1 50 4 view .LVU117
+ 544 004e 002B     		cmp	r3, #0
+ 545 0050 5CD1     		bne	.L37
+ 546              	.L34:
+  56:../../../applications/examples/Project/src/Project.c **** txMutexId = osMutexCreate(osMutex(txMutex));
+ 547              		.loc 1 56 1 is_stmt 1 view .LVU118
+ 548 0052 0024     		movs	r4, #0
+ 549 0054 0A94     		str	r4, [sp, #40]
+  57:../../../applications/examples/Project/src/Project.c **** // Thread gemaakt voor murata acties
+ 550              		.loc 1 57 1 view .LVU119
+  57:../../../applications/examples/Project/src/Project.c **** // Thread gemaakt voor murata acties
+ 551              		.loc 1 57 13 is_stmt 0 view .LVU120
+ 552 0056 0AA8     		add	r0, sp, #40
+ 553 0058 FFF7FEFF 		bl	osMutexCreate
+ 554              	.LVL37:
+  57:../../../applications/examples/Project/src/Project.c **** // Thread gemaakt voor murata acties
+ 555              		.loc 1 57 11 view .LVU121
+ 556 005c 354B     		ldr	r3, .L38+32
+ 557 005e 1860     		str	r0, [r3]
+  59:../../../applications/examples/Project/src/Project.c **** murata_rx_processing_handle = osThreadCreate(osThread(murata_rx_processing), NULL);
+ 558              		.loc 1 59 1 is_stmt 1 view .LVU122
+ 559 0060 05AD     		add	r5, sp, #20
+ 560 0062 354E     		ldr	r6, .L38+36
+ 561 0064 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
+ 562 0066 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 563 0068 3368     		ldr	r3, [r6]
+ 564 006a 2B60     		str	r3, [r5]
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 17
+
+
+  60:../../../applications/examples/Project/src/Project.c **** 
+ 565              		.loc 1 60 1 view .LVU123
+  60:../../../applications/examples/Project/src/Project.c **** 
+ 566              		.loc 1 60 31 is_stmt 0 view .LVU124
+ 567 006c 2146     		mov	r1, r4
+ 568 006e 05A8     		add	r0, sp, #20
+ 569 0070 FFF7FEFF 		bl	osThreadCreate
+ 570              	.LVL38:
+  60:../../../applications/examples/Project/src/Project.c **** 
+ 571              		.loc 1 60 29 view .LVU125
+ 572 0074 314B     		ldr	r3, .L38+40
+ 573 0076 1860     		str	r0, [r3]
+  63:../../../applications/examples/Project/src/Project.c **** //
+ 574              		.loc 1 63 1 is_stmt 1 view .LVU126
+ 575 0078 FFF7FEFF 		bl	Murata_SetProcessingThread
+ 576              	.LVL39:
+  68:../../../applications/examples/Project/src/Project.c ****   osTimerDef(iwdgTim, IWDG_feed);
+ 577              		.loc 1 68 3 view .LVU127
+ 578 007c 2046     		mov	r0, r4
+ 579 007e FFF7FEFF 		bl	IWDG_feed
+ 580              	.LVL40:
+  69:../../../applications/examples/Project/src/Project.c ****   iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
+ 581              		.loc 1 69 3 view .LVU128
+ 582 0082 2F4B     		ldr	r3, .L38+44
+ 583 0084 0493     		str	r3, [sp, #16]
+  70:../../../applications/examples/Project/src/Project.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
+ 584              		.loc 1 70 3 view .LVU129
+  70:../../../applications/examples/Project/src/Project.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
+ 585              		.loc 1 70 15 is_stmt 0 view .LVU130
+ 586 0086 2246     		mov	r2, r4
+ 587 0088 0121     		movs	r1, #1
+ 588 008a 04A8     		add	r0, sp, #16
+ 589 008c FFF7FEFF 		bl	osTimerCreate
+ 590              	.LVL41:
+  70:../../../applications/examples/Project/src/Project.c ****   osTimerStart(iwdgTimId, IWDG_INTERVAL * 1000);
+ 591              		.loc 1 70 13 view .LVU131
+ 592 0090 2C4B     		ldr	r3, .L38+48
+ 593 0092 1860     		str	r0, [r3]
+  71:../../../applications/examples/Project/src/Project.c **** 
+ 594              		.loc 1 71 3 is_stmt 1 view .LVU132
+ 595 0094 41F28831 		movw	r1, #5000
+ 596 0098 FFF7FEFF 		bl	osTimerStart
+ 597              	.LVL42:
+  73:../../../applications/examples/Project/src/Project.c ****   temp_hum_timer_id = osTimerCreate(osTimer(temp_hum_Tim), osTimerPeriodic, NULL);
+ 598              		.loc 1 73 3 view .LVU133
+ 599 009c 2A4B     		ldr	r3, .L38+52
+ 600 009e 0393     		str	r3, [sp, #12]
+  74:../../../applications/examples/Project/src/Project.c ****   osTimerStart(temp_hum_timer_id, temp_hum_timer * 1000);
+ 601              		.loc 1 74 3 view .LVU134
+  74:../../../applications/examples/Project/src/Project.c ****   osTimerStart(temp_hum_timer_id, temp_hum_timer * 1000);
+ 602              		.loc 1 74 23 is_stmt 0 view .LVU135
+ 603 00a0 2246     		mov	r2, r4
+ 604 00a2 0121     		movs	r1, #1
+ 605 00a4 03A8     		add	r0, sp, #12
+ 606 00a6 FFF7FEFF 		bl	osTimerCreate
+ 607              	.LVL43:
+  74:../../../applications/examples/Project/src/Project.c ****   osTimerStart(temp_hum_timer_id, temp_hum_timer * 1000);
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 18
+
+
+ 608              		.loc 1 74 21 view .LVU136
+ 609 00aa 284B     		ldr	r3, .L38+56
+ 610 00ac 1860     		str	r0, [r3]
+  75:../../../applications/examples/Project/src/Project.c **** 
+ 611              		.loc 1 75 3 is_stmt 1 view .LVU137
+ 612 00ae 4EF66021 		movw	r1, #60000
+ 613 00b2 FFF7FEFF 		bl	osTimerStart
+ 614              	.LVL44:
+  77:../../../applications/examples/Project/src/Project.c ****   batteryTimId = osTimerCreate(osTimer(batteryLevel_Tim), osTimerPeriodic, NULL);
+ 615              		.loc 1 77 3 view .LVU138
+ 616 00b6 264B     		ldr	r3, .L38+60
+ 617 00b8 0293     		str	r3, [sp, #8]
+  78:../../../applications/examples/Project/src/Project.c ****   osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
+ 618              		.loc 1 78 3 view .LVU139
+  78:../../../applications/examples/Project/src/Project.c ****   osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
+ 619              		.loc 1 78 18 is_stmt 0 view .LVU140
+ 620 00ba 2246     		mov	r2, r4
+ 621 00bc 0121     		movs	r1, #1
+ 622 00be 02A8     		add	r0, sp, #8
+ 623 00c0 FFF7FEFF 		bl	osTimerCreate
+ 624              	.LVL45:
+  78:../../../applications/examples/Project/src/Project.c ****   osTimerStart(batteryTimId, BATTERYLEVEL_INTERVAL * 1000);
+ 625              		.loc 1 78 16 view .LVU141
+ 626 00c4 234B     		ldr	r3, .L38+64
+ 627 00c6 1860     		str	r0, [r3]
+  79:../../../applications/examples/Project/src/Project.c **** 
+ 628              		.loc 1 79 3 is_stmt 1 view .LVU142
+ 629 00c8 4EF66021 		movw	r1, #60000
+ 630 00cc FFF7FEFF 		bl	osTimerStart
+ 631              	.LVL46:
+  81:../../../applications/examples/Project/src/Project.c ****   loraWANTimId = osTimerCreate(osTimer(loraWANTim), osTimerPeriodic, NULL);
+ 632              		.loc 1 81 3 view .LVU143
+ 633 00d0 214B     		ldr	r3, .L38+68
+ 634 00d2 0193     		str	r3, [sp, #4]
+  82:../../../applications/examples/Project/src/Project.c ****   osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+ 635              		.loc 1 82 3 view .LVU144
+  82:../../../applications/examples/Project/src/Project.c ****   osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+ 636              		.loc 1 82 18 is_stmt 0 view .LVU145
+ 637 00d4 2246     		mov	r2, r4
+ 638 00d6 0121     		movs	r1, #1
+ 639 00d8 01A8     		add	r0, sp, #4
+ 640 00da FFF7FEFF 		bl	osTimerCreate
+ 641              	.LVL47:
+  82:../../../applications/examples/Project/src/Project.c ****   osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+ 642              		.loc 1 82 16 view .LVU146
+ 643 00de 1F4B     		ldr	r3, .L38+72
+ 644 00e0 1860     		str	r0, [r3]
+  83:../../../applications/examples/Project/src/Project.c **** 
+ 645              		.loc 1 83 3 is_stmt 1 view .LVU147
+ 646 00e2 4EF66021 		movw	r1, #60000
+ 647 00e6 FFF7FEFF 		bl	osTimerStart
+ 648              	.LVL48:
+  85:../../../applications/examples/Project/src/Project.c ****   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
+ 649              		.loc 1 85 3 view .LVU148
+ 650 00ea 1D4B     		ldr	r3, .L38+76
+ 651 00ec 0093     		str	r3, [sp]
+  86:../../../applications/examples/Project/src/Project.c ****   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 19
+
+
+ 652              		.loc 1 86 3 view .LVU149
+  86:../../../applications/examples/Project/src/Project.c ****   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
+ 653              		.loc 1 86 22 is_stmt 0 view .LVU150
+ 654 00ee 2246     		mov	r2, r4
+ 655 00f0 0121     		movs	r1, #1
+ 656 00f2 6846     		mov	r0, sp
+ 657 00f4 FFF7FEFF 		bl	osTimerCreate
+ 658              	.LVL49:
+  86:../../../applications/examples/Project/src/Project.c ****   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
+ 659              		.loc 1 86 20 view .LVU151
+ 660 00f8 1A4B     		ldr	r3, .L38+80
+ 661 00fa 1860     		str	r0, [r3]
+  87:../../../applications/examples/Project/src/Project.c **** 
+ 662              		.loc 1 87 3 is_stmt 1 view .LVU152
+ 663 00fc 1A49     		ldr	r1, .L38+84
+ 664 00fe FFF7FEFF 		bl	osTimerStart
+ 665              	.LVL50:
+  91:../../../applications/examples/Project/src/Project.c **** 
+ 666              		.loc 1 91 3 view .LVU153
+ 667 0102 FFF7FEFF 		bl	Murata_LoRaWAN_Join
+ 668              	.LVL51:
+  93:../../../applications/examples/Project/src/Project.c **** 
+ 669              		.loc 1 93 3 view .LVU154
+ 670 0106 FFF7FEFF 		bl	osKernelStart
+ 671              	.LVL52:
+ 672              	.L35:
+  95:../../../applications/examples/Project/src/Project.c ****   {
+ 673              		.loc 1 95 3 discriminator 1 view .LVU155
+  97:../../../applications/examples/Project/src/Project.c **** 
+ 674              		.loc 1 97 3 discriminator 1 view .LVU156
+  95:../../../applications/examples/Project/src/Project.c ****   {
+ 675              		.loc 1 95 9 discriminator 1 view .LVU157
+ 676 010a FEE7     		b	.L35
+ 677              	.L37:
+  52:../../../applications/examples/Project/src/Project.c **** }
+ 678              		.loc 1 52 3 view .LVU158
+ 679 010c 1748     		ldr	r0, .L38+88
+ 680 010e FFF7FEFF 		bl	printINF
+ 681              	.LVL53:
+ 682 0112 9EE7     		b	.L34
+ 683              	.L39:
+ 684              		.align	2
+ 685              	.L38:
+ 686 0114 00000000 		.word	common_I2C
+ 687 0118 00000000 		.word	STC3115_BatteryData
+ 688 011c 00000000 		.word	STC3115_ConfigData
+ 689 0120 00000000 		.word	.LANCHOR3
+ 690 0124 00000000 		.word	defaultTaskHandle
+ 691 0128 00000000 		.word	short_UID
+ 692 012c 00000000 		.word	.LANCHOR1
+ 693 0130 00000000 		.word	Dualstack_ApplicationCallback
+ 694 0134 00000000 		.word	txMutexId
+ 695 0138 14000000 		.word	.LANCHOR3+20
+ 696 013c 00000000 		.word	murata_rx_processing_handle
+ 697 0140 00000000 		.word	IWDG_feed
+ 698 0144 00000000 		.word	iwdgTimId
+ 699 0148 00000000 		.word	temp_hum_measurement
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 20
+
+
+ 700 014c 00000000 		.word	temp_hum_timer_id
+ 701 0150 00000000 		.word	batteryLevel_measurement
+ 702 0154 00000000 		.word	batteryTimId
+ 703 0158 00000000 		.word	LoRaWAN_send
+ 704 015c 00000000 		.word	loraWANTimId
+ 705 0160 00000000 		.word	check_modules
+ 706 0164 00000000 		.word	moduleCheckTimId
+ 707 0168 80EE3600 		.word	3600000
+ 708 016c 00000000 		.word	.LC10
+ 709              		.cfi_endproc
+ 710              	.LFE132:
+ 712              		.global	__aeabi_f2d
+ 713              		.section	.rodata.print_temp_hum.str1.4,"aMS",%progbits,1
+ 714              		.align	2
+ 715              	.LC12:
+ 716 0000 54656D70 		.ascii	"Temperature: %.2f degC \015\012\000"
+ 716      65726174 
+ 716      7572653A 
+ 716      20252E32 
+ 716      66206465 
+ 717 001a 0000     		.align	2
+ 718              	.LC13:
+ 719 001c 48756D69 		.ascii	"Humidity: %.2f %% \015\012\000"
+ 719      64697479 
+ 719      3A20252E 
+ 719      32662025 
+ 719      25200D0A 
+ 720              		.section	.text.print_temp_hum,"ax",%progbits
+ 721              		.align	1
+ 722              		.global	print_temp_hum
+ 723              		.syntax unified
+ 724              		.thumb
+ 725              		.thumb_func
+ 726              		.fpu fpv4-sp-d16
+ 728              	print_temp_hum:
+ 729              	.LFB135:
+ 119:../../../applications/examples/Project/src/Project.c ****   printf("Temperature: %.2f degC \r\n", SHTData[0]);
+ 730              		.loc 1 119 1 view -0
+ 731              		.cfi_startproc
+ 732              		@ args = 0, pretend = 0, frame = 0
+ 733              		@ frame_needed = 0, uses_anonymous_args = 0
+ 734 0000 10B5     		push	{r4, lr}
+ 735              	.LCFI10:
+ 736              		.cfi_def_cfa_offset 8
+ 737              		.cfi_offset 4, -8
+ 738              		.cfi_offset 14, -4
+ 120:../../../applications/examples/Project/src/Project.c ****   printf("Humidity: %.2f %% \r\n", SHTData[1]);
+ 739              		.loc 1 120 3 view .LVU160
+ 120:../../../applications/examples/Project/src/Project.c ****   printf("Humidity: %.2f %% \r\n", SHTData[1]);
+ 740              		.loc 1 120 48 is_stmt 0 view .LVU161
+ 741 0002 094C     		ldr	r4, .L42
+ 120:../../../applications/examples/Project/src/Project.c ****   printf("Humidity: %.2f %% \r\n", SHTData[1]);
+ 742              		.loc 1 120 3 view .LVU162
+ 743 0004 2068     		ldr	r0, [r4]	@ float
+ 744 0006 FFF7FEFF 		bl	__aeabi_f2d
+ 745              	.LVL54:
+ 746 000a 0246     		mov	r2, r0
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 21
+
+
+ 747 000c 0B46     		mov	r3, r1
+ 748 000e 0748     		ldr	r0, .L42+4
+ 749 0010 FFF7FEFF 		bl	printf
+ 750              	.LVL55:
+ 121:../../../applications/examples/Project/src/Project.c **** }
+ 751              		.loc 1 121 3 is_stmt 1 view .LVU163
+ 752 0014 6068     		ldr	r0, [r4, #4]	@ float
+ 753 0016 FFF7FEFF 		bl	__aeabi_f2d
+ 754              	.LVL56:
+ 755 001a 0246     		mov	r2, r0
+ 756 001c 0B46     		mov	r3, r1
+ 757 001e 0448     		ldr	r0, .L42+8
+ 758 0020 FFF7FEFF 		bl	printf
+ 759              	.LVL57:
+ 122:../../../applications/examples/Project/src/Project.c **** 
+ 760              		.loc 1 122 1 is_stmt 0 view .LVU164
+ 761 0024 10BD     		pop	{r4, pc}
+ 762              	.L43:
+ 763 0026 00BF     		.align	2
+ 764              	.L42:
+ 765 0028 00000000 		.word	SHTData
+ 766 002c 00000000 		.word	.LC12
+ 767 0030 1C000000 		.word	.LC13
+ 768              		.cfi_endproc
+ 769              	.LFE135:
+ 771              		.section	.text.temp_hum_measurement,"ax",%progbits
+ 772              		.align	1
+ 773              		.global	temp_hum_measurement
+ 774              		.syntax unified
+ 775              		.thumb
+ 776              		.thumb_func
+ 777              		.fpu fpv4-sp-d16
+ 779              	temp_hum_measurement:
+ 780              	.LFB134:
+ 113:../../../applications/examples/Project/src/Project.c ****   SHT31_get_temp_hum(SHTData);
+ 781              		.loc 1 113 1 is_stmt 1 view -0
+ 782              		.cfi_startproc
+ 783              		@ args = 0, pretend = 0, frame = 0
+ 784              		@ frame_needed = 0, uses_anonymous_args = 0
+ 785 0000 08B5     		push	{r3, lr}
+ 786              	.LCFI11:
+ 787              		.cfi_def_cfa_offset 8
+ 788              		.cfi_offset 3, -8
+ 789              		.cfi_offset 14, -4
+ 114:../../../applications/examples/Project/src/Project.c ****   print_temp_hum();
+ 790              		.loc 1 114 3 view .LVU166
+ 791 0002 0348     		ldr	r0, .L46
+ 792 0004 FFF7FEFF 		bl	SHT31_get_temp_hum
+ 793              	.LVL58:
+ 115:../../../applications/examples/Project/src/Project.c **** }
+ 794              		.loc 1 115 3 view .LVU167
+ 795 0008 FFF7FEFF 		bl	print_temp_hum
+ 796              	.LVL59:
+ 116:../../../applications/examples/Project/src/Project.c **** 
+ 797              		.loc 1 116 1 is_stmt 0 view .LVU168
+ 798 000c 08BD     		pop	{r3, pc}
+ 799              	.L47:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 22
+
+
+ 800 000e 00BF     		.align	2
+ 801              	.L46:
+ 802 0010 00000000 		.word	SHTData
+ 803              		.cfi_endproc
+ 804              	.LFE134:
+ 806              		.comm	SHTData,8,4
+ 807              		.comm	temp_hum_timer_id,4,4
+ 808              		.comm	batteryVoltage,4,4
+ 809              		.comm	batteryPercentage,4,4
+ 810              		.comm	STC3115_BatteryData,44,4
+ 811              		.comm	STC3115_ConfigData,48,4
+ 812              		.global	murata_data_ready
+ 813              		.global	murata_init
+ 814              		.global	LoRaWAN_Counter
+ 815              		.comm	threadToNotify,4,4
+ 816              		.comm	murata_reset_pin,4,4
+ 817              		.comm	murata_wakeup_pin,4,4
+ 818              		.comm	temp,4,4
+ 819              		.comm	humidity,4,4
+ 820              		.comm	_i2caddr,1,1
+ 821              		.comm	SHThi2cLib,4,4
+ 822              		.comm	murata_rx_process_mutex_id,4,4
+ 823              		.comm	txMutexId,4,4
+ 824              		.comm	moduleCheckTimId,4,4
+ 825              		.comm	loraWANTimId,4,4
+ 826              		.comm	murata_rx_processing_handle,4,4
+ 827              		.comm	defaultTaskHandle,4,4
+ 828              		.comm	batteryTimId,4,4
+ 829              		.comm	iwdgTimId,4,4
+ 830              		.comm	P3_header,44,4
+ 831              		.comm	P2_header,44,4
+ 832              		.comm	P1_header,44,4
+ 833              		.comm	stackversion_patch,1,1
+ 834              		.comm	stackversion_minor,1,1
+ 835              		.comm	stackversion_major,1,1
+ 836              		.comm	appversion_patch,1,1
+ 837              		.comm	appversion_minor,1,1
+ 838              		.comm	appversion_major,1,1
+ 839              		.comm	short_UID,8,8
+ 840              		.comm	hard_reset,1,1
+ 841              		.comm	wd_reset,1,1
+ 842              		.comm	octa_uid,8,8
+ 843              		.comm	float_union,4,4
+ 844              		.comm	uint16LittleEndian,2,4
+ 845              		.comm	int16LittleEndian,2,4
+ 846              		.comm	uint32LittleEndian,4,4
+ 847              		.comm	int32LittleEndian,4,4
+ 848              		.comm	rtosprintHandle,4,4
+ 849              		.comm	hrtc,36,4
+ 850              		.comm	FLASH_SPI,100,4
+ 851              		.comm	P3_SPI,100,4
+ 852              		.comm	P2_SPI,100,4
+ 853              		.comm	P1_SPI,100,4
+ 854              		.comm	P3_I2C,76,4
+ 855              		.comm	P2_I2C,76,4
+ 856              		.comm	P1_I2C,76,4
+ 857              		.comm	common_I2C,76,4
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 23
+
+
+ 858              		.comm	P3_UART,120,4
+ 859              		.comm	P2_UART,120,4
+ 860              		.comm	P1_UART,120,4
+ 861              		.comm	FTDI_UART,120,4
+ 862              		.comm	BLE_UART,120,4
+ 863              		.comm	USB_UART,120,4
+ 864              		.comm	hiwdg,16,4
+ 865              		.comm	P3_DIO6,8,4
+ 866              		.comm	P3_DIO5,8,4
+ 867              		.comm	P3_DIO4,8,4
+ 868              		.comm	P3_DIO3,8,4
+ 869              		.comm	P3_DIO2,8,4
+ 870              		.comm	P3_DIO1,8,4
+ 871              		.comm	P2_DIO6,8,4
+ 872              		.comm	P2_DIO5,8,4
+ 873              		.comm	P2_DIO4,8,4
+ 874              		.comm	P2_DIO3,8,4
+ 875              		.comm	P2_DIO2,8,4
+ 876              		.comm	P2_DIO1,8,4
+ 877              		.comm	P1_DIO6,8,4
+ 878              		.comm	P1_DIO5,8,4
+ 879              		.comm	P1_DIO4,8,4
+ 880              		.comm	P1_DIO3,8,4
+ 881              		.comm	P1_DIO2,8,4
+ 882              		.comm	P1_DIO1,8,4
+ 883              		.comm	htim6,64,4
+ 884              		.comm	htim1,64,4
+ 885              		.section	.rodata
+ 886              		.align	2
+ 887              		.set	.LANCHOR3,. + 0
+ 888              	.LC9:
+ 889 0000 00000000 		.word	.LC0
+ 890 0004 00000000 		.word	StartDefaultTask
+ 891 0008 FEFF     		.short	-2
+ 892 000a 0000     		.space	2
+ 893 000c 00000000 		.word	0
+ 894 0010 80000000 		.word	128
+ 895              	.LC11:
+ 896 0014 0C000000 		.word	.LC2
+ 897 0018 00000000 		.word	murata_process_rx_response
+ 898 001c 0000     		.short	0
+ 899 001e 0000     		.space	2
+ 900 0020 00000000 		.word	0
+ 901 0024 00020000 		.word	512
+ 902              		.section	.bss.LoRaWAN_Counter,"aw",%nobits
+ 903              		.align	1
+ 904              		.set	.LANCHOR2,. + 0
+ 907              	LoRaWAN_Counter:
+ 908 0000 0000     		.space	2
+ 909              		.section	.bss.murata_data_ready,"aw",%nobits
+ 910              		.set	.LANCHOR0,. + 0
+ 913              	murata_data_ready:
+ 914 0000 00       		.space	1
+ 915              		.section	.bss.murata_init,"aw",%nobits
+ 916              		.set	.LANCHOR1,. + 0
+ 919              	murata_init:
+ 920 0000 00       		.space	1
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 24
+
+
+ 921              		.text
+ 922              	.Letext0:
+ 923              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
+ 924              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
+ 925              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 926              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 927              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 928              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 929              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 930              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 931              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 932              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 933              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 934              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 935              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 936              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 937              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro
+ 938              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 939              		.file 18 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
+ 940              		.file 19 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 941              		.file 20 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h"
+ 942              		.file 21 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 943              		.file 22 "../../../core/platform/octa/inc/sysclock.h"
+ 944              		.file 23 "../../../core/platform/octa/inc/gpio.h"
+ 945              		.file 24 "../../../core/platform/octa/inc/iwdg.h"
+ 946              		.file 25 "../../../core/platform/octa/inc/uart.h"
+ 947              		.file 26 "../../../core/platform/octa/inc/i2c.h"
+ 948              		.file 27 "../../../core/platform/octa/inc/spi.h"
+ 949              		.file 28 "../../../core/platform/octa/inc/rtc.h"
+ 950              		.file 29 "../../../core/platform/octa/inc/rtosincludes.h"
+ 951              		.file 30 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 952              		.file 31 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 953              		.file 32 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\lib\\gcc\\arm-none-eab
+ 954              		.file 33 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 955              		.file 34 "../../../core/platform/common/inc/datatypes.h"
+ 956              		.file 35 "../../../core/platform/octa/inc/platform.h"
+ 957              		.file 36 "../../../applications/examples/Project/inc/Project.h"
+ 958              		.file 37 "../../../core/drivers/SHT31/inc/sht31.h"
+ 959              		.file 38 "../../../core/platform/octa/drivers/STC3115/inc/stc3115.h"
+ 960              		.file 39 "../../../shields/Murata-dualstack/inc/murata.h"
+ 961              		.file 40 "../../../core/platform/common/inc/print.h"
+ 962              		.file 41 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Project.c
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:15     .rodata.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:25     .text.Dualstack_ApplicationCallback:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:33     .text.Dualstack_ApplicationCallback:00000000 Dualstack_ApplicationCallback
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:51     .text.Dualstack_ApplicationCallback:00000008 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:56     .rodata.batteryLevel_measurement.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:60     .text.batteryLevel_measurement:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:67     .text.batteryLevel_measurement:00000000 batteryLevel_measurement
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:109    .text.batteryLevel_measurement:00000020 $d
+                            *COM*:0000002c STC3115_BatteryData
+                            *COM*:00000004 batteryPercentage
+                            *COM*:00000004 batteryVoltage
+                            *COM*:00000030 STC3115_ConfigData
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:118    .text.StartDefaultTask:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:125    .text.StartDefaultTask:00000000 StartDefaultTask
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:152    .rodata.LoRaWAN_send.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:159    .text.LoRaWAN_send:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:166    .text.LoRaWAN_send:00000000 LoRaWAN_send
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:308    .text.LoRaWAN_send:000000a8 $d
+                            *COM*:00000008 SHTData
+                            *COM*:00000004 float_union
+                            *COM*:00000004 int32LittleEndian
+                            *COM*:00000004 txMutexId
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:321    .rodata.check_modules.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:325    .text.check_modules:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:332    .text.check_modules:00000000 check_modules
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:378    .text.check_modules:00000024 $d
+                            *COM*:00000008 short_UID
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:385    .rodata.murata_process_rx_response.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:389    .text.murata_process_rx_response:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:396    .text.murata_process_rx_response:00000000 murata_process_rx_response
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:462    .text.murata_process_rx_response:0000003c $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:468    .rodata.main.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:472    .text.main:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:479    .text.main:00000000 main
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:686    .text.main:00000114 $d
+                            *COM*:0000004c common_I2C
+                            *COM*:00000004 defaultTaskHandle
+                            *COM*:00000004 murata_rx_processing_handle
+                            *COM*:00000004 iwdgTimId
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:779    .text.temp_hum_measurement:00000000 temp_hum_measurement
+                            *COM*:00000004 temp_hum_timer_id
+                            *COM*:00000004 batteryTimId
+                            *COM*:00000004 loraWANTimId
+                            *COM*:00000004 moduleCheckTimId
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:714    .rodata.print_temp_hum.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:721    .text.print_temp_hum:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:728    .text.print_temp_hum:00000000 print_temp_hum
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:765    .text.print_temp_hum:00000028 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:772    .text.temp_hum_measurement:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:802    .text.temp_hum_measurement:00000010 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:913    .bss.murata_data_ready:00000000 murata_data_ready
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:919    .bss.murata_init:00000000 murata_init
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:907    .bss.LoRaWAN_Counter:00000000 LoRaWAN_Counter
+                            *COM*:00000004 threadToNotify
+                            *COM*:00000004 murata_reset_pin
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 26
+
+
+                            *COM*:00000004 murata_wakeup_pin
+                            *COM*:00000004 temp
+                            *COM*:00000004 humidity
+                            *COM*:00000001 _i2caddr
+                            *COM*:00000004 SHThi2cLib
+                            *COM*:00000004 murata_rx_process_mutex_id
+                            *COM*:0000002c P3_header
+                            *COM*:0000002c P2_header
+                            *COM*:0000002c P1_header
+                            *COM*:00000001 stackversion_patch
+                            *COM*:00000001 stackversion_minor
+                            *COM*:00000001 stackversion_major
+                            *COM*:00000001 appversion_patch
+                            *COM*:00000001 appversion_minor
+                            *COM*:00000001 appversion_major
+                            *COM*:00000001 hard_reset
+                            *COM*:00000001 wd_reset
+                            *COM*:00000008 octa_uid
+                            *COM*:00000002 uint16LittleEndian
+                            *COM*:00000002 int16LittleEndian
+                            *COM*:00000004 uint32LittleEndian
+                            *COM*:00000004 rtosprintHandle
+                            *COM*:00000024 hrtc
+                            *COM*:00000064 FLASH_SPI
+                            *COM*:00000064 P3_SPI
+                            *COM*:00000064 P2_SPI
+                            *COM*:00000064 P1_SPI
+                            *COM*:0000004c P3_I2C
+                            *COM*:0000004c P2_I2C
+                            *COM*:0000004c P1_I2C
+                            *COM*:00000078 P3_UART
+                            *COM*:00000078 P2_UART
+                            *COM*:00000078 P1_UART
+                            *COM*:00000078 FTDI_UART
+                            *COM*:00000078 BLE_UART
+                            *COM*:00000078 USB_UART
+                            *COM*:00000010 hiwdg
+                            *COM*:00000008 P3_DIO6
+                            *COM*:00000008 P3_DIO5
+                            *COM*:00000008 P3_DIO4
+                            *COM*:00000008 P3_DIO3
+                            *COM*:00000008 P3_DIO2
+                            *COM*:00000008 P3_DIO1
+                            *COM*:00000008 P2_DIO6
+                            *COM*:00000008 P2_DIO5
+                            *COM*:00000008 P2_DIO4
+                            *COM*:00000008 P2_DIO3
+                            *COM*:00000008 P2_DIO2
+                            *COM*:00000008 P2_DIO1
+                            *COM*:00000008 P1_DIO6
+                            *COM*:00000008 P1_DIO5
+                            *COM*:00000008 P1_DIO4
+                            *COM*:00000008 P1_DIO3
+                            *COM*:00000008 P1_DIO2
+                            *COM*:00000008 P1_DIO1
+                            *COM*:00000040 htim6
+                            *COM*:00000040 htim1
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s 			page 27
+
+
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:886    .rodata:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:903    .bss.LoRaWAN_Counter:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:914    .bss.murata_data_ready:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccc3FzRb.s:920    .bss.murata_init:00000000 $d
+
+UNDEFINED SYMBOLS
+GasGauge_Task
+printf
+osDelay
+osMutexWait
+Murata_LoRaWAN_Send
+osMutexRelease
+printINF
+Murata_Initialize
+Murata_toggleResetPin
+ulTaskNotifyTake
+Murata_process_fifo
+Initialize_Platform
+GasGauge_Initialization
+setI2CInterface_SHT31
+SHT31_begin
+osThreadCreate
+UART_SetApplicationCallback
+osMutexCreate
+Murata_SetProcessingThread
+IWDG_feed
+osTimerCreate
+osTimerStart
+Murata_LoRaWAN_Join
+osKernelStart
+__aeabi_f2d
+SHT31_get_temp_hum
