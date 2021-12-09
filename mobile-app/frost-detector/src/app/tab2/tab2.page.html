@@ -7,16 +7,49 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Sensor History</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-list *ngFor="let data of sensor_data">
-    <ion-item>
-      <ion-label>{{ data.uplink_message.frm_payload }}</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+
+  <br>
+
+
+
+  <ion-row style="border-bottom: groove;" *ngFor="let data of all_sensor_data">
+    <ion-col col-4>
+      <ion-row>
+        <ion-col col-4>
+          <b>Reading {{ data.id }}</b>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Temperature: {{ data.temperature.toFixed(2) }} °C</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Relative humidity: {{ data.humidity.toFixed(2) }} %</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Battery charge: {{ data.battery_charge }} mV</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Device ID: {{ data.device_id }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Date: {{ data.created_at }}</ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  
 
 </ion-content>
