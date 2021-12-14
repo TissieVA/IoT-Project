@@ -29,12 +29,22 @@
     </ion-row>
   </ion-grid>
 
-  <ion-footer>
-    <ion-toolbar>
-      <ion-button expand="block">Connect</ion-button>
-      <ion-button expand="block" disabled="true">Update Settings</ion-button>
-    </ion-toolbar>
-  </ion-footer>
-  
+  <br>
+
+  <ion-list>
+    <ion-card-content ion-item *ngFor="let device of devices">
+      <p>{{device.name || 'Unnamed'}}</p>
+      <p>{{device.id}}</p>
+      <p> RSSI: {{device.rssi}}</p>
+    </ion-card-content>
+  </ion-list>
 
 </ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="scan()">Connect</ion-button>
+    <ion-button expand="block" disabled="true">Update Settings</ion-button>
+  </ion-toolbar>
+</ion-footer>
