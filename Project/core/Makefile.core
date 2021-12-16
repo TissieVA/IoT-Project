@@ -156,6 +156,15 @@ else
 endif
 
 #######################################
+# useBLE define
+#######################################
+ifeq ($(USE_BLE),1)
+	USER_DEFINES += -DUSE_BLE=1
+else
+	USER_DEFINES += -DUES_BLE=0
+endif
+
+#######################################
 # Low power define
 #######################################
 ifndef LOW_POWER
