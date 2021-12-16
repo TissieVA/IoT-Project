@@ -22,12 +22,12 @@ export class Tab3Page {
     this.setStatus('Scanning for Bluetooth LE Devices');
     this.devices = [];  // clear list
 
-    this.ble.scan([], 30).subscribe(
+    this.ble.scan([], 10).subscribe(
       device => this.onDeviceDiscovered(device), 
       error => this.scanError(error)
     );
 
-    setTimeout(this.setStatus.bind(this), 30000, 'Scan complete');
+    setTimeout(this.setStatus.bind(this), 10000, 'Scan complete');
   }
 
   onDeviceDiscovered(device) {
