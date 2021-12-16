@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FCM } from '@awesome-cordova-plugins/fcm/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +8,13 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  constructor(private fcm: FCM) {}
+
+  // getToken() {
+  //   this.fcm.getToken().then(token => {
+  //     // Register your new token in your back-end if you want
+  //     // backend.registerToken(token);
+  //   });
+  // }
 
 }

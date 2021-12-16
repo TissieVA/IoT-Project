@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.uantwerpen.frostdetector',
   appName: 'frost-detector',
   webDir: 'www',
   bundledWebRuntime: false

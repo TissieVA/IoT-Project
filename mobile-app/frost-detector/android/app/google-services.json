@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "796345394257",
+    "project_id": "frostdetector",
+    "storage_bucket": "frostdetector.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796345394257:android:d8ae0d2fe4a1f48290c470",
+        "android_client_info": {
+          "package_name": "com.uantwerpen.frostdetector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796345394257-00n4iun5bcg6bvmohh7l0rhtm4bl11r3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9pgXqIar8Ajsr1qFbp8S9rhg6oy7xSvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796345394257-00n4iun5bcg6bvmohh7l0rhtm4bl11r3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
