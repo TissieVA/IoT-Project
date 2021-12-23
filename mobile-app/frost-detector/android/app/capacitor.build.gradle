@@ -12,10 +12,11 @@ dependencies {
     implementation project(':capacitor-app')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-status-bar')
 
 }
-apply from: "../../node_modules/cordova-plugin-fcm-with-dependecy-updated/src/android/FCMPlugin.gradle"
+
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()
