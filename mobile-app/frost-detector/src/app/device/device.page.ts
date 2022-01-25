@@ -13,6 +13,8 @@ export class DevicePage implements OnInit {
   statusMessage: string;
   isConnected: boolean = false;
   dateTimeFromPicker: any;
+  serviceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"; //Nordic UART Service
+  rxCharacteristic = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"; //Write data to the RX Characteristic to send it on to the UART interface
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -46,7 +48,7 @@ export class DevicePage implements OnInit {
   updateAlarmOverBLE() {
     // Convert datetime in a 3 byte array with time values
     var data = this.getHexTimeFromDateTime(this.dateTimeFromPicker);
-    //this.ble.write(this.peripheral, "ccc0", "ccc1", data.buffer);
+    this.ble.write(this.peripheral, this.serviceUUID, this.rxCharacteristic, data.buffer);
   }
 
   getHexTimeFromDateTime(dateTime){
