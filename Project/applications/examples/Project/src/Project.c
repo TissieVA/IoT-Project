@@ -91,9 +91,11 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
 
-  osTimerDef(UART_Tim, UART_Receive);
-  UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
-  osTimerStart(UART_TimId, UART_INTERVAL * 100);
+
+  //! NEEDS TO BE UNCOMMENTED WHEN BUTTON IS PRESSED TO CHANGE TIME
+  // osTimerDef(UART_Tim, UART_Receive);
+  // UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
+  // osTimerStart(UART_TimId, UART_INTERVAL * 100);
 
 
 //Join before starting the kernel
