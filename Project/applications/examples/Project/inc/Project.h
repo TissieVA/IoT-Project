@@ -18,6 +18,7 @@ osTimerId loraWANTimId;
 osTimerId moduleCheckTimId;
 osMutexId txMutexId;
 osMutexId murata_rx_process_mutex_id;
+osTimerId sleepTimId;
 
 void batteryLevel_measurement(void const *argument);
 void StartDefaultTask(void const *argument);
