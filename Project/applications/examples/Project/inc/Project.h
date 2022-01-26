@@ -31,6 +31,10 @@ void check_modules(void const *argument);
 void murata_process_rx_response(void const *argument);
 void Dualstack_ApplicationCallback(void);
 
+void enterSleep(void);
+void wakeUp(void);
+void startBLE(void);
+
 #ifdef __cplusplus
 }
 #endif

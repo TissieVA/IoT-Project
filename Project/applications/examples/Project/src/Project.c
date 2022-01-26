@@ -44,7 +44,7 @@ int main(void)
   HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
   GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
-  GPIO_SetApplicationCallback(startBLE, OCTA_BTN1_Pin);
+  GPIO_SetApplicationCallback(startBLE, OCTA_BTN2_Pin);
 
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
