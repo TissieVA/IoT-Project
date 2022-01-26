@@ -13,8 +13,9 @@ export class DevicePage implements OnInit {
   statusMessage: string;
   isConnected: boolean = false;
   dateTimeFromPicker: any;
-  serviceUUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"; //Nordic UART Service
-  rxCharacteristic = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"; //Write data to the RX Characteristic to send it on to the UART interface
+  serviceUUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e'; //Nordic UART Service
+  rxCharacteristic = '6e400002-b5a3-f393-e0a9-e50e24dcca9e'; //Write data to the RX Characteristic to send it on to the UART interface
+  txCharacteristic = '6e400003-b5a3-f393-e0a9-e50e24dcca9e'; 
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -48,7 +49,7 @@ export class DevicePage implements OnInit {
   updateAlarmOverBLE() {
     // Convert datetime in a 3 byte array with time values
     var data = this.getHexTimeFromDateTime(this.dateTimeFromPicker);
-    this.ble.write(this.peripheral, this.serviceUUID, this.rxCharacteristic, data.buffer);
+    this.ble.writeWithoutResponse(this.peripheral, this.serviceUUID, this.rxCharacteristic, data.buffer);
   }
 
   getHexTimeFromDateTime(dateTime){
@@ -59,6 +60,14 @@ export class DevicePage implements OnInit {
     data[1] = t.split(':')[1].toString(16); // minutes
     data[2] = (t.split(':')[2]).split('.')[0].toString(16); // seconds
     return data;
+  }
+
+  stringToBytes(string) {
+    var array = new Uint8Array(string.length);
+    for (var i = 0, l = string.length; i < l; i++) {
+        array[i] = string.charCodeAt(i);
+    }
+    return array.buffer;
   }
 
   // Disconnect peripheral when leaving the page
