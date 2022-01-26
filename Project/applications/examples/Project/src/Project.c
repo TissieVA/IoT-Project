@@ -30,6 +30,21 @@ float SHTData[2];
 int main(void)
 {
   Initialize_Platform();
+  //initialize push button pins
+  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
+  //enable interrupts
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+  GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
+  GPIO_SetApplicationCallback(startBLE, OCTA_BTN1_Pin);
 
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
@@ -86,6 +101,11 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
 
+  osTimerDef(sleep_Tim, enterSleep);
+  sleepTimId = osTimerCreate(osTimer(sleep_Tim), osTimerPeriodic, NULL);
+  osTimerStart(sleepTimId, NULL);
+
+
 
 //Join before starting the kernel
   Murata_LoRaWAN_Join();
@@ -96,6 +116,23 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   {
   }
 
+}
+
+void enterSleep(void)
+{
+    HAL_SuspendTick();
+    HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+    HAL_ResumeTick();
+}
+
+void wakeUp(void)
+{
+  printf("WAKE UP");
+}
+
+void startBLE(void)
+{
+  //Do BLE stuff
 }
 
 // Battery Level measurement
