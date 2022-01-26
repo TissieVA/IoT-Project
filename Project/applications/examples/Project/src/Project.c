@@ -11,21 +11,25 @@
 #define LORAWAN_INTERVAL        30                //seconds
 #define MODULE_CHECK_INTERVAL   3600              //seconds
 #define LORA_MESSAGE_SIZE       10                //bytes
+#define UART_INTERVAL           1                 //seconds 
 
-//Murata Code
+// Murata Code
 uint16_t LoRaWAN_Counter = 0;
 uint8_t murata_init = 0;
 uint64_t short_UID;
 uint8_t murata_data_ready = 0;
 
-//Battery Level Code
+// Battery Level Code
 STC3115_ConfigData_TypeDef STC3115_ConfigData;
 STC3115_BatteryData_TypeDef STC3115_BatteryData;
 int batteryPercentage, batteryVoltage;
 
-//Temp/Hum Code
-osTimerId temp_hum_timer_id;
+// Temp/Hum Code
+osTimerId temp_hum_timer_id, UART_TimId;
 float SHTData[2];
+
+// UART Code
+uint8_t response[50] = {0};
 
 int main(void)
 {
@@ -33,7 +37,7 @@ int main(void)
 
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
-//
+
 
 //SHT (van temp/hum)
   setI2CInterface_SHT31(&common_I2C);
@@ -41,7 +45,7 @@ int main(void)
 
   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-//
+
 
 //Lorawan Code
 murata_init = Murata_Initialize(short_UID); //short_UID = devEUI
@@ -55,7 +59,8 @@ if (murata_init)
 // TX MUTEX ensuring no transmits are happening at the same time
 osMutexDef(txMutex);
 txMutexId = osMutexCreate(osMutex(txMutex));
-// Thread gemaakt voor murata acties
+
+// Thread made for murata actions
 osThreadDef(murata_rx_processing, murata_process_rx_response, osPriorityNormal, 0, 512);
 murata_rx_processing_handle = osThreadCreate(osThread(murata_rx_processing), NULL);
 
@@ -86,6 +91,10 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
 
+  osTimerDef(UART_Tim, UART_Receive);
+  UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
+  osTimerStart(UART_TimId, UART_INTERVAL * 100);
+
 
 //Join before starting the kernel
   Murata_LoRaWAN_Join();
@@ -96,6 +105,15 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   {
   }
 
+}
+//Listen on the UART if data is being sent from the BLE chip
+void UART_Receive(void)
+{
+    HAL_UART_Abort(&BLE_UART);
+    int result = HAL_UART_Receive(&BLE_UART, response, 50, 1000);
+    if(result == HAL_OK){
+      printINF("The Response is: %s\n\r", response);
+    }
 }
 
 // Battery Level measurement
@@ -108,7 +126,7 @@ void batteryLevel_measurement(void const *argument)
 }
 
 // Temperature and Humidity measurement
-void temp_hum_measurement(void)
+void temp_hum_measurement(void) 
 {
   SHT31_get_temp_hum(SHTData);
   print_temp_hum();
@@ -210,5 +228,3 @@ void Dualstack_ApplicationCallback(void)
 {
   murata_data_ready = 1;
 }
-
-

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
   28:../../../core/platform/octa/src/octa.c ****     OCTA_IWDG_Init();
   29:../../../core/platform/octa/src/octa.c ****     FLASH_SPI_Init();
   30:../../../core/platform/octa/src/octa.c ****     common_I2C_Init();
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 2
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 2
 
 
   31:../../../core/platform/octa/src/octa.c ****     RTC_Init();
@@ -66,11 +66,11 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
   33:../../../core/platform/octa/src/octa.c ****     #if USE_FTDI_LOGGING
   34:../../../core/platform/octa/src/octa.c ****         FTDI_UART_Init(115200);
   35:../../../core/platform/octa/src/octa.c ****     #endif
-  36:../../../core/platform/octa/src/octa.c ****     #if USE_BOOTLOADER
+  36:../../../core/platform/octa/src/octa.c ****     #if USE_BOOTLOADER || USE_BLE
   37:../../../core/platform/octa/src/octa.c ****         printINF("\r\nusing bootloader, initializing BLE UART\r\n");
   38:../../../core/platform/octa/src/octa.c ****         BLE_UART_Init(115200); 
-  39:../../../core/platform/octa/src/octa.c ****         bootloader_initialize(&BLE_UART);
-  40:../../../core/platform/octa/src/octa.c ****         UART_BLE_SetRxCallback(bootloader_parse_data);   
+  39:../../../core/platform/octa/src/octa.c ****         //bootloader_initialize(&BLE_UART);
+  40:../../../core/platform/octa/src/octa.c ****         //UART_BLE_SetRxCallback(bootloader_parse_data);   
   41:../../../core/platform/octa/src/octa.c ****     #endif
   42:../../../core/platform/octa/src/octa.c **** 
   43:../../../core/platform/octa/src/octa.c ****     // Get Unique ID of octa
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
   41              		.loc 1 72 5 view .LVU2
   42 0006 FFF7FEFF 		bl	SystemClock_Config
   43              	.LVL1:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 3
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 3
 
 
   73:../../../core/platform/octa/src/octa.c **** 
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
   92:../../../core/platform/octa/src/octa.c ****     HAL_UART_DeInit(&USB_UART);
   81              		.loc 1 92 5 view .LVU9
   82 0002 0648     		ldr	r0, .L5
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 4
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 4
 
 
   83 0004 FFF7FEFF 		bl	HAL_UART_DeInit
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  127              		.loc 1 104 5 is_stmt 1 view .LVU17
  128              		.loc 1 104 26 is_stmt 0 view .LVU18
  129 0006 0A4A     		ldr	r2, .L8+4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 5
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 5
 
 
  130 0008 5A60     		str	r2, [r3, #4]
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  175 0048 00000000 		.word	P1_DIO4
  176 004c 00000000 		.word	P1_DIO5
  177 0050 00000000 		.word	P1_DIO6
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 6
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 6
 
 
  178              		.cfi_endproc
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  220 0018 5A61     		str	r2, [r3, #20]
  128:../../../core/platform/octa/src/octa.c ****     P2_header.DIO3 = &P2_DIO3;
  221              		.loc 1 128 5 is_stmt 1 view .LVU49
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 7
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 7
 
 
  222              		.loc 1 128 20 is_stmt 0 view .LVU50
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  270              		.loc 1 136 5 view .LVU59
  271              		.loc 1 136 22 is_stmt 0 view .LVU60
  272 0000 0A4B     		ldr	r3, .L14
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 8
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 8
 
 
  273 0002 0322     		movs	r2, #3
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  312 002a 7047     		bx	lr
  313              	.L15:
  314              		.align	2
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 9
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 9
 
 
  315              	.L14:
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  366 001a 00BF     		.align	2
  367              	.L18:
  368 001c 9075FF1F 		.word	536835472
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 10
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 10
 
 
  369 0020 9475FF1F 		.word	536835476
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  172:../../../core/platform/octa/src/octa.c ****             break;
  173:../../../core/platform/octa/src/octa.c ****     }
  174:../../../core/platform/octa/src/octa.c **** }
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 11
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 11
 
 
  410              		.loc 1 174 1 view .LVU90
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  177:../../../core/platform/octa/src/octa.c **** {
  458              		.loc 1 177 1 is_stmt 1 view -0
  459              		.cfi_startproc
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 12
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 12
 
 
  460              		@ args = 44, pretend = 16, frame = 0
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  498 0024 FFF7FEFF 		bl	P1_I2C_Init
  499              	.LVL14:
  182:../../../core/platform/octa/src/octa.c ****         case 2:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 13
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 13
 
 
  500              		.loc 1 182 13 view .LVU104
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  548 0014 032B     		cmp	r3, #3
  549 0016 06D0     		beq	.L34
  550              	.L32:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 14
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 14
 
 
  197:../../../core/platform/octa/src/octa.c ****     {
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  584              		.section	.text.platform_getHeader,"ax",%progbits
  585              		.align	1
  586              		.global	platform_getHeader
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 15
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 15
 
 
  587              		.syntax unified
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  228:../../../core/platform/octa/src/octa.c ****         struct OCTA_header invalid; 
  625              		.loc 1 228 9 is_stmt 1 view .LVU125
  229:../../../core/platform/octa/src/octa.c ****         invalid.active = 0;
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 16
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 16
 
 
  626              		.loc 1 229 9 view .LVU126
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  671              	.L38:
  672              	.LCFI22:
  673              		.cfi_restore_state
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 17
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 17
 
 
  674              	.LBB3:
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  718              	.LBE3:
  719              		.cfi_endproc
  720              	.LFE142:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 18
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 18
 
 
  722              		.global	__aeabi_uldivmod
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  765              		.loc 1 241 5 is_stmt 1 discriminator 1 view .LVU154
  242:../../../core/platform/octa/src/octa.c ****         *out = "0123456789"[hval % hbase];
  766              		.loc 1 242 9 discriminator 1 view .LVU155
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 19
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 19
 
 
  767              		.loc 1 242 34 is_stmt 0 discriminator 1 view .LVU156
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  813              		.loc 1 250 1 is_stmt 0 view .LVU169
  814 004e A9F10200 		sub	r0, r9, #2
  815              	.LVL37:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 20
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 20
 
 
  816              		.loc 1 250 1 view .LVU170
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  851              		.align	2
  852              	.LC9:
  853 008c 506C6174 		.ascii	"Platform: octa + nucleo\015\000"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 21
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 21
 
 
  853      666F726D 
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  883      2A2A2A2A 
  883      2A2A2A2A 
  884 014d 2A2A2A2A 		.ascii	"********\015\012\015\000"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 22
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 22
 
 
  884      2A2A2A2A 
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  260:../../../core/platform/octa/src/octa.c ****         printf("unknown application name & version\r\n");
  261:../../../core/platform/octa/src/octa.c ****     #endif
  262:../../../core/platform/octa/src/octa.c ****     #ifdef STACK_VERSION
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 23
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 23
 
 
  263:../../../core/platform/octa/src/octa.c ****         printf("Stack version: %s\r\n", STR(STACK_VERSION));
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  286:../../../core/platform/octa/src/octa.c ****         printf(", lowpower mode %d", LOW_POWER);
  960              		.loc 1 286 9 view .LVU182
  961 005a 0021     		movs	r1, #0
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 24
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 24
 
 
  962 005c 4648     		ldr	r0, .L56+68
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  996 008e 3F48     		ldr	r0, .L56+88
  997 0090 FFF7FEFF 		bl	printf
  998              	.LVL53:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 25
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 25
 
 
  304:../../../core/platform/octa/src/octa.c ****     for (const char* p = UIDString; *p; ++p)
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  346:../../../core/platform/octa/src/octa.c ****         printf("*   ROD at connector P%d, v%s\r\n", ROD_CONNECTOR, STR(ROD_VERSION));
  347:../../../core/platform/octa/src/octa.c ****     #endif
  348:../../../core/platform/octa/src/octa.c ****     #ifdef SIGFOX_CONNECTOR
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 26
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 26
 
 
  349:../../../core/platform/octa/src/octa.c ****         printf("*   SigFox at connector P%d, v%s\r\n", SIGFOX_CONNECTOR, STR(SIGFOX_VERSION));
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  1039 00ca C820     		movs	r0, #200
  1040 00cc FFF7FEFF 		bl	HAL_Delay
  1041              	.LVL62:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 27
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 27
 
 
  375:../../../core/platform/octa/src/octa.c ****     HAL_GPIO_TogglePin(OCTA_GLED_GPIO_Port, OCTA_GLED_Pin);
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  1086 011e 0121     		movs	r1, #1
  1087 0120 2846     		mov	r0, r5
  1088 0122 FFF7FEFF 		bl	HAL_GPIO_TogglePin
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 28
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 28
 
 
  1089              	.LVL72:
@@ -1670,547 +1670,566 @@ ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 1
  1134              		.section	.rodata.OCTA_Initialize_Common_Peripherals.str1.4,"aMS",%progbits,1
  1135              		.align	2
  1136              	.LC20:
- 1137 0000 53746172 		.ascii	"Startup after IWDG timeout\015\012\015\012\000"
- 1137      74757020 
- 1137      61667465 
- 1137      72204957 
- 1137      44472074 
- 1138 001f 00       		.align	2
- 1139              	.LC21:
- 1140 0020 53746172 		.ascii	"Startup from power cycle\015\012\015\012\000"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 29
+ 1137 0000 0D0A7573 		.ascii	"\015\012using bootloader, initializing BLE UART\015"
+ 1137      696E6720 
+ 1137      626F6F74 
+ 1137      6C6F6164 
+ 1137      65722C20 
+ 1138 002a 0A00     		.ascii	"\012\000"
+ 1139              		.align	2
+ 1140              	.LC21:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 29
 
 
- 1140      74757020 
- 1140      66726F6D 
- 1140      20706F77 
- 1140      65722063 
- 1141              		.section	.text.OCTA_Initialize_Common_Peripherals,"ax",%progbits
- 1142              		.align	1
- 1143              		.global	OCTA_Initialize_Common_Peripherals
- 1144              		.syntax unified
- 1145              		.thumb
- 1146              		.thumb_func
- 1147              		.fpu fpv4-sp-d16
- 1149              	OCTA_Initialize_Common_Peripherals:
- 1150              	.LFB132:
+ 1141 002c 53746172 		.ascii	"Startup after IWDG timeout\015\012\015\012\000"
+ 1141      74757020 
+ 1141      61667465 
+ 1141      72204957 
+ 1141      44472074 
+ 1142 004b 00       		.align	2
+ 1143              	.LC22:
+ 1144 004c 53746172 		.ascii	"Startup from power cycle\015\012\015\012\000"
+ 1144      74757020 
+ 1144      66726F6D 
+ 1144      20706F77 
+ 1144      65722063 
+ 1145              		.section	.text.OCTA_Initialize_Common_Peripherals,"ax",%progbits
+ 1146              		.align	1
+ 1147              		.global	OCTA_Initialize_Common_Peripherals
+ 1148              		.syntax unified
+ 1149              		.thumb
+ 1150              		.thumb_func
+ 1151              		.fpu fpv4-sp-d16
+ 1153              	OCTA_Initialize_Common_Peripherals:
+ 1154              	.LFB132:
   19:../../../core/platform/octa/src/octa.c ****     #if USE_BOOTLOADER
- 1151              		.loc 1 19 1 is_stmt 1 view -0
- 1152              		.cfi_startproc
- 1153              		@ args = 0, pretend = 0, frame = 0
- 1154              		@ frame_needed = 0, uses_anonymous_args = 0
- 1155 0000 08B5     		push	{r3, lr}
- 1156              	.LCFI27:
- 1157              		.cfi_def_cfa_offset 8
- 1158              		.cfi_offset 3, -8
- 1159              		.cfi_offset 14, -4
+ 1155              		.loc 1 19 1 is_stmt 1 view -0
+ 1156              		.cfi_startproc
+ 1157              		@ args = 0, pretend = 0, frame = 0
+ 1158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1159 0000 08B5     		push	{r3, lr}
+ 1160              	.LCFI27:
+ 1161              		.cfi_def_cfa_offset 8
+ 1162              		.cfi_offset 3, -8
+ 1163              		.cfi_offset 14, -4
   24:../../../core/platform/octa/src/octa.c ****     SystemClock_Config();
- 1160              		.loc 1 24 5 view .LVU217
- 1161 0002 FFF7FEFF 		bl	HAL_Init
- 1162              	.LVL74:
+ 1164              		.loc 1 24 5 view .LVU217
+ 1165 0002 FFF7FEFF 		bl	HAL_Init
+ 1166              	.LVL74:
   25:../../../core/platform/octa/src/octa.c **** 
- 1163              		.loc 1 25 5 view .LVU218
- 1164 0006 FFF7FEFF 		bl	SystemClock_Config
- 1165              	.LVL75:
+ 1167              		.loc 1 25 5 view .LVU218
+ 1168 0006 FFF7FEFF 		bl	SystemClock_Config
+ 1169              	.LVL75:
   27:../../../core/platform/octa/src/octa.c ****     OCTA_IWDG_Init();
- 1166              		.loc 1 27 5 view .LVU219
- 1167 000a FFF7FEFF 		bl	OCTA_GPIO_Init
- 1168              	.LVL76:
+ 1170              		.loc 1 27 5 view .LVU219
+ 1171 000a FFF7FEFF 		bl	OCTA_GPIO_Init
+ 1172              	.LVL76:
   28:../../../core/platform/octa/src/octa.c ****     FLASH_SPI_Init();
- 1169              		.loc 1 28 5 view .LVU220
- 1170 000e FFF7FEFF 		bl	OCTA_IWDG_Init
- 1171              	.LVL77:
+ 1173              		.loc 1 28 5 view .LVU220
+ 1174 000e FFF7FEFF 		bl	OCTA_IWDG_Init
+ 1175              	.LVL77:
   29:../../../core/platform/octa/src/octa.c ****     common_I2C_Init();
- 1172              		.loc 1 29 5 view .LVU221
- 1173 0012 FFF7FEFF 		bl	FLASH_SPI_Init
- 1174              	.LVL78:
+ 1176              		.loc 1 29 5 view .LVU221
+ 1177 0012 FFF7FEFF 		bl	FLASH_SPI_Init
+ 1178              	.LVL78:
   30:../../../core/platform/octa/src/octa.c ****     RTC_Init();
- 1175              		.loc 1 30 5 view .LVU222
- 1176 0016 FFF7FEFF 		bl	common_I2C_Init
- 1177              	.LVL79:
+ 1179              		.loc 1 30 5 view .LVU222
+ 1180 0016 FFF7FEFF 		bl	common_I2C_Init
+ 1181              	.LVL79:
   31:../../../core/platform/octa/src/octa.c ****     USB_UART_Init(115200);
- 1178              		.loc 1 31 5 view .LVU223
- 1179 001a FFF7FEFF 		bl	RTC_Init
- 1180              	.LVL80:
+ 1182              		.loc 1 31 5 view .LVU223
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 30
+
+
+ 1183 001a FFF7FEFF 		bl	RTC_Init
+ 1184              	.LVL80:
   32:../../../core/platform/octa/src/octa.c ****     #if USE_FTDI_LOGGING
- 1181              		.loc 1 32 5 view .LVU224
- 1182 001e 4FF4E130 		mov	r0, #115200
- 1183 0022 FFF7FEFF 		bl	USB_UART_Init
- 1184              	.LVL81:
+ 1185              		.loc 1 32 5 view .LVU224
+ 1186 001e 4FF4E130 		mov	r0, #115200
+ 1187 0022 FFF7FEFF 		bl	USB_UART_Init
+ 1188              	.LVL81:
+  37:../../../core/platform/octa/src/octa.c ****         BLE_UART_Init(115200); 
+ 1189              		.loc 1 37 9 view .LVU225
+ 1190 0026 1A48     		ldr	r0, .L62
+ 1191 0028 FFF7FEFF 		bl	printINF
+ 1192              	.LVL82:
+  38:../../../core/platform/octa/src/octa.c ****         //bootloader_initialize(&BLE_UART);
+ 1193              		.loc 1 38 9 view .LVU226
+ 1194 002c 4FF4E130 		mov	r0, #115200
+ 1195 0030 FFF7FEFF 		bl	BLE_UART_Init
+ 1196              	.LVL83:
   44:../../../core/platform/octa/src/octa.c ****     octa_uid.u64 = short_UID;
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 30
-
-
- 1185              		.loc 1 44 5 view .LVU225
+ 1197              		.loc 1 44 5 view .LVU227
   44:../../../core/platform/octa/src/octa.c ****     octa_uid.u64 = short_UID;
- 1186              		.loc 1 44 17 is_stmt 0 view .LVU226
- 1187 0026 FFF7FEFF 		bl	get_UID
- 1188              	.LVL82:
+ 1198              		.loc 1 44 17 is_stmt 0 view .LVU228
+ 1199 0034 FFF7FEFF 		bl	get_UID
+ 1200              	.LVL84:
   44:../../../core/platform/octa/src/octa.c ****     octa_uid.u64 = short_UID;
- 1189              		.loc 1 44 15 view .LVU227
- 1190 002a 154B     		ldr	r3, .L62
- 1191 002c 1860     		str	r0, [r3]
- 1192 002e 5960     		str	r1, [r3, #4]
+ 1201              		.loc 1 44 15 view .LVU229
+ 1202 0038 164B     		ldr	r3, .L62+4
+ 1203 003a 1860     		str	r0, [r3]
+ 1204 003c 5960     		str	r1, [r3, #4]
   45:../../../core/platform/octa/src/octa.c **** 
- 1193              		.loc 1 45 5 is_stmt 1 view .LVU228
+ 1205              		.loc 1 45 5 is_stmt 1 view .LVU230
   45:../../../core/platform/octa/src/octa.c **** 
- 1194              		.loc 1 45 18 is_stmt 0 view .LVU229
- 1195 0030 144B     		ldr	r3, .L62+4
- 1196 0032 1860     		str	r0, [r3]
- 1197 0034 5960     		str	r1, [r3, #4]
+ 1206              		.loc 1 45 18 is_stmt 0 view .LVU231
+ 1207 003e 164B     		ldr	r3, .L62+8
+ 1208 0040 1860     		str	r0, [r3]
+ 1209 0042 5960     		str	r1, [r3, #4]
   48:../../../core/platform/octa/src/octa.c **** 
- 1198              		.loc 1 48 5 is_stmt 1 view .LVU230
- 1199 0036 FFF7FEFF 		bl	printWelcome
- 1200              	.LVL83:
+ 1210              		.loc 1 48 5 is_stmt 1 view .LVU232
+ 1211 0044 FFF7FEFF 		bl	printWelcome
+ 1212              	.LVL85:
   50:../../../core/platform/octa/src/octa.c ****     hard_reset = 0;
- 1201              		.loc 1 50 5 view .LVU231
+ 1213              		.loc 1 50 5 view .LVU233
   50:../../../core/platform/octa/src/octa.c ****     hard_reset = 0;
- 1202              		.loc 1 50 14 is_stmt 0 view .LVU232
- 1203 003a 0023     		movs	r3, #0
- 1204 003c 124A     		ldr	r2, .L62+8
- 1205 003e 1370     		strb	r3, [r2]
+ 1214              		.loc 1 50 14 is_stmt 0 view .LVU234
+ 1215 0048 0023     		movs	r3, #0
+ 1216 004a 144A     		ldr	r2, .L62+12
+ 1217 004c 1370     		strb	r3, [r2]
   51:../../../core/platform/octa/src/octa.c ****     if(__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST)) 
- 1206              		.loc 1 51 5 is_stmt 1 view .LVU233
+ 1218              		.loc 1 51 5 is_stmt 1 view .LVU235
   51:../../../core/platform/octa/src/octa.c ****     if(__HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST)) 
- 1207              		.loc 1 51 16 is_stmt 0 view .LVU234
- 1208 0040 124A     		ldr	r2, .L62+12
- 1209 0042 1370     		strb	r3, [r2]
+ 1219              		.loc 1 51 16 is_stmt 0 view .LVU236
+ 1220 004e 144A     		ldr	r2, .L62+16
+ 1221 0050 1370     		strb	r3, [r2]
   52:../../../core/platform/octa/src/octa.c ****     {
- 1210              		.loc 1 52 5 is_stmt 1 view .LVU235
+ 1222              		.loc 1 52 5 is_stmt 1 view .LVU237
   52:../../../core/platform/octa/src/octa.c ****     {
- 1211              		.loc 1 52 8 is_stmt 0 view .LVU236
- 1212 0044 03F18043 		add	r3, r3, #1073741824
- 1213 0048 03F50433 		add	r3, r3, #135168
- 1214 004c D3F89430 		ldr	r3, [r3, #148]
+ 1223              		.loc 1 52 8 is_stmt 0 view .LVU238
+ 1224 0052 03F18043 		add	r3, r3, #1073741824
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 31
+
+
+ 1225 0056 03F50433 		add	r3, r3, #135168
+ 1226 005a D3F89430 		ldr	r3, [r3, #148]
   52:../../../core/platform/octa/src/octa.c ****     {
- 1215              		.loc 1 52 7 view .LVU237
- 1216 0050 13F0005F 		tst	r3, #536870912
- 1217 0054 0DD0     		beq	.L59
+ 1227              		.loc 1 52 7 view .LVU239
+ 1228 005e 13F0005F 		tst	r3, #536870912
+ 1229 0062 0DD0     		beq	.L59
   54:../../../core/platform/octa/src/octa.c ****         printINF("Startup after IWDG timeout\r\n\r\n");
- 1218              		.loc 1 54 9 is_stmt 1 view .LVU238
- 1219 0056 0E4A     		ldr	r2, .L62+16
- 1220 0058 D2F89430 		ldr	r3, [r2, #148]
- 1221 005c 43F40003 		orr	r3, r3, #8388608
- 1222 0060 C2F89430 		str	r3, [r2, #148]
+ 1230              		.loc 1 54 9 is_stmt 1 view .LVU240
+ 1231 0064 0F4A     		ldr	r2, .L62+20
+ 1232 0066 D2F89430 		ldr	r3, [r2, #148]
+ 1233 006a 43F40003 		orr	r3, r3, #8388608
+ 1234 006e C2F89430 		str	r3, [r2, #148]
   55:../../../core/platform/octa/src/octa.c ****         wd_reset = 1;
- 1223              		.loc 1 55 9 view .LVU239
- 1224 0064 0B48     		ldr	r0, .L62+20
- 1225 0066 FFF7FEFF 		bl	printINF
- 1226              	.LVL84:
+ 1235              		.loc 1 55 9 view .LVU241
+ 1236 0072 0D48     		ldr	r0, .L62+24
+ 1237 0074 FFF7FEFF 		bl	printINF
+ 1238              	.LVL86:
   56:../../../core/platform/octa/src/octa.c ****     }
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 31
-
-
- 1227              		.loc 1 56 9 view .LVU240
+ 1239              		.loc 1 56 9 view .LVU242
   56:../../../core/platform/octa/src/octa.c ****     }
- 1228              		.loc 1 56 18 is_stmt 0 view .LVU241
- 1229 006a 074B     		ldr	r3, .L62+8
- 1230 006c 0122     		movs	r2, #1
- 1231 006e 1A70     		strb	r2, [r3]
- 1232              	.L58:
+ 1240              		.loc 1 56 18 is_stmt 0 view .LVU243
+ 1241 0078 084B     		ldr	r3, .L62+12
+ 1242 007a 0122     		movs	r2, #1
+ 1243 007c 1A70     		strb	r2, [r3]
+ 1244              	.L58:
   63:../../../core/platform/octa/src/octa.c **** 
- 1233              		.loc 1 63 1 view .LVU242
- 1234 0070 08BD     		pop	{r3, pc}
- 1235              	.L59:
+ 1245              		.loc 1 63 1 view .LVU244
+ 1246 007e 08BD     		pop	{r3, pc}
+ 1247              	.L59:
   60:../../../core/platform/octa/src/octa.c ****         hard_reset = 1;
- 1236              		.loc 1 60 9 is_stmt 1 view .LVU243
- 1237 0072 0948     		ldr	r0, .L62+24
- 1238 0074 FFF7FEFF 		bl	printINF
- 1239              	.LVL85:
+ 1248              		.loc 1 60 9 is_stmt 1 view .LVU245
+ 1249 0080 0A48     		ldr	r0, .L62+28
+ 1250 0082 FFF7FEFF 		bl	printINF
+ 1251              	.LVL87:
   61:../../../core/platform/octa/src/octa.c ****     }
- 1240              		.loc 1 61 9 view .LVU244
+ 1252              		.loc 1 61 9 view .LVU246
   61:../../../core/platform/octa/src/octa.c ****     }
- 1241              		.loc 1 61 20 is_stmt 0 view .LVU245
- 1242 0078 044B     		ldr	r3, .L62+12
- 1243 007a 0122     		movs	r2, #1
- 1244 007c 1A70     		strb	r2, [r3]
+ 1253              		.loc 1 61 20 is_stmt 0 view .LVU247
+ 1254 0086 064B     		ldr	r3, .L62+16
+ 1255 0088 0122     		movs	r2, #1
+ 1256 008a 1A70     		strb	r2, [r3]
   63:../../../core/platform/octa/src/octa.c **** 
- 1245              		.loc 1 63 1 view .LVU246
- 1246 007e F7E7     		b	.L58
- 1247              	.L63:
- 1248              		.align	2
- 1249              	.L62:
- 1250 0080 00000000 		.word	short_UID
- 1251 0084 00000000 		.word	octa_uid
- 1252 0088 00000000 		.word	wd_reset
- 1253 008c 00000000 		.word	hard_reset
- 1254 0090 00100240 		.word	1073876992
- 1255 0094 00000000 		.word	.LC20
- 1256 0098 20000000 		.word	.LC21
- 1257              		.cfi_endproc
- 1258              	.LFE132:
- 1260              		.section	.text.Initialize_Platform,"ax",%progbits
- 1261              		.align	1
- 1262              		.global	Initialize_Platform
- 1263              		.syntax unified
- 1264              		.thumb
- 1265              		.thumb_func
- 1266              		.fpu fpv4-sp-d16
- 1268              	Initialize_Platform:
- 1269              	.LFB131:
+ 1257              		.loc 1 63 1 view .LVU248
+ 1258 008c F7E7     		b	.L58
+ 1259              	.L63:
+ 1260 008e 00BF     		.align	2
+ 1261              	.L62:
+ 1262 0090 00000000 		.word	.LC20
+ 1263 0094 00000000 		.word	short_UID
+ 1264 0098 00000000 		.word	octa_uid
+ 1265 009c 00000000 		.word	wd_reset
+ 1266 00a0 00000000 		.word	hard_reset
+ 1267 00a4 00100240 		.word	1073876992
+ 1268 00a8 2C000000 		.word	.LC21
+ 1269 00ac 4C000000 		.word	.LC22
+ 1270              		.cfi_endproc
+ 1271              	.LFE132:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 32
+
+
+ 1273              		.section	.text.Initialize_Platform,"ax",%progbits
+ 1274              		.align	1
+ 1275              		.global	Initialize_Platform
+ 1276              		.syntax unified
+ 1277              		.thumb
+ 1278              		.thumb_func
+ 1279              		.fpu fpv4-sp-d16
+ 1281              	Initialize_Platform:
+ 1282              	.LFB131:
    7:../../../core/platform/octa/src/octa.c ****     //GPIO, IWDG, USB_UART(Logging)
- 1270              		.loc 1 7 1 is_stmt 1 view -0
- 1271              		.cfi_startproc
- 1272              		@ args = 0, pretend = 0, frame = 0
- 1273              		@ frame_needed = 0, uses_anonymous_args = 0
- 1274 0000 08B5     		push	{r3, lr}
- 1275              	.LCFI28:
- 1276              		.cfi_def_cfa_offset 8
- 1277              		.cfi_offset 3, -8
- 1278              		.cfi_offset 14, -4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 32
-
-
+ 1283              		.loc 1 7 1 is_stmt 1 view -0
+ 1284              		.cfi_startproc
+ 1285              		@ args = 0, pretend = 0, frame = 0
+ 1286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1287 0000 08B5     		push	{r3, lr}
+ 1288              	.LCFI28:
+ 1289              		.cfi_def_cfa_offset 8
+ 1290              		.cfi_offset 3, -8
+ 1291              		.cfi_offset 14, -4
    9:../../../core/platform/octa/src/octa.c ****     //P1 UART, I2C, SPI & GPIO handles
- 1279              		.loc 1 9 5 view .LVU248
- 1280 0002 FFF7FEFF 		bl	OCTA_Initialize_Common_Peripherals
- 1281              	.LVL86:
+ 1292              		.loc 1 9 5 view .LVU250
+ 1293 0002 FFF7FEFF 		bl	OCTA_Initialize_Common_Peripherals
+ 1294              	.LVL88:
   11:../../../core/platform/octa/src/octa.c ****     //P2 UART, I2C, SPI & GPIO handles
- 1282              		.loc 1 11 5 view .LVU249
- 1283 0006 FFF7FEFF 		bl	OCTA_Initialize_P1_Peripherals
- 1284              	.LVL87:
+ 1295              		.loc 1 11 5 view .LVU251
+ 1296 0006 FFF7FEFF 		bl	OCTA_Initialize_P1_Peripherals
+ 1297              	.LVL89:
   13:../../../core/platform/octa/src/octa.c ****     //P3 UART, I2C, SPI & GPIO handles
- 1285              		.loc 1 13 5 view .LVU250
- 1286 000a FFF7FEFF 		bl	OCTA_Initialize_P2_Peripherals
- 1287              	.LVL88:
+ 1298              		.loc 1 13 5 view .LVU252
+ 1299 000a FFF7FEFF 		bl	OCTA_Initialize_P2_Peripherals
+ 1300              	.LVL90:
   15:../../../core/platform/octa/src/octa.c **** }
- 1288              		.loc 1 15 5 view .LVU251
- 1289 000e FFF7FEFF 		bl	OCTA_Initialize_P3_Peripherals
- 1290              	.LVL89:
+ 1301              		.loc 1 15 5 view .LVU253
+ 1302 000e FFF7FEFF 		bl	OCTA_Initialize_P3_Peripherals
+ 1303              	.LVL91:
   16:../../../core/platform/octa/src/octa.c **** 
- 1291              		.loc 1 16 1 is_stmt 0 view .LVU252
- 1292 0012 08BD     		pop	{r3, pc}
- 1293              		.cfi_endproc
- 1294              	.LFE131:
- 1296              		.section	.text.vApplicationIdleHook,"ax",%progbits
- 1297              		.align	1
- 1298              		.global	vApplicationIdleHook
- 1299              		.syntax unified
- 1300              		.thumb
- 1301              		.thumb_func
- 1302              		.fpu fpv4-sp-d16
- 1304              	vApplicationIdleHook:
- 1305              	.LFB145:
+ 1304              		.loc 1 16 1 is_stmt 0 view .LVU254
+ 1305 0012 08BD     		pop	{r3, pc}
+ 1306              		.cfi_endproc
+ 1307              	.LFE131:
+ 1309              		.section	.text.vApplicationIdleHook,"ax",%progbits
+ 1310              		.align	1
+ 1311              		.global	vApplicationIdleHook
+ 1312              		.syntax unified
+ 1313              		.thumb
+ 1314              		.thumb_func
+ 1315              		.fpu fpv4-sp-d16
+ 1317              	vApplicationIdleHook:
+ 1318              	.LFB145:
  387:../../../core/platform/octa/src/octa.c **** 
  388:../../../core/platform/octa/src/octa.c **** void vApplicationIdleHook(void){
- 1306              		.loc 1 388 32 is_stmt 1 view -0
- 1307              		.cfi_startproc
- 1308              		@ args = 0, pretend = 0, frame = 0
- 1309              		@ frame_needed = 0, uses_anonymous_args = 0
- 1310              		@ link register save eliminated.
+ 1319              		.loc 1 388 32 is_stmt 1 view -0
+ 1320              		.cfi_startproc
+ 1321              		@ args = 0, pretend = 0, frame = 0
+ 1322              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1323              		@ link register save eliminated.
  389:../../../core/platform/octa/src/octa.c ****   #if LOW_POWER==1
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 33
+
+
  390:../../../core/platform/octa/src/octa.c ****     HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFE);
  391:../../../core/platform/octa/src/octa.c ****   #endif
  392:../../../core/platform/octa/src/octa.c **** }
- 1311              		.loc 1 392 1 view .LVU254
- 1312 0000 7047     		bx	lr
- 1313              		.cfi_endproc
- 1314              	.LFE145:
- 1316              		.section	.text.DeInitialize_Platform,"ax",%progbits
- 1317              		.align	1
- 1318              		.global	DeInitialize_Platform
- 1319              		.syntax unified
- 1320              		.thumb
- 1321              		.thumb_func
- 1322              		.fpu fpv4-sp-d16
- 1324              	DeInitialize_Platform:
- 1325              	.LFB146:
+ 1324              		.loc 1 392 1 view .LVU256
+ 1325 0000 7047     		bx	lr
+ 1326              		.cfi_endproc
+ 1327              	.LFE145:
+ 1329              		.section	.text.DeInitialize_Platform,"ax",%progbits
+ 1330              		.align	1
+ 1331              		.global	DeInitialize_Platform
+ 1332              		.syntax unified
+ 1333              		.thumb
+ 1334              		.thumb_func
+ 1335              		.fpu fpv4-sp-d16
+ 1337              	DeInitialize_Platform:
+ 1338              	.LFB146:
  393:../../../core/platform/octa/src/octa.c **** 
  394:../../../core/platform/octa/src/octa.c **** void DeInitialize_Platform(void)
  395:../../../core/platform/octa/src/octa.c **** {
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 33
-
-
- 1326              		.loc 1 395 1 view -0
- 1327              		.cfi_startproc
- 1328              		@ args = 0, pretend = 0, frame = 0
- 1329              		@ frame_needed = 0, uses_anonymous_args = 0
- 1330 0000 08B5     		push	{r3, lr}
- 1331              	.LCFI29:
- 1332              		.cfi_def_cfa_offset 8
- 1333              		.cfi_offset 3, -8
- 1334              		.cfi_offset 14, -4
+ 1339              		.loc 1 395 1 view -0
+ 1340              		.cfi_startproc
+ 1341              		@ args = 0, pretend = 0, frame = 0
+ 1342              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1343 0000 08B5     		push	{r3, lr}
+ 1344              	.LCFI29:
+ 1345              		.cfi_def_cfa_offset 8
+ 1346              		.cfi_offset 3, -8
+ 1347              		.cfi_offset 14, -4
  396:../../../core/platform/octa/src/octa.c ****     OCTA_DeInitialize_Common_Peripherals();
- 1335              		.loc 1 396 5 view .LVU256
- 1336 0002 FFF7FEFF 		bl	OCTA_DeInitialize_Common_Peripherals
- 1337              	.LVL90:
+ 1348              		.loc 1 396 5 view .LVU258
+ 1349 0002 FFF7FEFF 		bl	OCTA_DeInitialize_Common_Peripherals
+ 1350              	.LVL92:
  397:../../../core/platform/octa/src/octa.c **** 
  398:../../../core/platform/octa/src/octa.c ****     //app specific deinit
  399:../../../core/platform/octa/src/octa.c ****     if(DeInit_Application_Function)
- 1338              		.loc 1 399 5 view .LVU257
- 1339              		.loc 1 399 8 is_stmt 0 view .LVU258
- 1340 0006 024B     		ldr	r3, .L70
- 1341 0008 1B68     		ldr	r3, [r3]
- 1342              		.loc 1 399 7 view .LVU259
- 1343 000a 03B1     		cbz	r3, .L67
+ 1351              		.loc 1 399 5 view .LVU259
+ 1352              		.loc 1 399 8 is_stmt 0 view .LVU260
+ 1353 0006 024B     		ldr	r3, .L70
+ 1354 0008 1B68     		ldr	r3, [r3]
+ 1355              		.loc 1 399 7 view .LVU261
+ 1356 000a 03B1     		cbz	r3, .L67
  400:../../../core/platform/octa/src/octa.c ****     {
  401:../../../core/platform/octa/src/octa.c ****         DeInit_Application_Function();
- 1344              		.loc 1 401 9 is_stmt 1 view .LVU260
- 1345 000c 9847     		blx	r3
- 1346              	.LVL91:
- 1347              	.L67:
+ 1357              		.loc 1 401 9 is_stmt 1 view .LVU262
+ 1358 000c 9847     		blx	r3
+ 1359              	.LVL93:
+ 1360              	.L67:
  402:../../../core/platform/octa/src/octa.c ****     }
  403:../../../core/platform/octa/src/octa.c **** }
- 1348              		.loc 1 403 1 is_stmt 0 view .LVU261
- 1349 000e 08BD     		pop	{r3, pc}
- 1350              	.L71:
- 1351              		.align	2
- 1352              	.L70:
- 1353 0010 00000000 		.word	.LANCHOR1
- 1354              		.cfi_endproc
- 1355              	.LFE146:
- 1357              		.section	.text.ReInitialize_Platform,"ax",%progbits
- 1358              		.align	1
- 1359              		.global	ReInitialize_Platform
- 1360              		.syntax unified
- 1361              		.thumb
- 1362              		.thumb_func
- 1363              		.fpu fpv4-sp-d16
- 1365              	ReInitialize_Platform:
- 1366              	.LFB147:
+ 1361              		.loc 1 403 1 is_stmt 0 view .LVU263
+ 1362 000e 08BD     		pop	{r3, pc}
+ 1363              	.L71:
+ 1364              		.align	2
+ 1365              	.L70:
+ 1366 0010 00000000 		.word	.LANCHOR1
+ 1367              		.cfi_endproc
+ 1368              	.LFE146:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 34
+
+
+ 1370              		.section	.text.ReInitialize_Platform,"ax",%progbits
+ 1371              		.align	1
+ 1372              		.global	ReInitialize_Platform
+ 1373              		.syntax unified
+ 1374              		.thumb
+ 1375              		.thumb_func
+ 1376              		.fpu fpv4-sp-d16
+ 1378              	ReInitialize_Platform:
+ 1379              	.LFB147:
  404:../../../core/platform/octa/src/octa.c **** 
  405:../../../core/platform/octa/src/octa.c **** void ReInitialize_Platform(void)
  406:../../../core/platform/octa/src/octa.c **** {
- 1367              		.loc 1 406 1 is_stmt 1 view -0
- 1368              		.cfi_startproc
- 1369              		@ args = 0, pretend = 0, frame = 0
- 1370              		@ frame_needed = 0, uses_anonymous_args = 0
- 1371 0000 08B5     		push	{r3, lr}
- 1372              	.LCFI30:
- 1373              		.cfi_def_cfa_offset 8
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 34
-
-
- 1374              		.cfi_offset 3, -8
- 1375              		.cfi_offset 14, -4
+ 1380              		.loc 1 406 1 is_stmt 1 view -0
+ 1381              		.cfi_startproc
+ 1382              		@ args = 0, pretend = 0, frame = 0
+ 1383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1384 0000 08B5     		push	{r3, lr}
+ 1385              	.LCFI30:
+ 1386              		.cfi_def_cfa_offset 8
+ 1387              		.cfi_offset 3, -8
+ 1388              		.cfi_offset 14, -4
  407:../../../core/platform/octa/src/octa.c ****     OCTA_ReInitialize_Common_Peripherals();
- 1376              		.loc 1 407 5 view .LVU263
- 1377 0002 FFF7FEFF 		bl	OCTA_ReInitialize_Common_Peripherals
- 1378              	.LVL92:
+ 1389              		.loc 1 407 5 view .LVU265
+ 1390 0002 FFF7FEFF 		bl	OCTA_ReInitialize_Common_Peripherals
+ 1391              	.LVL94:
  408:../../../core/platform/octa/src/octa.c ****     
  409:../../../core/platform/octa/src/octa.c ****     //app specific reinit
  410:../../../core/platform/octa/src/octa.c ****     if(ReInit_Application_Function)
- 1379              		.loc 1 410 5 view .LVU264
- 1380              		.loc 1 410 8 is_stmt 0 view .LVU265
- 1381 0006 024B     		ldr	r3, .L75
- 1382 0008 1B68     		ldr	r3, [r3]
- 1383              		.loc 1 410 7 view .LVU266
- 1384 000a 03B1     		cbz	r3, .L72
+ 1392              		.loc 1 410 5 view .LVU266
+ 1393              		.loc 1 410 8 is_stmt 0 view .LVU267
+ 1394 0006 024B     		ldr	r3, .L75
+ 1395 0008 1B68     		ldr	r3, [r3]
+ 1396              		.loc 1 410 7 view .LVU268
+ 1397 000a 03B1     		cbz	r3, .L72
  411:../../../core/platform/octa/src/octa.c ****     {
  412:../../../core/platform/octa/src/octa.c ****         ReInit_Application_Function();
- 1385              		.loc 1 412 9 is_stmt 1 view .LVU267
- 1386 000c 9847     		blx	r3
- 1387              	.LVL93:
- 1388              	.L72:
+ 1398              		.loc 1 412 9 is_stmt 1 view .LVU269
+ 1399 000c 9847     		blx	r3
+ 1400              	.LVL95:
+ 1401              	.L72:
  413:../../../core/platform/octa/src/octa.c ****     }
  414:../../../core/platform/octa/src/octa.c **** }
- 1389              		.loc 1 414 1 is_stmt 0 view .LVU268
- 1390 000e 08BD     		pop	{r3, pc}
- 1391              	.L76:
- 1392              		.align	2
- 1393              	.L75:
- 1394 0010 00000000 		.word	.LANCHOR2
- 1395              		.cfi_endproc
- 1396              	.LFE147:
- 1398              		.section	.text.set_Application_DeInit_Function,"ax",%progbits
- 1399              		.align	1
- 1400              		.global	set_Application_DeInit_Function
- 1401              		.syntax unified
- 1402              		.thumb
- 1403              		.thumb_func
- 1404              		.fpu fpv4-sp-d16
- 1406              	set_Application_DeInit_Function:
- 1407              	.LVL94:
- 1408              	.LFB148:
+ 1402              		.loc 1 414 1 is_stmt 0 view .LVU270
+ 1403 000e 08BD     		pop	{r3, pc}
+ 1404              	.L76:
+ 1405              		.align	2
+ 1406              	.L75:
+ 1407 0010 00000000 		.word	.LANCHOR2
+ 1408              		.cfi_endproc
+ 1409              	.LFE147:
+ 1411              		.section	.text.set_Application_DeInit_Function,"ax",%progbits
+ 1412              		.align	1
+ 1413              		.global	set_Application_DeInit_Function
+ 1414              		.syntax unified
+ 1415              		.thumb
+ 1416              		.thumb_func
+ 1417              		.fpu fpv4-sp-d16
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 35
+
+
+ 1419              	set_Application_DeInit_Function:
+ 1420              	.LVL96:
+ 1421              	.LFB148:
  415:../../../core/platform/octa/src/octa.c **** 
  416:../../../core/platform/octa/src/octa.c **** void set_Application_DeInit_Function(void (*func))
  417:../../../core/platform/octa/src/octa.c **** {
- 1409              		.loc 1 417 1 is_stmt 1 view -0
- 1410              		.cfi_startproc
- 1411              		@ args = 0, pretend = 0, frame = 0
- 1412              		@ frame_needed = 0, uses_anonymous_args = 0
- 1413              		@ link register save eliminated.
+ 1422              		.loc 1 417 1 is_stmt 1 view -0
+ 1423              		.cfi_startproc
+ 1424              		@ args = 0, pretend = 0, frame = 0
+ 1425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1426              		@ link register save eliminated.
  418:../../../core/platform/octa/src/octa.c ****     DeInit_Application_Function = func;
- 1414              		.loc 1 418 5 view .LVU270
- 1415              		.loc 1 418 33 is_stmt 0 view .LVU271
- 1416 0000 014B     		ldr	r3, .L78
- 1417 0002 1860     		str	r0, [r3]
+ 1427              		.loc 1 418 5 view .LVU272
+ 1428              		.loc 1 418 33 is_stmt 0 view .LVU273
+ 1429 0000 014B     		ldr	r3, .L78
+ 1430 0002 1860     		str	r0, [r3]
  419:../../../core/platform/octa/src/octa.c **** }
- 1418              		.loc 1 419 1 view .LVU272
- 1419 0004 7047     		bx	lr
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 35
-
-
- 1420              	.L79:
- 1421 0006 00BF     		.align	2
- 1422              	.L78:
- 1423 0008 00000000 		.word	.LANCHOR1
- 1424              		.cfi_endproc
- 1425              	.LFE148:
- 1427              		.section	.text.set_Application_ReInit_Function,"ax",%progbits
- 1428              		.align	1
- 1429              		.global	set_Application_ReInit_Function
- 1430              		.syntax unified
- 1431              		.thumb
- 1432              		.thumb_func
- 1433              		.fpu fpv4-sp-d16
- 1435              	set_Application_ReInit_Function:
- 1436              	.LVL95:
- 1437              	.LFB149:
+ 1431              		.loc 1 419 1 view .LVU274
+ 1432 0004 7047     		bx	lr
+ 1433              	.L79:
+ 1434 0006 00BF     		.align	2
+ 1435              	.L78:
+ 1436 0008 00000000 		.word	.LANCHOR1
+ 1437              		.cfi_endproc
+ 1438              	.LFE148:
+ 1440              		.section	.text.set_Application_ReInit_Function,"ax",%progbits
+ 1441              		.align	1
+ 1442              		.global	set_Application_ReInit_Function
+ 1443              		.syntax unified
+ 1444              		.thumb
+ 1445              		.thumb_func
+ 1446              		.fpu fpv4-sp-d16
+ 1448              	set_Application_ReInit_Function:
+ 1449              	.LVL97:
+ 1450              	.LFB149:
  420:../../../core/platform/octa/src/octa.c **** void set_Application_ReInit_Function(void (*func))
  421:../../../core/platform/octa/src/octa.c **** {
- 1438              		.loc 1 421 1 is_stmt 1 view -0
- 1439              		.cfi_startproc
- 1440              		@ args = 0, pretend = 0, frame = 0
- 1441              		@ frame_needed = 0, uses_anonymous_args = 0
- 1442              		@ link register save eliminated.
+ 1451              		.loc 1 421 1 is_stmt 1 view -0
+ 1452              		.cfi_startproc
+ 1453              		@ args = 0, pretend = 0, frame = 0
+ 1454              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1455              		@ link register save eliminated.
  422:../../../core/platform/octa/src/octa.c ****     ReInit_Application_Function = func;
- 1443              		.loc 1 422 5 view .LVU274
- 1444              		.loc 1 422 33 is_stmt 0 view .LVU275
- 1445 0000 014B     		ldr	r3, .L81
- 1446 0002 1860     		str	r0, [r3]
+ 1456              		.loc 1 422 5 view .LVU276
+ 1457              		.loc 1 422 33 is_stmt 0 view .LVU277
+ 1458 0000 014B     		ldr	r3, .L81
+ 1459 0002 1860     		str	r0, [r3]
  423:../../../core/platform/octa/src/octa.c **** }...
- 1447              		.loc 1 423 1 view .LVU276
- 1448 0004 7047     		bx	lr
- 1449              	.L82:
- 1450 0006 00BF     		.align	2
- 1451              	.L81:
- 1452 0008 00000000 		.word	.LANCHOR2
- 1453              		.cfi_endproc
- 1454              	.LFE149:
- 1456              		.comm	P3_header,44,4
- 1457              		.comm	P2_header,44,4
- 1458              		.comm	P1_header,44,4
- 1459              		.comm	stackversion_patch,1,1
- 1460              		.comm	stackversion_minor,1,1
- 1461              		.comm	stackversion_major,1,1
- 1462              		.comm	appversion_patch,1,1
- 1463              		.comm	appversion_minor,1,1
- 1464              		.comm	appversion_major,1,1
- 1465              		.comm	short_UID,8,8
- 1466              		.comm	hard_reset,1,1
- 1467              		.comm	wd_reset,1,1
- 1468              		.comm	octa_uid,8,8
- 1469              		.comm	float_union,4,4
- 1470              		.comm	uint16LittleEndian,2,4
- 1471              		.comm	int16LittleEndian,2,4
- 1472              		.comm	uint32LittleEndian,4,4
- 1473              		.comm	int32LittleEndian,4,4
- 1474              		.comm	rtosprintHandle,4,4
- 1475              		.comm	hrtc,36,4
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 36
+ 1460              		.loc 1 423 1 view .LVU278
+ 1461 0004 7047     		bx	lr
+ 1462              	.L82:
+ 1463 0006 00BF     		.align	2
+ 1464              	.L81:
+ 1465 0008 00000000 		.word	.LANCHOR2
+ 1466              		.cfi_endproc
+ 1467              	.LFE149:
+ 1469              		.comm	P3_header,44,4
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 36
 
 
- 1476              		.comm	FLASH_SPI,100,4
- 1477              		.comm	P3_SPI,100,4
- 1478              		.comm	P2_SPI,100,4
- 1479              		.comm	P1_SPI,100,4
- 1480              		.comm	P3_I2C,76,4
- 1481              		.comm	P2_I2C,76,4
- 1482              		.comm	P1_I2C,76,4
- 1483              		.comm	common_I2C,76,4
- 1484              		.comm	P3_UART,120,4
- 1485              		.comm	P2_UART,120,4
- 1486              		.comm	P1_UART,120,4
- 1487              		.comm	FTDI_UART,120,4
- 1488              		.comm	BLE_UART,120,4
- 1489              		.comm	USB_UART,120,4
- 1490              		.comm	hiwdg,16,4
- 1491              		.comm	P3_DIO6,8,4
- 1492              		.comm	P3_DIO5,8,4
- 1493              		.comm	P3_DIO4,8,4
- 1494              		.comm	P3_DIO3,8,4
- 1495              		.comm	P3_DIO2,8,4
- 1496              		.comm	P3_DIO1,8,4
- 1497              		.comm	P2_DIO6,8,4
- 1498              		.comm	P2_DIO5,8,4
- 1499              		.comm	P2_DIO4,8,4
- 1500              		.comm	P2_DIO3,8,4
- 1501              		.comm	P2_DIO2,8,4
- 1502              		.comm	P2_DIO1,8,4
- 1503              		.comm	P1_DIO6,8,4
- 1504              		.comm	P1_DIO5,8,4
- 1505              		.comm	P1_DIO4,8,4
- 1506              		.comm	P1_DIO3,8,4
- 1507              		.comm	P1_DIO2,8,4
- 1508              		.comm	P1_DIO1,8,4
- 1509              		.comm	htim6,64,4
- 1510              		.comm	htim1,64,4
- 1511              		.section	.bss.DeInit_Application_Function,"aw",%nobits
- 1512              		.align	2
- 1513              		.set	.LANCHOR1,. + 0
- 1516              	DeInit_Application_Function:
- 1517 0000 00000000 		.space	4
- 1518              		.section	.bss.ReInit_Application_Function,"aw",%nobits
- 1519              		.align	2
- 1520              		.set	.LANCHOR2,. + 0
- 1523              	ReInit_Application_Function:
- 1524 0000 00000000 		.space	4
- 1525              		.section	.bss.buf.11729,"aw",%nobits
- 1526              		.align	2
- 1527              		.set	.LANCHOR0,. + 0
- 1530              	buf.11729:
- 1531 0000 00000000 		.space	34
- 1531      00000000 
- 1531      00000000 
- 1531      00000000 
- 1531      00000000 
- 1532              		.weak	SystemClock_Config
- 1533              		.text
- 1534              	.Letext0:
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 37
+ 1470              		.comm	P2_header,44,4
+ 1471              		.comm	P1_header,44,4
+ 1472              		.comm	stackversion_patch,1,1
+ 1473              		.comm	stackversion_minor,1,1
+ 1474              		.comm	stackversion_major,1,1
+ 1475              		.comm	appversion_patch,1,1
+ 1476              		.comm	appversion_minor,1,1
+ 1477              		.comm	appversion_major,1,1
+ 1478              		.comm	short_UID,8,8
+ 1479              		.comm	hard_reset,1,1
+ 1480              		.comm	wd_reset,1,1
+ 1481              		.comm	octa_uid,8,8
+ 1482              		.comm	float_union,4,4
+ 1483              		.comm	uint16LittleEndian,2,4
+ 1484              		.comm	int16LittleEndian,2,4
+ 1485              		.comm	uint32LittleEndian,4,4
+ 1486              		.comm	int32LittleEndian,4,4
+ 1487              		.comm	rtosprintHandle,4,4
+ 1488              		.comm	hrtc,36,4
+ 1489              		.comm	FLASH_SPI,100,4
+ 1490              		.comm	P3_SPI,100,4
+ 1491              		.comm	P2_SPI,100,4
+ 1492              		.comm	P1_SPI,100,4
+ 1493              		.comm	P3_I2C,76,4
+ 1494              		.comm	P2_I2C,76,4
+ 1495              		.comm	P1_I2C,76,4
+ 1496              		.comm	common_I2C,76,4
+ 1497              		.comm	P3_UART,120,4
+ 1498              		.comm	P2_UART,120,4
+ 1499              		.comm	P1_UART,120,4
+ 1500              		.comm	FTDI_UART,120,4
+ 1501              		.comm	BLE_UART,120,4
+ 1502              		.comm	USB_UART,120,4
+ 1503              		.comm	hiwdg,16,4
+ 1504              		.comm	P3_DIO6,8,4
+ 1505              		.comm	P3_DIO5,8,4
+ 1506              		.comm	P3_DIO4,8,4
+ 1507              		.comm	P3_DIO3,8,4
+ 1508              		.comm	P3_DIO2,8,4
+ 1509              		.comm	P3_DIO1,8,4
+ 1510              		.comm	P2_DIO6,8,4
+ 1511              		.comm	P2_DIO5,8,4
+ 1512              		.comm	P2_DIO4,8,4
+ 1513              		.comm	P2_DIO3,8,4
+ 1514              		.comm	P2_DIO2,8,4
+ 1515              		.comm	P2_DIO1,8,4
+ 1516              		.comm	P1_DIO6,8,4
+ 1517              		.comm	P1_DIO5,8,4
+ 1518              		.comm	P1_DIO4,8,4
+ 1519              		.comm	P1_DIO3,8,4
+ 1520              		.comm	P1_DIO2,8,4
+ 1521              		.comm	P1_DIO1,8,4
+ 1522              		.comm	htim6,64,4
+ 1523              		.comm	htim1,64,4
+ 1524              		.section	.bss.DeInit_Application_Function,"aw",%nobits
+ 1525              		.align	2
+ 1526              		.set	.LANCHOR1,. + 0
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 37
 
 
- 1535              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
- 1536              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
- 1537              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
- 1538              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
- 1539              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
- 1540              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
- 1541              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
- 1542              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
- 1543              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
- 1544              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
- 1545              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
- 1546              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
- 1547              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
- 1548              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
- 1549              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
- 1550              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 1551              		.file 18 "../../../core/platform/octa/inc/sysclock.h"
- 1552              		.file 19 "../../../core/platform/octa/inc/gpio.h"
- 1553              		.file 20 "../../../core/platform/octa/inc/iwdg.h"
- 1554              		.file 21 "../../../core/platform/octa/inc/uart.h"
- 1555              		.file 22 "../../../core/platform/octa/inc/i2c.h"
- 1556              		.file 23 "../../../core/platform/octa/inc/spi.h"
- 1557              		.file 24 "../../../core/platform/octa/inc/rtc.h"
- 1558              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
- 1559              		.file 26 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
- 1560              		.file 27 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
- 1561              		.file 28 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\lib\\gcc\\arm-none-eab
- 1562              		.file 29 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
- 1563              		.file 30 "../../../core/platform/common/inc/datatypes.h"
- 1564              		.file 31 "../../../core/platform/octa/inc/platform.h"
- 1565              		.file 32 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
- 1566              		.file 33 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
- 1567              		.file 34 "../../../core/platform/common/inc/print.h"
- 1568              		.file 35 "<built-in>"
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 38
+ 1529              	DeInit_Application_Function:
+ 1530 0000 00000000 		.space	4
+ 1531              		.section	.bss.ReInit_Application_Function,"aw",%nobits
+ 1532              		.align	2
+ 1533              		.set	.LANCHOR2,. + 0
+ 1536              	ReInit_Application_Function:
+ 1537 0000 00000000 		.space	4
+ 1538              		.section	.bss.buf.11729,"aw",%nobits
+ 1539              		.align	2
+ 1540              		.set	.LANCHOR0,. + 0
+ 1543              	buf.11729:
+ 1544 0000 00000000 		.space	34
+ 1544      00000000 
+ 1544      00000000 
+ 1544      00000000 
+ 1544      00000000 
+ 1545              		.weak	SystemClock_Config
+ 1546              		.text
+ 1547              	.Letext0:
+ 1548              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
+ 1549              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
+ 1550              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 1551              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 1552              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ 1553              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1554              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1555              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 1556              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 1557              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 1558              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1559              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 1560              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 1561              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1562              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1563              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1564              		.file 18 "../../../core/platform/octa/inc/sysclock.h"
+ 1565              		.file 19 "../../../core/platform/octa/inc/gpio.h"
+ 1566              		.file 20 "../../../core/platform/octa/inc/iwdg.h"
+ 1567              		.file 21 "../../../core/platform/octa/inc/uart.h"
+ 1568              		.file 22 "../../../core/platform/octa/inc/i2c.h"
+ 1569              		.file 23 "../../../core/platform/octa/inc/spi.h"
+ 1570              		.file 24 "../../../core/platform/octa/inc/rtc.h"
+ 1571              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
+ 1572              		.file 26 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 1573              		.file 27 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 1574              		.file 28 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\lib\\gcc\\arm-none-eab
+ 1575              		.file 29 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 1576              		.file 30 "../../../core/platform/common/inc/datatypes.h"
+ 1577              		.file 31 "../../../core/platform/octa/inc/platform.h"
+ 1578              		.file 32 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 1579              		.file 33 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 1580              		.file 34 "../../../core/platform/common/inc/print.h"
+ 1581              		.file 35 "<built-in>"
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 38
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 octa.c
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:18     .text.OCTA_ReInitialize_Common_Peripherals:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:26     .text.OCTA_ReInitialize_Common_Peripherals:00000000 OCTA_ReInitialize_Common_Peripherals
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:63     .text.OCTA_DeInitialize_Common_Peripherals:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:70     .text.OCTA_DeInitialize_Common_Peripherals:00000000 OCTA_DeInitialize_Common_Peripherals
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:101    .text.OCTA_DeInitialize_Common_Peripherals:0000001c $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:18     .text.OCTA_ReInitialize_Common_Peripherals:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:26     .text.OCTA_ReInitialize_Common_Peripherals:00000000 OCTA_ReInitialize_Common_Peripherals
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:63     .text.OCTA_DeInitialize_Common_Peripherals:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:70     .text.OCTA_DeInitialize_Common_Peripherals:00000000 OCTA_DeInitialize_Common_Peripherals
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:101    .text.OCTA_DeInitialize_Common_Peripherals:0000001c $d
                             *COM*:00000078 USB_UART
                             *COM*:0000004c common_I2C
                             *COM*:00000064 FLASH_SPI
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:108    .text.OCTA_Initialize_P1_Peripherals:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:115    .text.OCTA_Initialize_P1_Peripherals:00000000 OCTA_Initialize_P1_Peripherals
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:168    .text.OCTA_Initialize_P1_Peripherals:0000002c $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:108    .text.OCTA_Initialize_P1_Peripherals:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:115    .text.OCTA_Initialize_P1_Peripherals:00000000 OCTA_Initialize_P1_Peripherals
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:168    .text.OCTA_Initialize_P1_Peripherals:0000002c $d
                             *COM*:0000002c P1_header
                             *COM*:00000078 P1_UART
                             *COM*:0000004c P1_I2C
@@ -2221,9 +2240,9 @@ C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:168    .text.OCTA_Initialize_P1_Per
                             *COM*:00000008 P1_DIO4
                             *COM*:00000008 P1_DIO5
                             *COM*:00000008 P1_DIO6
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:182    .text.OCTA_Initialize_P2_Peripherals:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:189    .text.OCTA_Initialize_P2_Peripherals:00000000 OCTA_Initialize_P2_Peripherals
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:242    .text.OCTA_Initialize_P2_Peripherals:0000002c $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:182    .text.OCTA_Initialize_P2_Peripherals:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:189    .text.OCTA_Initialize_P2_Peripherals:00000000 OCTA_Initialize_P2_Peripherals
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:242    .text.OCTA_Initialize_P2_Peripherals:0000002c $d
                             *COM*:0000002c P2_header
                             *COM*:00000078 P2_UART
                             *COM*:0000004c P2_I2C
@@ -2234,9 +2253,9 @@ C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:242    .text.OCTA_Initialize_P2_Per
                             *COM*:00000008 P2_DIO4
                             *COM*:00000008 P2_DIO5
                             *COM*:00000008 P2_DIO6
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:256    .text.OCTA_Initialize_P3_Peripherals:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:263    .text.OCTA_Initialize_P3_Peripherals:00000000 OCTA_Initialize_P3_Peripherals
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:316    .text.OCTA_Initialize_P3_Peripherals:0000002c $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:256    .text.OCTA_Initialize_P3_Peripherals:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:263    .text.OCTA_Initialize_P3_Peripherals:00000000 OCTA_Initialize_P3_Peripherals
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:316    .text.OCTA_Initialize_P3_Peripherals:0000002c $d
                             *COM*:0000002c P3_header
                             *COM*:00000078 P3_UART
                             *COM*:0000004c P3_I2C
@@ -2247,30 +2266,30 @@ C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:316    .text.OCTA_Initialize_P3_Per
                             *COM*:00000008 P3_DIO4
                             *COM*:00000008 P3_DIO5
                             *COM*:00000008 P3_DIO6
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:330    .text.get_UID:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:337    .text.get_UID:00000000 get_UID
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:368    .text.get_UID:0000001c $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:374    .text.platform_initialize_UART:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:381    .text.platform_initialize_UART:00000000 platform_initialize_UART
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:449    .text.platform_initialize_I2C:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:456    .text.platform_initialize_I2C:00000000 platform_initialize_I2C
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:519    .text.platform_initialize_SPI:00000000 $t
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 39
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:330    .text.get_UID:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:337    .text.get_UID:00000000 get_UID
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:368    .text.get_UID:0000001c $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:374    .text.platform_initialize_UART:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:381    .text.platform_initialize_UART:00000000 platform_initialize_UART
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:449    .text.platform_initialize_I2C:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:456    .text.platform_initialize_I2C:00000000 platform_initialize_I2C
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:519    .text.platform_initialize_SPI:00000000 $t
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 39
 
 
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:526    .text.platform_initialize_SPI:00000000 platform_initialize_SPI
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:581    .rodata.platform_getHeader.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:585    .text.platform_getHeader:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:592    .text.platform_getHeader:00000000 platform_getHeader
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:714    .text.platform_getHeader:0000008c $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:724    .rodata.ullx.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:728    .text.ullx:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:735    .text.ullx:00000000 ullx
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:823    .text.ullx:00000058 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:829    .rodata.printWelcome.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:886    .text.printWelcome:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:893    .text.printWelcome:00000000 printWelcome
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1104   .text.printWelcome:00000134 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:526    .text.platform_initialize_SPI:00000000 platform_initialize_SPI
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:581    .rodata.platform_getHeader.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:585    .text.platform_getHeader:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:592    .text.platform_getHeader:00000000 platform_getHeader
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:714    .text.platform_getHeader:0000008c $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:724    .rodata.ullx.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:728    .text.ullx:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:735    .text.ullx:00000000 ullx
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:823    .text.ullx:00000058 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:829    .rodata.printWelcome.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:886    .text.printWelcome:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:893    .text.printWelcome:00000000 printWelcome
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1104   .text.printWelcome:00000134 $d
                             *COM*:00000001 appversion_patch
                             *COM*:00000001 appversion_minor
                             *COM*:00000001 appversion_major
@@ -2278,29 +2297,29 @@ C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1104   .text.printWelcome:00000134 
                             *COM*:00000001 stackversion_minor
                             *COM*:00000001 stackversion_major
                             *COM*:00000008 short_UID
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1135   .rodata.OCTA_Initialize_Common_Peripherals.str1.4:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1142   .text.OCTA_Initialize_Common_Peripherals:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1149   .text.OCTA_Initialize_Common_Peripherals:00000000 OCTA_Initialize_Common_Peripherals
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1250   .text.OCTA_Initialize_Common_Peripherals:00000080 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1135   .rodata.OCTA_Initialize_Common_Peripherals.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1146   .text.OCTA_Initialize_Common_Peripherals:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1153   .text.OCTA_Initialize_Common_Peripherals:00000000 OCTA_Initialize_Common_Peripherals
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1262   .text.OCTA_Initialize_Common_Peripherals:00000090 $d
                             *COM*:00000008 octa_uid
                             *COM*:00000001 wd_reset
                             *COM*:00000001 hard_reset
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1261   .text.Initialize_Platform:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1268   .text.Initialize_Platform:00000000 Initialize_Platform
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1297   .text.vApplicationIdleHook:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1304   .text.vApplicationIdleHook:00000000 vApplicationIdleHook
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1317   .text.DeInitialize_Platform:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1324   .text.DeInitialize_Platform:00000000 DeInitialize_Platform
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1353   .text.DeInitialize_Platform:00000010 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1358   .text.ReInitialize_Platform:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1365   .text.ReInitialize_Platform:00000000 ReInitialize_Platform
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1394   .text.ReInitialize_Platform:00000010 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1399   .text.set_Application_DeInit_Function:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1406   .text.set_Application_DeInit_Function:00000000 set_Application_DeInit_Function
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1423   .text.set_Application_DeInit_Function:00000008 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1428   .text.set_Application_ReInit_Function:00000000 $t
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1435   .text.set_Application_ReInit_Function:00000000 set_Application_ReInit_Function
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1452   .text.set_Application_ReInit_Function:00000008 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1274   .text.Initialize_Platform:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1281   .text.Initialize_Platform:00000000 Initialize_Platform
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1310   .text.vApplicationIdleHook:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1317   .text.vApplicationIdleHook:00000000 vApplicationIdleHook
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1330   .text.DeInitialize_Platform:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1337   .text.DeInitialize_Platform:00000000 DeInitialize_Platform
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1366   .text.DeInitialize_Platform:00000010 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1371   .text.ReInitialize_Platform:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1378   .text.ReInitialize_Platform:00000000 ReInitialize_Platform
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1407   .text.ReInitialize_Platform:00000010 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1412   .text.set_Application_DeInit_Function:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1419   .text.set_Application_DeInit_Function:00000000 set_Application_DeInit_Function
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1436   .text.set_Application_DeInit_Function:00000008 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1441   .text.set_Application_ReInit_Function:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1448   .text.set_Application_ReInit_Function:00000000 set_Application_ReInit_Function
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1465   .text.set_Application_ReInit_Function:00000008 $d
                             *COM*:00000004 float_union
                             *COM*:00000002 uint16LittleEndian
                             *COM*:00000002 int16LittleEndian
@@ -2313,15 +2332,15 @@ C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1452   .text.set_Application_ReInit
                             *COM*:00000010 hiwdg
                             *COM*:00000040 htim6
                             *COM*:00000040 htim1
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1512   .bss.DeInit_Application_Function:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1516   .bss.DeInit_Application_Function:00000000 DeInit_Application_Function
-ARM GAS  C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s 			page 40
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1525   .bss.DeInit_Application_Function:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1529   .bss.DeInit_Application_Function:00000000 DeInit_Application_Function
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s 			page 40
 
 
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1519   .bss.ReInit_Application_Function:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1523   .bss.ReInit_Application_Function:00000000 ReInit_Application_Function
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1526   .bss.buf.11729:00000000 $d
-C:\Users\tomra\AppData\Local\Temp\cc2gzWiZ.s:1530   .bss.buf.11729:00000000 buf.11729
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1532   .bss.ReInit_Application_Function:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1536   .bss.ReInit_Application_Function:00000000 ReInit_Application_Function
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1539   .bss.buf.11729:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\ccr9nW7g.s:1543   .bss.buf.11729:00000000 buf.11729
 
 UNDEFINED SYMBOLS
 HAL_Init
@@ -2352,3 +2371,4 @@ HAL_Delay
 OCTA_IWDG_Init
 RTC_Init
 printINF
+BLE_UART_Init
