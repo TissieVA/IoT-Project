@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 import sqlite3
 import json
-import frostDetectorDataDecoder as fd_decoder
+import data_decoder as fd_decoder
 from time import time
 from pyfcm import FCMNotification
 
@@ -10,15 +10,18 @@ MQTT_HOST = 'eu1.cloud.thethings.network'
 MQTT_PORT = 1883
 MQTT_CLIENT_ID = 'mqtt-explorer-a526d6cb'
 MQTT_USER = 'uantwerpen-iot-test@ttn'
-MQTT_PASSWORD = '{password here}'
-TOPIC = 'v3/uantwerpen-iot-test@ttn/devices/eui-08504b5767365820/up'
-FIREBASE_API_KEY = "{firebase api key here}"
+MQTT_PASSWORD = 'NNSXS.PGWWIDSWK6HUOT3SF3RWGT3ZTZLGZVRDYJ7CHIQ.4MMZNDNTMJBSDL3PDRWK6YHDYKT65YHZ2T3DE4CF73Q5FMTGHXUQ'
+TOPIC_EXT = 'v3/uantwerpen-iot-test@ttn/devices/eui-08504b5767365820/up' # Topic for exterior sensor values of frost detector
+TOPIC_INT = 'v3/uantwerpen-iot-test@ttn/devices/eui-0e50434d67394920/up' # Topic for interior sensor values of frost detector
+FIREBASE_API_KEY = "your_firebase_API_key_here"
 
+# Location of the database file
 DATABASE_FILE = 'frostdetector.db'
 
 
 def on_connect(mqtt_client, user_data, flags, conn_result):
-    mqtt_client.subscribe(TOPIC)
+    mqtt_client.subscribe(TOPIC_EXT)
+    mqtt_client.subscribe(TOPIC_INT)
 
 
 def on_message(mqtt_client, user_data, message):
@@ -34,7 +37,10 @@ def on_message(mqtt_client, user_data, message):
     cursor.execute(sql, (message.topic, decoded_data[0], decoded_data[1], decoded_data[2], decoded_data[3], decoded_data[4]))
     db_conn.commit()
     cursor.close()
-    push_notify_all_users(decoded_data[1] + '°C, ' + decoded_data[2] + '%')
+    # Send a notification to all registered users
+    push_notify_all_users(db_conn, str(round(decoded_data[1], 2)) + '°C, ' + str(round(decoded_data[2], 2)) + '%')
+    # Todo: in future work a user framework should be added 
+    # This ensures a single frost detector only notifies users associated with this specific frostdetector 
 
 def create_sensordata_table(db_conn):
     sql = """
@@ -92,8 +98,8 @@ def main():
 
     mqtt_client.on_connect = on_connect
     mqtt_client.on_message = on_message
-
-    push_notify_all_users(db_conn, 'Sensor service back online!!!')
+    print('Sensor service back online')
+    push_notify_all_users(db_conn, 'Sensor service back online')
 
     mqtt_client.connect(MQTT_HOST, MQTT_PORT)
     mqtt_client.loop_forever()

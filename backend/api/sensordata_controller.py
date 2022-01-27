@@ -1,8 +1,8 @@
 import sqlite3
 from datetime import datetime
 
+# Path to database file
 DATABASE_NAME = "/home/student/scripts/frostdetector.db"
-
 
 def get_db():
     conn = sqlite3.connect(DATABASE_NAME)
