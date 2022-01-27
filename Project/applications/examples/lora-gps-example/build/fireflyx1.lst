@@ -1,0 +1,1423 @@
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"fireflyx1.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.WRITE_REGISTER_GPS,"ax",%progbits
+  18              		.align	1
+  19              		.global	WRITE_REGISTER_GPS
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	WRITE_REGISTER_GPS:
+  27              	.LVL0:
+  28              	.LFB136:
+  29              		.file 1 "../../../shields/gps-firefly/src/fireflyx1.c"
+   1:../../../shields/gps-firefly/src/fireflyx1.c **** /*
+   2:../../../shields/gps-firefly/src/fireflyx1.c ****  * fireflyx1.c
+   3:../../../shields/gps-firefly/src/fireflyx1.c ****  *
+   4:../../../shields/gps-firefly/src/fireflyx1.c ****  *  Created on: 16 May 2018
+   5:../../../shields/gps-firefly/src/fireflyx1.c ****  *      Author: Fifth
+   6:../../../shields/gps-firefly/src/fireflyx1.c ****  */
+   7:../../../shields/gps-firefly/src/fireflyx1.c **** #include "platform.h"
+   8:../../../shields/gps-firefly/src/fireflyx1.c **** #include "fireflyx1.h"
+   9:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  10:../../../shields/gps-firefly/src/fireflyx1.c **** static uint8_t _gps_buffer[GPS_BUFFER_SIZE] = { 0 };
+  11:../../../shields/gps-firefly/src/fireflyx1.c **** static uint8_t _active = 0;
+  12:../../../shields/gps-firefly/src/fireflyx1.c **** static uint8_t wait_pmtk_ack = 0;
+  13:../../../shields/gps-firefly/src/fireflyx1.c **** static uint32_t baudrate = 115200;       // set to 57600 or higher for updaterates higher than 1Hz
+  14:../../../shields/gps-firefly/src/fireflyx1.c **** static uint8_t baudrate_set = 0;
+  15:../../../shields/gps-firefly/src/fireflyx1.c **** static uint16_t updaterate = 500;       // 1000 = 1Hz, 500 = 2Hz, 200 = 5Hz, 100 = 10Hz (best to us
+  16:../../../shields/gps-firefly/src/fireflyx1.c **** static uint8_t updateRate_set = 0;
+  17:../../../shields/gps-firefly/src/fireflyx1.c **** struct OCTA_header FireflyHeader;
+  18:../../../shields/gps-firefly/src/fireflyx1.c **** I2C_HandleTypeDef *hi2cLib;
+  19:../../../shields/gps-firefly/src/fireflyx1.c **** struct OCTA_GPIO *firefly_int_pin; //DIO1
+  20:../../../shields/gps-firefly/src/fireflyx1.c **** struct OCTA_GPIO *firefly_reset_pin; //DIO6
+  21:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  22:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t Firefly_Initialize(void)
+  23:../../../shields/gps-firefly/src/fireflyx1.c **** {
+  24:../../../shields/gps-firefly/src/fireflyx1.c ****     printINF("***Initializing Firefly-GPS driver***\r\n");
+  25:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  26:../../../shields/gps-firefly/src/fireflyx1.c ****     #ifndef FIREFLY_CONNECTOR
+  27:../../../shields/gps-firefly/src/fireflyx1.c ****         printERR("No FIREFLY_CONNECTOR provided in Makefile\r\n");
+  28:../../../shields/gps-firefly/src/fireflyx1.c ****         return 0;
+  29:../../../shields/gps-firefly/src/fireflyx1.c ****     #else
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 2
+
+
+  30:../../../shields/gps-firefly/src/fireflyx1.c ****         FireflyHeader = platform_getHeader((uint8_t)FIREFLY_CONNECTOR);
+  31:../../../shields/gps-firefly/src/fireflyx1.c ****         if(!FireflyHeader.active)
+  32:../../../shields/gps-firefly/src/fireflyx1.c ****         {
+  33:../../../shields/gps-firefly/src/fireflyx1.c ****             printERR("Invalid FIREFLY_CONNECTOR provided in Makefile\r\n");
+  34:../../../shields/gps-firefly/src/fireflyx1.c ****             return 0;  
+  35:../../../shields/gps-firefly/src/fireflyx1.c ****         }
+  36:../../../shields/gps-firefly/src/fireflyx1.c ****         else   
+  37:../../../shields/gps-firefly/src/fireflyx1.c ****             printINF("Firefly on P%d, initializing I2C\r\n", (uint8_t)FIREFLY_CONNECTOR);          
+  38:../../../shields/gps-firefly/src/fireflyx1.c ****     #endif
+  39:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  40:../../../shields/gps-firefly/src/fireflyx1.c ****     // Initialize I2C peripheral with driver baudrate
+  41:../../../shields/gps-firefly/src/fireflyx1.c ****     platform_initialize_I2C(FireflyHeader);
+  42:../../../shields/gps-firefly/src/fireflyx1.c ****     
+  43:../../../shields/gps-firefly/src/fireflyx1.c ****     hi2cLib = FireflyHeader.i2cHandle;
+  44:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_int_pin = FireflyHeader.DIO1;
+  45:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_reset_pin = FireflyHeader.DIO6;
+  46:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  47:../../../shields/gps-firefly/src/fireflyx1.c ****     if(!Firefly_communication_check())
+  48:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+  49:../../../shields/gps-firefly/src/fireflyx1.c ****         printERR("Firefly GPS Init NOK\r\n\r\n");
+  50:../../../shields/gps-firefly/src/fireflyx1.c ****         return 0;
+  51:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+  52:../../../shields/gps-firefly/src/fireflyx1.c ****     printINF("Firefly GPS Init OK\r\n\r\n");
+  53:../../../shields/gps-firefly/src/fireflyx1.c ****     return 1;
+  54:../../../shields/gps-firefly/src/fireflyx1.c ****     
+  55:../../../shields/gps-firefly/src/fireflyx1.c **** }
+  56:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  57:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t Firefly_communication_check(void)
+  58:../../../shields/gps-firefly/src/fireflyx1.c **** {  
+  59:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[10];
+  60:../../../shields/gps-firefly/src/fireflyx1.c ****     if(!READ_REG_GPS(buffer,10))
+  61:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+  62:../../../shields/gps-firefly/src/fireflyx1.c ****         printDBG("Firefly communication check OK\r\n");
+  63:../../../shields/gps-firefly/src/fireflyx1.c ****         return 1;
+  64:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+  65:../../../shields/gps-firefly/src/fireflyx1.c ****     else
+  66:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+  67:../../../shields/gps-firefly/src/fireflyx1.c ****         printDBG("Firefly communication check NOK\r\n");
+  68:../../../shields/gps-firefly/src/fireflyx1.c ****         return 0;
+  69:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+  70:../../../shields/gps-firefly/src/fireflyx1.c **** }
+  71:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  72:../../../shields/gps-firefly/src/fireflyx1.c **** static uint16_t Firefly_compute_checksum(uint8_t* bytes, uint8_t length)
+  73:../../../shields/gps-firefly/src/fireflyx1.c **** {
+  74:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t sum = 0;
+  75:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  76:../../../shields/gps-firefly/src/fireflyx1.c ****     do {
+  77:../../../shields/gps-firefly/src/fireflyx1.c ****       sum ^= *bytes++;
+  78:../../../shields/gps-firefly/src/fireflyx1.c ****     } while(--length);
+  79:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  80:../../../shields/gps-firefly/src/fireflyx1.c ****     return sum;
+  81:../../../shields/gps-firefly/src/fireflyx1.c **** }
+  82:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  83:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t Firefly_send(const char* cmd)
+  84:../../../shields/gps-firefly/src/fireflyx1.c **** {
+  85:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t length = strlen(cmd);  // construct entire cmd buffer
+  86:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[255] = { '$', 'P', 'M', 'T', 'K' }; // copy in cmd
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 3
+
+
+  87:../../../shields/gps-firefly/src/fireflyx1.c ****     memcpy(&buffer[5], cmd, length); // add '*'
+  88:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length] = '*';  // add checksum
+  89:../../../shields/gps-firefly/src/fireflyx1.c ****     uint16_t checksum = _compute_checksum(&buffer[1], 4+length);
+  90:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+3] = '\r';
+  91:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+4] = '\n';
+  92:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,5+length+5);
+  93:../../../shields/gps-firefly/src/fireflyx1.c ****     return 1;
+  94:../../../shields/gps-firefly/src/fireflyx1.c **** }
+  95:../../../shields/gps-firefly/src/fireflyx1.c **** 
+  96:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t Firefly_sendDefault(void)
+  97:../../../shields/gps-firefly/src/fireflyx1.c **** {
+  98:../../../shields/gps-firefly/src/fireflyx1.c ****     //uint8_t buffer[18] = { '$', 'P', 'M', 'T', 'K' ,'2','2','0',',','1','0','0','0','*','1','F'};
+  99:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[18] = { '$', 'P', 'M', 'T', 'K' ,'1','0','3','*','3','0'}; // copy in cmd
+ 100:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[11] = '\r';
+ 101:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[12] = '\n';
+ 102:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,12);
+ 103:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 104:../../../shields/gps-firefly/src/fireflyx1.c ****     return 1;
+ 105:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 106:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t WRITE_REGISTER_GPS(uint8_t pData[],uint8_t length)
+ 107:../../../shields/gps-firefly/src/fireflyx1.c **** {
+  30              		.loc 1 107 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 107 1 is_stmt 0 view .LVU1
+  35 0000 00B5     		push	{lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 4
+  38              		.cfi_offset 14, -4
+  39 0002 83B0     		sub	sp, sp, #12
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 16
+  42 0004 0246     		mov	r2, r0
+  43 0006 0B46     		mov	r3, r1
+ 108:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t status=HAL_I2C_Master_Transmit(hi2cLib, MT3333_ADDR<<1, pData,length, HAL_MAX_DELAY);
+  44              		.loc 1 108 5 is_stmt 1 view .LVU2
+  45              		.loc 1 108 20 is_stmt 0 view .LVU3
+  46 0008 4FF0FF31 		mov	r1, #-1
+  47              	.LVL1:
+  48              		.loc 1 108 20 view .LVU4
+  49 000c 0091     		str	r1, [sp]
+  50 000e 4021     		movs	r1, #64
+  51 0010 0348     		ldr	r0, .L3
+  52              	.LVL2:
+  53              		.loc 1 108 20 view .LVU5
+  54 0012 0068     		ldr	r0, [r0]
+  55 0014 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+  56              	.LVL3:
+ 109:../../../shields/gps-firefly/src/fireflyx1.c ****     return status;
+  57              		.loc 1 109 5 is_stmt 1 view .LVU6
+ 110:../../../shields/gps-firefly/src/fireflyx1.c **** }
+  58              		.loc 1 110 1 is_stmt 0 view .LVU7
+  59 0018 03B0     		add	sp, sp, #12
+  60              	.LCFI2:
+  61              		.cfi_def_cfa_offset 4
+  62              		@ sp needed
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 4
+
+
+  63 001a 5DF804FB 		ldr	pc, [sp], #4
+  64              	.L4:
+  65 001e 00BF     		.align	2
+  66              	.L3:
+  67 0020 00000000 		.word	hi2cLib
+  68              		.cfi_endproc
+  69              	.LFE136:
+  71              		.section	.text.Firefly_send,"ax",%progbits
+  72              		.align	1
+  73              		.global	Firefly_send
+  74              		.syntax unified
+  75              		.thumb
+  76              		.thumb_func
+  77              		.fpu fpv4-sp-d16
+  79              	Firefly_send:
+  80              	.LVL4:
+  81              	.LFB134:
+  84:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t length = strlen(cmd);  // construct entire cmd buffer
+  82              		.loc 1 84 1 is_stmt 1 view -0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 256
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  84:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t length = strlen(cmd);  // construct entire cmd buffer
+  86              		.loc 1 84 1 is_stmt 0 view .LVU9
+  87 0000 30B5     		push	{r4, r5, lr}
+  88              	.LCFI3:
+  89              		.cfi_def_cfa_offset 12
+  90              		.cfi_offset 4, -12
+  91              		.cfi_offset 5, -8
+  92              		.cfi_offset 14, -4
+  93 0002 C1B0     		sub	sp, sp, #260
+  94              	.LCFI4:
+  95              		.cfi_def_cfa_offset 272
+  96 0004 0546     		mov	r5, r0
+  85:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[255] = { '$', 'P', 'M', 'T', 'K' }; // copy in cmd
+  97              		.loc 1 85 5 is_stmt 1 view .LVU10
+  85:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[255] = { '$', 'P', 'M', 'T', 'K' }; // copy in cmd
+  98              		.loc 1 85 22 is_stmt 0 view .LVU11
+  99 0006 FFF7FEFF 		bl	strlen
+ 100              	.LVL5:
+  85:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[255] = { '$', 'P', 'M', 'T', 'K' }; // copy in cmd
+ 101              		.loc 1 85 13 view .LVU12
+ 102 000a C4B2     		uxtb	r4, r0
+ 103              	.LVL6:
+  86:../../../shields/gps-firefly/src/fireflyx1.c ****     memcpy(&buffer[5], cmd, length); // add '*'
+ 104              		.loc 1 86 5 is_stmt 1 view .LVU13
+  86:../../../shields/gps-firefly/src/fireflyx1.c ****     memcpy(&buffer[5], cmd, length); // add '*'
+ 105              		.loc 1 86 13 is_stmt 0 view .LVU14
+ 106 000c 164B     		ldr	r3, .L7
+ 107 000e 93E80300 		ldm	r3, {r0, r1}
+ 108 0012 0090     		str	r0, [sp]
+ 109 0014 ADF80410 		strh	r1, [sp, #4]	@ movhi
+ 110 0018 F922     		movs	r2, #249
+ 111 001a 0021     		movs	r1, #0
+ 112 001c 0DF10600 		add	r0, sp, #6
+ 113 0020 FFF7FEFF 		bl	memset
+ 114              	.LVL7:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 5
+
+
+  87:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length] = '*';  // add checksum
+ 115              		.loc 1 87 5 is_stmt 1 view .LVU15
+ 116 0024 2246     		mov	r2, r4
+ 117 0026 2946     		mov	r1, r5
+ 118 0028 0DF10500 		add	r0, sp, #5
+ 119 002c FFF7FEFF 		bl	memcpy
+ 120              	.LVL8:
+  88:../../../shields/gps-firefly/src/fireflyx1.c ****     uint16_t checksum = _compute_checksum(&buffer[1], 4+length);
+ 121              		.loc 1 88 5 view .LVU16
+  88:../../../shields/gps-firefly/src/fireflyx1.c ****     uint16_t checksum = _compute_checksum(&buffer[1], 4+length);
+ 122              		.loc 1 88 13 is_stmt 0 view .LVU17
+ 123 0030 631D     		adds	r3, r4, #5
+  88:../../../shields/gps-firefly/src/fireflyx1.c ****     uint16_t checksum = _compute_checksum(&buffer[1], 4+length);
+ 124              		.loc 1 88 22 view .LVU18
+ 125 0032 2A22     		movs	r2, #42
+ 126 0034 0DF80320 		strb	r2, [sp, r3]
+  89:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+3] = '\r';
+ 127              		.loc 1 89 5 is_stmt 1 view .LVU19
+  89:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+3] = '\r';
+ 128              		.loc 1 89 25 is_stmt 0 view .LVU20
+ 129 0038 211D     		adds	r1, r4, #4
+ 130 003a C9B2     		uxtb	r1, r1
+ 131 003c 0DF10100 		add	r0, sp, #1
+ 132 0040 FFF7FEFF 		bl	_compute_checksum
+ 133              	.LVL9:
+  90:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+4] = '\n';
+ 134              		.loc 1 90 5 is_stmt 1 view .LVU21
+  90:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+4] = '\n';
+ 135              		.loc 1 90 20 is_stmt 0 view .LVU22
+ 136 0044 04F10803 		add	r3, r4, #8
+  90:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[5+length+4] = '\n';
+ 137              		.loc 1 90 24 view .LVU23
+ 138 0048 0D22     		movs	r2, #13
+ 139 004a 0DF80320 		strb	r2, [sp, r3]
+  91:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,5+length+5);
+ 140              		.loc 1 91 5 is_stmt 1 view .LVU24
+  91:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,5+length+5);
+ 141              		.loc 1 91 20 is_stmt 0 view .LVU25
+ 142 004e 04F10903 		add	r3, r4, #9
+  91:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,5+length+5);
+ 143              		.loc 1 91 24 view .LVU26
+ 144 0052 0A22     		movs	r2, #10
+ 145 0054 0DF80320 		strb	r2, [sp, r3]
+  92:../../../shields/gps-firefly/src/fireflyx1.c ****     return 1;
+ 146              		.loc 1 92 5 is_stmt 1 view .LVU27
+ 147 0058 A118     		adds	r1, r4, r2
+ 148 005a C9B2     		uxtb	r1, r1
+ 149 005c 6846     		mov	r0, sp
+ 150 005e FFF7FEFF 		bl	WRITE_REGISTER_GPS
+ 151              	.LVL10:
+  93:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 152              		.loc 1 93 5 view .LVU28
+  94:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 153              		.loc 1 94 1 is_stmt 0 view .LVU29
+ 154 0062 0120     		movs	r0, #1
+ 155 0064 41B0     		add	sp, sp, #260
+ 156              	.LCFI5:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 6
+
+
+ 157              		.cfi_def_cfa_offset 12
+ 158              		@ sp needed
+ 159 0066 30BD     		pop	{r4, r5, pc}
+ 160              	.LVL11:
+ 161              	.L8:
+  94:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 162              		.loc 1 94 1 view .LVU30
+ 163              		.align	2
+ 164              	.L7:
+ 165 0068 00000000 		.word	.LANCHOR0
+ 166              		.cfi_endproc
+ 167              	.LFE134:
+ 169              		.section	.text.Firefly_sendDefault,"ax",%progbits
+ 170              		.align	1
+ 171              		.global	Firefly_sendDefault
+ 172              		.syntax unified
+ 173              		.thumb
+ 174              		.thumb_func
+ 175              		.fpu fpv4-sp-d16
+ 177              	Firefly_sendDefault:
+ 178              	.LFB135:
+  97:../../../shields/gps-firefly/src/fireflyx1.c ****     //uint8_t buffer[18] = { '$', 'P', 'M', 'T', 'K' ,'2','2','0',',','1','0','0','0','*','1','F'};
+ 179              		.loc 1 97 1 is_stmt 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 24
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183 0000 00B5     		push	{lr}
+ 184              	.LCFI6:
+ 185              		.cfi_def_cfa_offset 4
+ 186              		.cfi_offset 14, -4
+ 187 0002 87B0     		sub	sp, sp, #28
+ 188              	.LCFI7:
+ 189              		.cfi_def_cfa_offset 32
+  99:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[11] = '\r';
+ 190              		.loc 1 99 5 view .LVU32
+  99:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[11] = '\r';
+ 191              		.loc 1 99 13 is_stmt 0 view .LVU33
+ 192 0004 01AB     		add	r3, sp, #4
+ 193 0006 0B4A     		ldr	r2, .L11
+ 194 0008 07CA     		ldm	r2, {r0, r1, r2}
+ 195 000a 83E80700 		stm	r3, {r0, r1, r2}
+ 196 000e 0022     		movs	r2, #0
+ 197 0010 0492     		str	r2, [sp, #16]
+ 198 0012 ADF81420 		strh	r2, [sp, #20]	@ movhi
+ 100:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[12] = '\n';
+ 199              		.loc 1 100 5 is_stmt 1 view .LVU34
+ 100:../../../shields/gps-firefly/src/fireflyx1.c ****     buffer[12] = '\n';
+ 200              		.loc 1 100 16 is_stmt 0 view .LVU35
+ 201 0016 0D22     		movs	r2, #13
+ 202 0018 8DF80F20 		strb	r2, [sp, #15]
+ 101:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,12);
+ 203              		.loc 1 101 5 is_stmt 1 view .LVU36
+ 101:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,12);
+ 204              		.loc 1 101 16 is_stmt 0 view .LVU37
+ 205 001c 0A22     		movs	r2, #10
+ 206 001e 8DF81020 		strb	r2, [sp, #16]
+ 102:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 7
+
+
+ 207              		.loc 1 102 5 is_stmt 1 view .LVU38
+ 208 0022 0C21     		movs	r1, #12
+ 209 0024 1846     		mov	r0, r3
+ 210 0026 FFF7FEFF 		bl	WRITE_REGISTER_GPS
+ 211              	.LVL12:
+ 104:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 212              		.loc 1 104 5 view .LVU39
+ 105:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t WRITE_REGISTER_GPS(uint8_t pData[],uint8_t length)
+ 213              		.loc 1 105 1 is_stmt 0 view .LVU40
+ 214 002a 0120     		movs	r0, #1
+ 215 002c 07B0     		add	sp, sp, #28
+ 216              	.LCFI8:
+ 217              		.cfi_def_cfa_offset 4
+ 218              		@ sp needed
+ 219 002e 5DF804FB 		ldr	pc, [sp], #4
+ 220              	.L12:
+ 221 0032 00BF     		.align	2
+ 222              	.L11:
+ 223 0034 00010000 		.word	.LANCHOR0+256
+ 224              		.cfi_endproc
+ 225              	.LFE135:
+ 227              		.section	.text.READ_REGISTER_GPS,"ax",%progbits
+ 228              		.align	1
+ 229              		.global	READ_REGISTER_GPS
+ 230              		.syntax unified
+ 231              		.thumb
+ 232              		.thumb_func
+ 233              		.fpu fpv4-sp-d16
+ 235              	READ_REGISTER_GPS:
+ 236              	.LVL13:
+ 237              	.LFB137:
+ 111:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t READ_REGISTER_GPS(uint8_t buf[],uint16_t reg,uint8_t length)
+ 112:../../../shields/gps-firefly/src/fireflyx1.c **** {
+ 238              		.loc 1 112 1 is_stmt 1 view -0
+ 239              		.cfi_startproc
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242              		.loc 1 112 1 is_stmt 0 view .LVU42
+ 243 0000 00B5     		push	{lr}
+ 244              	.LCFI9:
+ 245              		.cfi_def_cfa_offset 4
+ 246              		.cfi_offset 14, -4
+ 247 0002 85B0     		sub	sp, sp, #20
+ 248              	.LCFI10:
+ 249              		.cfi_def_cfa_offset 24
+ 113:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t status = HAL_I2C_Mem_Read(hi2cLib, MT3333_ADDR<<1, reg, I2C_MEMADD_SIZE_8BIT, buf, leng
+ 250              		.loc 1 113 5 is_stmt 1 view .LVU43
+ 251              		.loc 1 113 22 is_stmt 0 view .LVU44
+ 252 0004 4FF0FF33 		mov	r3, #-1
+ 253 0008 0293     		str	r3, [sp, #8]
+ 254 000a 0192     		str	r2, [sp, #4]
+ 255 000c 0090     		str	r0, [sp]
+ 256 000e 0123     		movs	r3, #1
+ 257 0010 0A46     		mov	r2, r1
+ 258              	.LVL14:
+ 259              		.loc 1 113 22 view .LVU45
+ 260 0012 4021     		movs	r1, #64
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 8
+
+
+ 261              	.LVL15:
+ 262              		.loc 1 113 22 view .LVU46
+ 263 0014 0348     		ldr	r0, .L15
+ 264              	.LVL16:
+ 265              		.loc 1 113 22 view .LVU47
+ 266 0016 0068     		ldr	r0, [r0]
+ 267 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Read
+ 268              	.LVL17:
+ 114:../../../shields/gps-firefly/src/fireflyx1.c ****     return status;
+ 269              		.loc 1 114 5 is_stmt 1 view .LVU48
+ 115:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 270              		.loc 1 115 1 is_stmt 0 view .LVU49
+ 271 001c 05B0     		add	sp, sp, #20
+ 272              	.LCFI11:
+ 273              		.cfi_def_cfa_offset 4
+ 274              		@ sp needed
+ 275 001e 5DF804FB 		ldr	pc, [sp], #4
+ 276              	.L16:
+ 277 0022 00BF     		.align	2
+ 278              	.L15:
+ 279 0024 00000000 		.word	hi2cLib
+ 280              		.cfi_endproc
+ 281              	.LFE137:
+ 283              		.section	.text.READ_REG_GPS,"ax",%progbits
+ 284              		.align	1
+ 285              		.global	READ_REG_GPS
+ 286              		.syntax unified
+ 287              		.thumb
+ 288              		.thumb_func
+ 289              		.fpu fpv4-sp-d16
+ 291              	READ_REG_GPS:
+ 292              	.LVL18:
+ 293              	.LFB138:
+ 116:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t READ_REG_GPS(uint8_t buf[],uint8_t length)
+ 117:../../../shields/gps-firefly/src/fireflyx1.c **** {
+ 294              		.loc 1 117 1 is_stmt 1 view -0
+ 295              		.cfi_startproc
+ 296              		@ args = 0, pretend = 0, frame = 0
+ 297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 298              		.loc 1 117 1 is_stmt 0 view .LVU51
+ 299 0000 00B5     		push	{lr}
+ 300              	.LCFI12:
+ 301              		.cfi_def_cfa_offset 4
+ 302              		.cfi_offset 14, -4
+ 303 0002 83B0     		sub	sp, sp, #12
+ 304              	.LCFI13:
+ 305              		.cfi_def_cfa_offset 16
+ 306 0004 0246     		mov	r2, r0
+ 307 0006 0B46     		mov	r3, r1
+ 118:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t status= HAL_I2C_Master_Receive(hi2cLib, MT3333_ADDR, buf, length, HAL_MAX_DELAY);
+ 308              		.loc 1 118 5 is_stmt 1 view .LVU52
+ 309              		.loc 1 118 21 is_stmt 0 view .LVU53
+ 310 0008 4FF0FF31 		mov	r1, #-1
+ 311              	.LVL19:
+ 312              		.loc 1 118 21 view .LVU54
+ 313 000c 0091     		str	r1, [sp]
+ 314 000e 2021     		movs	r1, #32
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 9
+
+
+ 315 0010 0348     		ldr	r0, .L19
+ 316              	.LVL20:
+ 317              		.loc 1 118 21 view .LVU55
+ 318 0012 0068     		ldr	r0, [r0]
+ 319 0014 FFF7FEFF 		bl	HAL_I2C_Master_Receive
+ 320              	.LVL21:
+ 119:../../../shields/gps-firefly/src/fireflyx1.c ****     return status;
+ 321              		.loc 1 119 5 is_stmt 1 view .LVU56
+ 120:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 322              		.loc 1 120 1 is_stmt 0 view .LVU57
+ 323 0018 03B0     		add	sp, sp, #12
+ 324              	.LCFI14:
+ 325              		.cfi_def_cfa_offset 4
+ 326              		@ sp needed
+ 327 001a 5DF804FB 		ldr	pc, [sp], #4
+ 328              	.L20:
+ 329 001e 00BF     		.align	2
+ 330              	.L19:
+ 331 0020 00000000 		.word	hi2cLib
+ 332              		.cfi_endproc
+ 333              	.LFE138:
+ 335              		.section	.rodata.Firefly_communication_check.str1.4,"aMS",%progbits,1
+ 336              		.align	2
+ 337              	.LC2:
+ 338 0000 46697265 		.ascii	"Firefly communication check OK\015\012\000"
+ 338      666C7920 
+ 338      636F6D6D 
+ 338      756E6963 
+ 338      6174696F 
+ 339 0021 000000   		.align	2
+ 340              	.LC3:
+ 341 0024 46697265 		.ascii	"Firefly communication check NOK\015\012\000"
+ 341      666C7920 
+ 341      636F6D6D 
+ 341      756E6963 
+ 341      6174696F 
+ 342              		.section	.text.Firefly_communication_check,"ax",%progbits
+ 343              		.align	1
+ 344              		.global	Firefly_communication_check
+ 345              		.syntax unified
+ 346              		.thumb
+ 347              		.thumb_func
+ 348              		.fpu fpv4-sp-d16
+ 350              	Firefly_communication_check:
+ 351              	.LFB132:
+  58:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[10];
+ 352              		.loc 1 58 1 is_stmt 1 view -0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 16
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356 0000 00B5     		push	{lr}
+ 357              	.LCFI15:
+ 358              		.cfi_def_cfa_offset 4
+ 359              		.cfi_offset 14, -4
+ 360 0002 85B0     		sub	sp, sp, #20
+ 361              	.LCFI16:
+ 362              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 10
+
+
+  59:../../../shields/gps-firefly/src/fireflyx1.c ****     if(!READ_REG_GPS(buffer,10))
+ 363              		.loc 1 59 5 view .LVU59
+  60:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 364              		.loc 1 60 5 view .LVU60
+  60:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 365              		.loc 1 60 9 is_stmt 0 view .LVU61
+ 366 0004 0A21     		movs	r1, #10
+ 367 0006 01A8     		add	r0, sp, #4
+ 368 0008 FFF7FEFF 		bl	READ_REG_GPS
+ 369              	.LVL22:
+  60:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 370              		.loc 1 60 7 view .LVU62
+ 371 000c 30B9     		cbnz	r0, .L22
+  62:../../../shields/gps-firefly/src/fireflyx1.c ****         return 1;
+ 372              		.loc 1 62 9 is_stmt 1 view .LVU63
+ 373 000e 0648     		ldr	r0, .L25
+ 374 0010 FFF7FEFF 		bl	printDBG
+ 375              	.LVL23:
+  63:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 376              		.loc 1 63 9 view .LVU64
+  63:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 377              		.loc 1 63 16 is_stmt 0 view .LVU65
+ 378 0014 0120     		movs	r0, #1
+ 379              	.L23:
+  70:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 380              		.loc 1 70 1 view .LVU66
+ 381 0016 05B0     		add	sp, sp, #20
+ 382              	.LCFI17:
+ 383              		.cfi_remember_state
+ 384              		.cfi_def_cfa_offset 4
+ 385              		@ sp needed
+ 386 0018 5DF804FB 		ldr	pc, [sp], #4
+ 387              	.L22:
+ 388              	.LCFI18:
+ 389              		.cfi_restore_state
+  67:../../../shields/gps-firefly/src/fireflyx1.c ****         return 0;
+ 390              		.loc 1 67 9 is_stmt 1 view .LVU67
+ 391 001c 0348     		ldr	r0, .L25+4
+ 392 001e FFF7FEFF 		bl	printDBG
+ 393              	.LVL24:
+  68:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 394              		.loc 1 68 9 view .LVU68
+  68:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 395              		.loc 1 68 16 is_stmt 0 view .LVU69
+ 396 0022 0020     		movs	r0, #0
+ 397 0024 F7E7     		b	.L23
+ 398              	.L26:
+ 399 0026 00BF     		.align	2
+ 400              	.L25:
+ 401 0028 00000000 		.word	.LC2
+ 402 002c 24000000 		.word	.LC3
+ 403              		.cfi_endproc
+ 404              	.LFE132:
+ 406              		.section	.rodata.Firefly_Initialize.str1.4,"aMS",%progbits,1
+ 407              		.align	2
+ 408              	.LC4:
+ 409 0000 2A2A2A49 		.ascii	"***Initializing Firefly-GPS driver***\015\012\000"
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 11
+
+
+ 409      6E697469 
+ 409      616C697A 
+ 409      696E6720 
+ 409      46697265 
+ 410              		.align	2
+ 411              	.LC5:
+ 412 0028 496E7661 		.ascii	"Invalid FIREFLY_CONNECTOR provided in Makefile\015\012"
+ 412      6C696420 
+ 412      46495245 
+ 412      464C595F 
+ 412      434F4E4E 
+ 413 0058 00       		.ascii	"\000"
+ 414 0059 000000   		.align	2
+ 415              	.LC6:
+ 416 005c 46697265 		.ascii	"Firefly on P%d, initializing I2C\015\012\000"
+ 416      666C7920 
+ 416      6F6E2050 
+ 416      25642C20 
+ 416      696E6974 
+ 417 007f 00       		.align	2
+ 418              	.LC7:
+ 419 0080 46697265 		.ascii	"Firefly GPS Init NOK\015\012\015\012\000"
+ 419      666C7920 
+ 419      47505320 
+ 419      496E6974 
+ 419      204E4F4B 
+ 420 0099 000000   		.align	2
+ 421              	.LC8:
+ 422 009c 46697265 		.ascii	"Firefly GPS Init OK\015\012\015\012\000"
+ 422      666C7920 
+ 422      47505320 
+ 422      496E6974 
+ 422      204F4B0D 
+ 423              		.section	.text.Firefly_Initialize,"ax",%progbits
+ 424              		.align	1
+ 425              		.global	Firefly_Initialize
+ 426              		.syntax unified
+ 427              		.thumb
+ 428              		.thumb_func
+ 429              		.fpu fpv4-sp-d16
+ 431              	Firefly_Initialize:
+ 432              	.LFB131:
+  23:../../../shields/gps-firefly/src/fireflyx1.c ****     printINF("***Initializing Firefly-GPS driver***\r\n");
+ 433              		.loc 1 23 1 is_stmt 1 view -0
+ 434              		.cfi_startproc
+ 435              		@ args = 0, pretend = 0, frame = 48
+ 436              		@ frame_needed = 0, uses_anonymous_args = 0
+ 437 0000 70B5     		push	{r4, r5, r6, lr}
+ 438              	.LCFI19:
+ 439              		.cfi_def_cfa_offset 16
+ 440              		.cfi_offset 4, -16
+ 441              		.cfi_offset 5, -12
+ 442              		.cfi_offset 6, -8
+ 443              		.cfi_offset 14, -4
+ 444 0002 94B0     		sub	sp, sp, #80
+ 445              	.LCFI20:
+ 446              		.cfi_def_cfa_offset 96
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 12
+
+
+  24:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 447              		.loc 1 24 5 view .LVU71
+ 448 0004 2148     		ldr	r0, .L34
+ 449 0006 FFF7FEFF 		bl	printINF
+ 450              	.LVL25:
+  30:../../../shields/gps-firefly/src/fireflyx1.c ****         if(!FireflyHeader.active)
+ 451              		.loc 1 30 9 view .LVU72
+  30:../../../shields/gps-firefly/src/fireflyx1.c ****         if(!FireflyHeader.active)
+ 452              		.loc 1 30 25 is_stmt 0 view .LVU73
+ 453 000a 214E     		ldr	r6, .L34+4
+ 454 000c 0121     		movs	r1, #1
+ 455 000e 08A8     		add	r0, sp, #32
+ 456 0010 FFF7FEFF 		bl	platform_getHeader
+ 457              	.LVL26:
+ 458 0014 3546     		mov	r5, r6
+ 459 0016 08AC     		add	r4, sp, #32
+ 460 0018 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 461 001a 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 462 001c 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 463 001e 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 464 0020 94E80700 		ldm	r4, {r0, r1, r2}
+ 465 0024 85E80700 		stm	r5, {r0, r1, r2}
+  31:../../../shields/gps-firefly/src/fireflyx1.c ****         {
+ 466              		.loc 1 31 9 is_stmt 1 view .LVU74
+  31:../../../shields/gps-firefly/src/fireflyx1.c ****         {
+ 467              		.loc 1 31 26 is_stmt 0 view .LVU75
+ 468 0028 96F82840 		ldrb	r4, [r6, #40]	@ zero_extendqisi2
+  31:../../../shields/gps-firefly/src/fireflyx1.c ****         {
+ 469              		.loc 1 31 11 view .LVU76
+ 470 002c 2CB3     		cbz	r4, .L32
+  37:../../../shields/gps-firefly/src/fireflyx1.c ****     #endif
+ 471              		.loc 1 37 13 is_stmt 1 view .LVU77
+ 472 002e 0121     		movs	r1, #1
+ 473 0030 1848     		ldr	r0, .L34+8
+ 474 0032 FFF7FEFF 		bl	printINF
+ 475              	.LVL27:
+  41:../../../shields/gps-firefly/src/fireflyx1.c ****     
+ 476              		.loc 1 41 5 view .LVU78
+ 477 0036 164E     		ldr	r6, .L34+4
+ 478 0038 6C46     		mov	r4, sp
+ 479 003a 06F11005 		add	r5, r6, #16
+ 480 003e 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 481 0040 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+ 482 0042 95E80700 		ldm	r5, {r0, r1, r2}
+ 483 0046 84E80700 		stm	r4, {r0, r1, r2}
+ 484 004a 96E80F00 		ldm	r6, {r0, r1, r2, r3}
+ 485 004e FFF7FEFF 		bl	platform_initialize_I2C
+ 486              	.LVL28:
+  43:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_int_pin = FireflyHeader.DIO1;
+ 487              		.loc 1 43 5 view .LVU79
+  43:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_int_pin = FireflyHeader.DIO1;
+ 488              		.loc 1 43 28 is_stmt 0 view .LVU80
+ 489 0052 B268     		ldr	r2, [r6, #8]
+  43:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_int_pin = FireflyHeader.DIO1;
+ 490              		.loc 1 43 13 view .LVU81
+ 491 0054 104B     		ldr	r3, .L34+12
+ 492 0056 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 13
+
+
+  44:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_reset_pin = FireflyHeader.DIO6;
+ 493              		.loc 1 44 5 is_stmt 1 view .LVU82
+  44:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_reset_pin = FireflyHeader.DIO6;
+ 494              		.loc 1 44 36 is_stmt 0 view .LVU83
+ 495 0058 3269     		ldr	r2, [r6, #16]
+  44:../../../shields/gps-firefly/src/fireflyx1.c ****     firefly_reset_pin = FireflyHeader.DIO6;
+ 496              		.loc 1 44 21 view .LVU84
+ 497 005a 104B     		ldr	r3, .L34+16
+ 498 005c 1A60     		str	r2, [r3]
+  45:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 499              		.loc 1 45 5 is_stmt 1 view .LVU85
+  45:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 500              		.loc 1 45 38 is_stmt 0 view .LVU86
+ 501 005e 726A     		ldr	r2, [r6, #36]
+  45:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 502              		.loc 1 45 23 view .LVU87
+ 503 0060 0F4B     		ldr	r3, .L34+20
+ 504 0062 1A60     		str	r2, [r3]
+  47:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 505              		.loc 1 47 5 is_stmt 1 view .LVU88
+  47:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 506              		.loc 1 47 9 is_stmt 0 view .LVU89
+ 507 0064 FFF7FEFF 		bl	Firefly_communication_check
+ 508              	.LVL29:
+  47:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 509              		.loc 1 47 7 view .LVU90
+ 510 0068 0446     		mov	r4, r0
+ 511 006a 50B1     		cbz	r0, .L33
+  52:../../../shields/gps-firefly/src/fireflyx1.c ****     return 1;
+ 512              		.loc 1 52 5 is_stmt 1 view .LVU91
+ 513 006c 0D48     		ldr	r0, .L34+24
+ 514 006e FFF7FEFF 		bl	printINF
+ 515              	.LVL30:
+  53:../../../shields/gps-firefly/src/fireflyx1.c ****     
+ 516              		.loc 1 53 5 view .LVU92
+  53:../../../shields/gps-firefly/src/fireflyx1.c ****     
+ 517              		.loc 1 53 12 is_stmt 0 view .LVU93
+ 518 0072 0124     		movs	r4, #1
+ 519              	.L29:
+  55:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 520              		.loc 1 55 1 view .LVU94
+ 521 0074 2046     		mov	r0, r4
+ 522 0076 14B0     		add	sp, sp, #80
+ 523              	.LCFI21:
+ 524              		.cfi_remember_state
+ 525              		.cfi_def_cfa_offset 16
+ 526              		@ sp needed
+ 527 0078 70BD     		pop	{r4, r5, r6, pc}
+ 528              	.L32:
+ 529              	.LCFI22:
+ 530              		.cfi_restore_state
+  33:../../../shields/gps-firefly/src/fireflyx1.c ****             return 0;  
+ 531              		.loc 1 33 13 is_stmt 1 view .LVU95
+ 532 007a 0B48     		ldr	r0, .L34+28
+ 533 007c FFF7FEFF 		bl	printERR
+ 534              	.LVL31:
+  34:../../../shields/gps-firefly/src/fireflyx1.c ****         }
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 14
+
+
+ 535              		.loc 1 34 13 view .LVU96
+  34:../../../shields/gps-firefly/src/fireflyx1.c ****         }
+ 536              		.loc 1 34 20 is_stmt 0 view .LVU97
+ 537 0080 F8E7     		b	.L29
+ 538              	.L33:
+  49:../../../shields/gps-firefly/src/fireflyx1.c ****         return 0;
+ 539              		.loc 1 49 9 is_stmt 1 view .LVU98
+ 540 0082 0A48     		ldr	r0, .L34+32
+ 541 0084 FFF7FEFF 		bl	printERR
+ 542              	.LVL32:
+  50:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 543              		.loc 1 50 9 view .LVU99
+  50:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 544              		.loc 1 50 16 is_stmt 0 view .LVU100
+ 545 0088 F4E7     		b	.L29
+ 546              	.L35:
+ 547 008a 00BF     		.align	2
+ 548              	.L34:
+ 549 008c 00000000 		.word	.LC4
+ 550 0090 00000000 		.word	FireflyHeader
+ 551 0094 5C000000 		.word	.LC6
+ 552 0098 00000000 		.word	hi2cLib
+ 553 009c 00000000 		.word	firefly_int_pin
+ 554 00a0 00000000 		.word	firefly_reset_pin
+ 555 00a4 9C000000 		.word	.LC8
+ 556 00a8 28000000 		.word	.LC5
+ 557 00ac 80000000 		.word	.LC7
+ 558              		.cfi_endproc
+ 559              	.LFE131:
+ 561              		.section	.rodata.Firefly_sleep.str1.4,"aMS",%progbits,1
+ 562              		.align	2
+ 563              	.LC9:
+ 564 0000 24504D54 		.ascii	"$PMTK161,0*28\015\012\000"
+ 564      4B313631 
+ 564      2C302A32 
+ 564      380D0A00 
+ 565              		.section	.text.Firefly_sleep,"ax",%progbits
+ 566              		.align	1
+ 567              		.global	Firefly_sleep
+ 568              		.syntax unified
+ 569              		.thumb
+ 570              		.thumb_func
+ 571              		.fpu fpv4-sp-d16
+ 573              	Firefly_sleep:
+ 574              	.LFB140:
+ 121:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t Firefly_receive(uint8_t response[])
+ 122:../../../shields/gps-firefly/src/fireflyx1.c **** {
+ 123:../../../shields/gps-firefly/src/fireflyx1.c ****     READ_REG_GPS(response,1000);
+ 124:../../../shields/gps-firefly/src/fireflyx1.c ****     return feedToProcessor(response);
+ 125:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 126:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 127:../../../shields/gps-firefly/src/fireflyx1.c **** void Firefly_sleep(void)
+ 128:../../../shields/gps-firefly/src/fireflyx1.c **** {
+ 575              		.loc 1 128 1 is_stmt 1 view -0
+ 576              		.cfi_startproc
+ 577              		@ args = 0, pretend = 0, frame = 16
+ 578              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 15
+
+
+ 579 0000 10B5     		push	{r4, lr}
+ 580              	.LCFI23:
+ 581              		.cfi_def_cfa_offset 8
+ 582              		.cfi_offset 4, -8
+ 583              		.cfi_offset 14, -4
+ 584 0002 84B0     		sub	sp, sp, #16
+ 585              	.LCFI24:
+ 586              		.cfi_def_cfa_offset 24
+ 129:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t buffer[15] = { '$', 'P', 'M', 'T', 'K' , '1' , '6' , '1' , ',' , '0' , '*' , '2' , '8' 
+ 587              		.loc 1 129 5 view .LVU102
+ 588              		.loc 1 129 13 is_stmt 0 view .LVU103
+ 589 0004 064B     		ldr	r3, .L38
+ 590 0006 6C46     		mov	r4, sp
+ 591 0008 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 592 000a 07C4     		stmia	r4!, {r0, r1, r2}
+ 593 000c 24F8023B 		strh	r3, [r4], #2	@ movhi
+ 594 0010 1B0C     		lsrs	r3, r3, #16
+ 595 0012 2370     		strb	r3, [r4]
+ 130:../../../shields/gps-firefly/src/fireflyx1.c ****     WRITE_REGISTER_GPS(buffer,15);
+ 596              		.loc 1 130 5 is_stmt 1 view .LVU104
+ 597 0014 0F21     		movs	r1, #15
+ 598 0016 6846     		mov	r0, sp
+ 599 0018 FFF7FEFF 		bl	WRITE_REGISTER_GPS
+ 600              	.LVL33:
+ 131:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 601              		.loc 1 131 1 is_stmt 0 view .LVU105
+ 602 001c 04B0     		add	sp, sp, #16
+ 603              	.LCFI25:
+ 604              		.cfi_def_cfa_offset 8
+ 605              		@ sp needed
+ 606 001e 10BD     		pop	{r4, pc}
+ 607              	.L39:
+ 608              		.align	2
+ 609              	.L38:
+ 610 0020 00000000 		.word	.LC9
+ 611              		.cfi_endproc
+ 612              	.LFE140:
+ 614              		.section	.text.feedToProcessor,"ax",%progbits
+ 615              		.align	1
+ 616              		.global	feedToProcessor
+ 617              		.syntax unified
+ 618              		.thumb
+ 619              		.thumb_func
+ 620              		.fpu fpv4-sp-d16
+ 622              	feedToProcessor:
+ 623              	.LVL34:
+ 624              	.LFB141:
+ 132:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 133:../../../shields/gps-firefly/src/fireflyx1.c **** uint8_t feedToProcessor(uint8_t response[])
+ 134:../../../shields/gps-firefly/src/fireflyx1.c **** {
+ 625              		.loc 1 134 1 is_stmt 1 view -0
+ 626              		.cfi_startproc
+ 627              		@ args = 0, pretend = 0, frame = 0
+ 628              		@ frame_needed = 0, uses_anonymous_args = 0
+ 629              		.loc 1 134 1 is_stmt 0 view .LVU107
+ 630 0000 38B5     		push	{r3, r4, r5, lr}
+ 631              	.LCFI26:
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 16
+
+
+ 632              		.cfi_def_cfa_offset 16
+ 633              		.cfi_offset 3, -16
+ 634              		.cfi_offset 4, -12
+ 635              		.cfi_offset 5, -8
+ 636              		.cfi_offset 14, -4
+ 637 0002 0546     		mov	r5, r0
+ 135:../../../shields/gps-firefly/src/fireflyx1.c ****     uint8_t i;
+ 638              		.loc 1 135 5 is_stmt 1 view .LVU108
+ 136:../../../shields/gps-firefly/src/fireflyx1.c ****     for(i = 0; i < 255; i++)
+ 639              		.loc 1 136 5 view .LVU109
+ 640              	.LVL35:
+ 641              		.loc 1 136 11 is_stmt 0 view .LVU110
+ 642 0004 0024     		movs	r4, #0
+ 643              	.LVL36:
+ 644              	.L41:
+ 645              		.loc 1 136 16 is_stmt 1 discriminator 1 view .LVU111
+ 646              		.loc 1 136 5 is_stmt 0 discriminator 1 view .LVU112
+ 647 0006 FF2C     		cmp	r4, #255
+ 648 0008 05D0     		beq	.L44
+ 137:../../../shields/gps-firefly/src/fireflyx1.c ****     {
+ 138:../../../shields/gps-firefly/src/fireflyx1.c ****       nmea_parse(response[i]);
+ 649              		.loc 1 138 7 is_stmt 1 discriminator 3 view .LVU113
+ 650 000a 285D     		ldrb	r0, [r5, r4]	@ zero_extendqisi2
+ 651 000c FFF7FEFF 		bl	nmea_parse
+ 652              	.LVL37:
+ 136:../../../shields/gps-firefly/src/fireflyx1.c ****     for(i = 0; i < 255; i++)
+ 653              		.loc 1 136 25 discriminator 3 view .LVU114
+ 136:../../../shields/gps-firefly/src/fireflyx1.c ****     for(i = 0; i < 255; i++)
+ 654              		.loc 1 136 26 is_stmt 0 discriminator 3 view .LVU115
+ 655 0010 0134     		adds	r4, r4, #1
+ 656              	.LVL38:
+ 136:../../../shields/gps-firefly/src/fireflyx1.c ****     for(i = 0; i < 255; i++)
+ 657              		.loc 1 136 26 discriminator 3 view .LVU116
+ 658 0012 E4B2     		uxtb	r4, r4
+ 659              	.LVL39:
+ 136:../../../shields/gps-firefly/src/fireflyx1.c ****     for(i = 0; i < 255; i++)
+ 660              		.loc 1 136 26 discriminator 3 view .LVU117
+ 661 0014 F7E7     		b	.L41
+ 662              	.L44:
+ 139:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 140:../../../shields/gps-firefly/src/fireflyx1.c ****     return nmea_have_position();
+ 663              		.loc 1 140 5 is_stmt 1 view .LVU118
+ 664              		.loc 1 140 12 is_stmt 0 view .LVU119
+ 665 0016 FFF7FEFF 		bl	nmea_have_position
+ 666              	.LVL40:
+ 141:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 667              		.loc 1 141 1 view .LVU120
+ 668 001a 38BD     		pop	{r3, r4, r5, pc}
+ 669              		.loc 1 141 1 view .LVU121
+ 670              		.cfi_endproc
+ 671              	.LFE141:
+ 673              		.section	.text.Firefly_receive,"ax",%progbits
+ 674              		.align	1
+ 675              		.global	Firefly_receive
+ 676              		.syntax unified
+ 677              		.thumb
+ 678              		.thumb_func
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 17
+
+
+ 679              		.fpu fpv4-sp-d16
+ 681              	Firefly_receive:
+ 682              	.LVL41:
+ 683              	.LFB139:
+ 122:../../../shields/gps-firefly/src/fireflyx1.c ****     READ_REG_GPS(response,1000);
+ 684              		.loc 1 122 1 is_stmt 1 view -0
+ 685              		.cfi_startproc
+ 686              		@ args = 0, pretend = 0, frame = 0
+ 687              		@ frame_needed = 0, uses_anonymous_args = 0
+ 122:../../../shields/gps-firefly/src/fireflyx1.c ****     READ_REG_GPS(response,1000);
+ 688              		.loc 1 122 1 is_stmt 0 view .LVU123
+ 689 0000 10B5     		push	{r4, lr}
+ 690              	.LCFI27:
+ 691              		.cfi_def_cfa_offset 8
+ 692              		.cfi_offset 4, -8
+ 693              		.cfi_offset 14, -4
+ 694 0002 0446     		mov	r4, r0
+ 123:../../../shields/gps-firefly/src/fireflyx1.c ****     return feedToProcessor(response);
+ 695              		.loc 1 123 5 is_stmt 1 view .LVU124
+ 696 0004 E821     		movs	r1, #232
+ 697 0006 FFF7FEFF 		bl	READ_REG_GPS
+ 698              	.LVL42:
+ 124:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 699              		.loc 1 124 5 view .LVU125
+ 124:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 700              		.loc 1 124 12 is_stmt 0 view .LVU126
+ 701 000a 2046     		mov	r0, r4
+ 702 000c FFF7FEFF 		bl	feedToProcessor
+ 703              	.LVL43:
+ 125:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 704              		.loc 1 125 1 view .LVU127
+ 705 0010 10BD     		pop	{r4, pc}
+ 125:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 706              		.loc 1 125 1 view .LVU128
+ 707              		.cfi_endproc
+ 708              	.LFE139:
+ 710              		.global	__aeabi_f2d
+ 711              		.global	__aeabi_ddiv
+ 712              		.global	__aeabi_i2d
+ 713              		.global	__aeabi_dadd
+ 714              		.global	__aeabi_d2f
+ 715              		.section	.text.gps_get_position_dd,"ax",%progbits
+ 716              		.align	1
+ 717              		.global	gps_get_position_dd
+ 718              		.syntax unified
+ 719              		.thumb
+ 720              		.thumb_func
+ 721              		.fpu fpv4-sp-d16
+ 723              	gps_get_position_dd:
+ 724              	.LFB142:
+ 142:../../../shields/gps-firefly/src/fireflyx1.c **** 
+ 143:../../../shields/gps-firefly/src/fireflyx1.c **** gps_position_dd_t gps_get_position_dd() {
+ 725              		.loc 1 143 41 is_stmt 1 view -0
+ 726              		.cfi_startproc
+ 727              		@ args = 0, pretend = 0, frame = 88
+ 728              		@ frame_needed = 0, uses_anonymous_args = 0
+ 729 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 18
+
+
+ 730              	.LCFI28:
+ 731              		.cfi_def_cfa_offset 16
+ 732              		.cfi_offset 4, -16
+ 733              		.cfi_offset 5, -12
+ 734              		.cfi_offset 6, -8
+ 735              		.cfi_offset 14, -4
+ 736 0002 96B0     		sub	sp, sp, #88
+ 737              	.LCFI29:
+ 738              		.cfi_def_cfa_offset 104
+ 144:../../../shields/gps-firefly/src/fireflyx1.c ****     gps_position_dd_t dd;
+ 739              		.loc 1 144 5 view .LVU130
+ 145:../../../shields/gps-firefly/src/fireflyx1.c ****     nmea_position_t   pos = nmea_get_position();
+ 740              		.loc 1 145 5 view .LVU131
+ 741              		.loc 1 145 29 is_stmt 0 view .LVU132
+ 742 0004 05A8     		add	r0, sp, #20
+ 743 0006 FFF7FEFF 		bl	nmea_get_position
+ 744              	.LVL44:
+ 146:../../../shields/gps-firefly/src/fireflyx1.c ****     dd.latitude = pos.latitude.deg + pos.latitude.min/60.0;
+ 745              		.loc 1 146 5 is_stmt 1 view .LVU133
+ 746              		.loc 1 146 31 is_stmt 0 view .LVU134
+ 747 000a 9DF81C60 		ldrb	r6, [sp, #28]	@ zero_extendqisi2
+ 748              		.loc 1 146 50 view .LVU135
+ 749 000e 0898     		ldr	r0, [sp, #32]	@ float
+ 750 0010 FFF7FEFF 		bl	__aeabi_f2d
+ 751              	.LVL45:
+ 752              		.loc 1 146 54 view .LVU136
+ 753 0014 0022     		movs	r2, #0
+ 754 0016 254B     		ldr	r3, .L53
+ 755 0018 FFF7FEFF 		bl	__aeabi_ddiv
+ 756              	.LVL46:
+ 757 001c 0446     		mov	r4, r0
+ 758 001e 0D46     		mov	r5, r1
+ 759              		.loc 1 146 36 view .LVU137
+ 760 0020 3046     		mov	r0, r6
+ 761 0022 FFF7FEFF 		bl	__aeabi_i2d
+ 762              	.LVL47:
+ 763 0026 2246     		mov	r2, r4
+ 764 0028 2B46     		mov	r3, r5
+ 765 002a FFF7FEFF 		bl	__aeabi_dadd
+ 766              	.LVL48:
+ 767 002e FFF7FEFF 		bl	__aeabi_d2f
+ 768              	.LVL49:
+ 769              		.loc 1 146 17 view .LVU138
+ 770 0032 1090     		str	r0, [sp, #64]	@ float
+ 147:../../../shields/gps-firefly/src/fireflyx1.c ****     if(pos.latitude.ns == 's') {
+ 771              		.loc 1 147 5 is_stmt 1 view .LVU139
+ 772              		.loc 1 147 20 is_stmt 0 view .LVU140
+ 773 0034 9DF82430 		ldrb	r3, [sp, #36]	@ zero_extendqisi2
+ 774              		.loc 1 147 7 view .LVU141
+ 775 0038 732B     		cmp	r3, #115
+ 776 003a 2AD0     		beq	.L51
+ 777              	.L48:
+ 148:../../../shields/gps-firefly/src/fireflyx1.c ****       dd.latitude *= -1;
+ 149:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 150:../../../shields/gps-firefly/src/fireflyx1.c ****     dd.longitude = pos.longitude.deg + pos.longitude.min/60.0;
+ 778              		.loc 1 150 5 is_stmt 1 view .LVU142
+ 779              		.loc 1 150 33 is_stmt 0 view .LVU143
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 19
+
+
+ 780 003c 9DF82860 		ldrb	r6, [sp, #40]	@ zero_extendqisi2
+ 781              		.loc 1 150 53 view .LVU144
+ 782 0040 0B98     		ldr	r0, [sp, #44]	@ float
+ 783 0042 FFF7FEFF 		bl	__aeabi_f2d
+ 784              	.LVL50:
+ 785              		.loc 1 150 57 view .LVU145
+ 786 0046 0022     		movs	r2, #0
+ 787 0048 184B     		ldr	r3, .L53
+ 788 004a FFF7FEFF 		bl	__aeabi_ddiv
+ 789              	.LVL51:
+ 790 004e 0446     		mov	r4, r0
+ 791 0050 0D46     		mov	r5, r1
+ 792              		.loc 1 150 38 view .LVU146
+ 793 0052 3046     		mov	r0, r6
+ 794 0054 FFF7FEFF 		bl	__aeabi_i2d
+ 795              	.LVL52:
+ 796 0058 2246     		mov	r2, r4
+ 797 005a 2B46     		mov	r3, r5
+ 798 005c FFF7FEFF 		bl	__aeabi_dadd
+ 799              	.LVL53:
+ 800 0060 FFF7FEFF 		bl	__aeabi_d2f
+ 801              	.LVL54:
+ 802 0064 07EE900A 		vmov	s15, r0
+ 803              		.loc 1 150 18 view .LVU147
+ 804 0068 1190     		str	r0, [sp, #68]	@ float
+ 151:../../../shields/gps-firefly/src/fireflyx1.c ****     if(pos.longitude.ew == 'w') {
+ 805              		.loc 1 151 5 is_stmt 1 view .LVU148
+ 806              		.loc 1 151 21 is_stmt 0 view .LVU149
+ 807 006a 9DF83030 		ldrb	r3, [sp, #48]	@ zero_extendqisi2
+ 808              		.loc 1 151 7 view .LVU150
+ 809 006e 772B     		cmp	r3, #119
+ 810 0070 16D0     		beq	.L52
+ 811              	.L49:
+ 152:../../../shields/gps-firefly/src/fireflyx1.c ****       dd.longitude *= -1;
+ 153:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 154:../../../shields/gps-firefly/src/fireflyx1.c ****     dd.hdop = pos.hdop;
+ 812              		.loc 1 154 5 is_stmt 1 view .LVU151
+ 813              		.loc 1 154 18 is_stmt 0 view .LVU152
+ 814 0072 0E9B     		ldr	r3, [sp, #56]	@ float
+ 815              		.loc 1 154 13 view .LVU153
+ 816 0074 1293     		str	r3, [sp, #72]	@ float
+ 155:../../../shields/gps-firefly/src/fireflyx1.c ****     return dd;
+ 817              		.loc 1 155 5 is_stmt 1 view .LVU154
+ 818              		.loc 1 155 12 is_stmt 0 view .LVU155
+ 819 0076 10AB     		add	r3, sp, #64
+ 820 0078 93E80700 		ldm	r3, {r0, r1, r2}
+ 821 007c 16AB     		add	r3, sp, #88
+ 822 007e 03E90700 		stmdb	r3, {r0, r1, r2}
+ 156:../../../shields/gps-firefly/src/fireflyx1.c **** }
+ 823              		.loc 1 156 1 view .LVU156
+ 824 0082 9DED130A 		vldr.32	s0, [sp, #76]
+ 825 0086 DDED140A 		vldr.32	s1, [sp, #80]
+ 826 008a 9DED151A 		vldr.32	s2, [sp, #84]
+ 827 008e 16B0     		add	sp, sp, #88
+ 828              	.LCFI30:
+ 829              		.cfi_remember_state
+ 830              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 20
+
+
+ 831              		@ sp needed
+ 832 0090 70BD     		pop	{r4, r5, r6, pc}
+ 833              	.L51:
+ 834              	.LCFI31:
+ 835              		.cfi_restore_state
+ 836 0092 07EE900A 		vmov	s15, r0
+ 148:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 837              		.loc 1 148 7 is_stmt 1 view .LVU157
+ 148:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 838              		.loc 1 148 19 is_stmt 0 view .LVU158
+ 839 0096 F1EE677A 		vneg.f32	s15, s15
+ 840 009a CDED107A 		vstr.32	s15, [sp, #64]
+ 841 009e CDE7     		b	.L48
+ 842              	.L52:
+ 152:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 843              		.loc 1 152 7 is_stmt 1 view .LVU159
+ 152:../../../shields/gps-firefly/src/fireflyx1.c ****     }
+ 844              		.loc 1 152 20 is_stmt 0 view .LVU160
+ 845 00a0 F1EE677A 		vneg.f32	s15, s15
+ 846 00a4 CDED117A 		vstr.32	s15, [sp, #68]
+ 847 00a8 E3E7     		b	.L49
+ 848              	.L54:
+ 849 00aa 00BF     		.align	2
+ 850              	.L53:
+ 851 00ac 00004E40 		.word	1078853632
+ 852              		.cfi_endproc
+ 853              	.LFE142:
+ 855              		.comm	firefly_reset_pin,4,4
+ 856              		.comm	firefly_int_pin,4,4
+ 857              		.comm	hi2cLib,4,4
+ 858              		.comm	FireflyHeader,44,4
+ 859              		.comm	currentHdop,4,4
+ 860              		.comm	currentLongitude,4,4
+ 861              		.comm	currentLatitude,4,4
+ 862              		.comm	P3_header,44,4
+ 863              		.comm	P2_header,44,4
+ 864              		.comm	P1_header,44,4
+ 865              		.comm	stackversion_patch,1,1
+ 866              		.comm	stackversion_minor,1,1
+ 867              		.comm	stackversion_major,1,1
+ 868              		.comm	appversion_patch,1,1
+ 869              		.comm	appversion_minor,1,1
+ 870              		.comm	appversion_major,1,1
+ 871              		.comm	short_UID,8,8
+ 872              		.comm	hard_reset,1,1
+ 873              		.comm	wd_reset,1,1
+ 874              		.comm	octa_uid,8,8
+ 875              		.comm	float_union,4,4
+ 876              		.comm	uint16LittleEndian,2,4
+ 877              		.comm	int16LittleEndian,2,4
+ 878              		.comm	uint32LittleEndian,4,4
+ 879              		.comm	int32LittleEndian,4,4
+ 880              		.comm	rtosprintHandle,4,4
+ 881              		.comm	hrtc,36,4
+ 882              		.comm	FLASH_SPI,100,4
+ 883              		.comm	P3_SPI,100,4
+ 884              		.comm	P2_SPI,100,4
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 21
+
+
+ 885              		.comm	P1_SPI,100,4
+ 886              		.comm	P3_I2C,76,4
+ 887              		.comm	P2_I2C,76,4
+ 888              		.comm	P1_I2C,76,4
+ 889              		.comm	common_I2C,76,4
+ 890              		.comm	P3_UART,120,4
+ 891              		.comm	P2_UART,120,4
+ 892              		.comm	P1_UART,120,4
+ 893              		.comm	FTDI_UART,120,4
+ 894              		.comm	BLE_UART,120,4
+ 895              		.comm	USB_UART,120,4
+ 896              		.comm	hiwdg,16,4
+ 897              		.comm	P3_DIO6,8,4
+ 898              		.comm	P3_DIO5,8,4
+ 899              		.comm	P3_DIO4,8,4
+ 900              		.comm	P3_DIO3,8,4
+ 901              		.comm	P3_DIO2,8,4
+ 902              		.comm	P3_DIO1,8,4
+ 903              		.comm	P2_DIO6,8,4
+ 904              		.comm	P2_DIO5,8,4
+ 905              		.comm	P2_DIO4,8,4
+ 906              		.comm	P2_DIO3,8,4
+ 907              		.comm	P2_DIO2,8,4
+ 908              		.comm	P2_DIO1,8,4
+ 909              		.comm	P1_DIO6,8,4
+ 910              		.comm	P1_DIO5,8,4
+ 911              		.comm	P1_DIO4,8,4
+ 912              		.comm	P1_DIO3,8,4
+ 913              		.comm	P1_DIO2,8,4
+ 914              		.comm	P1_DIO1,8,4
+ 915              		.comm	htim6,64,4
+ 916              		.comm	htim1,64,4
+ 917              		.section	.rodata
+ 918              		.align	2
+ 919              		.set	.LANCHOR0,. + 0
+ 920              	.LC0:
+ 921 0000 24504D54 		.ascii	"$PMTK\000"
+ 921      4B00
+ 922 0006 00000000 		.space	249
+ 922      00000000 
+ 922      00000000 
+ 922      00000000 
+ 922      00000000 
+ 923 00ff 00       		.space	1
+ 924              	.LC1:
+ 925 0100 24504D54 		.ascii	"$PMTK103*30\000"
+ 925      4B313033 
+ 925      2A333000 
+ 926 010c 00000000 		.space	6
+ 926      0000
+ 927              		.text
+ 928              	.Letext0:
+ 929              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
+ 930              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include\
+ 931              		.file 4 "../../../core/ST/CMSIS/Include/core_cm4.h"
+ 932              		.file 5 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/system_stm32l4xx.h"
+ 933              		.file 6 "../../../core/ST/CMSIS/Device/ST/STM32L4xx/Include/stm32l496xx.h"
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 22
+
+
+ 934              		.file 7 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 935              		.file 8 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 936              		.file 9 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 937              		.file 10 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_iwdg.h"
+ 938              		.file 11 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rtc.h"
+ 939              		.file 12 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 940              		.file 13 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 941              		.file 14 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h"
+ 942              		.file 15 "../../../core/ST/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 943              		.file 16 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 944              		.file 17 "../../../core/ST/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 945              		.file 18 "../../../core/platform/octa/inc/sysclock.h"
+ 946              		.file 19 "../../../core/platform/octa/inc/gpio.h"
+ 947              		.file 20 "../../../core/platform/octa/inc/iwdg.h"
+ 948              		.file 21 "../../../core/platform/octa/inc/uart.h"
+ 949              		.file 22 "../../../core/platform/octa/inc/i2c.h"
+ 950              		.file 23 "../../../core/platform/octa/inc/spi.h"
+ 951              		.file 24 "../../../core/platform/octa/inc/rtc.h"
+ 952              		.file 25 "../../../core/platform/octa/inc/rtosincludes.h"
+ 953              		.file 26 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 954              		.file 27 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 955              		.file 28 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\lib\\gcc\\arm-none-eab
+ 956              		.file 29 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 957              		.file 30 "../../../core/platform/common/inc/datatypes.h"
+ 958              		.file 31 "../../../core/platform/octa/inc/platform.h"
+ 959              		.file 32 "../../../shields/gps-firefly/inc/nmea.h"
+ 960              		.file 33 "../../../shields/gps-firefly/inc/fireflyx1.h"
+ 961              		.file 34 "c:\\program files (x86)\\gnu tools arm embedded\\9 2019-q4-major\\arm-none-eabi\\include
+ 962              		.file 35 "<built-in>"
+ 963              		.file 36 "../../../core/platform/common/inc/print.h"
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 fireflyx1.c
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:18     .text.WRITE_REGISTER_GPS:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:26     .text.WRITE_REGISTER_GPS:00000000 WRITE_REGISTER_GPS
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:67     .text.WRITE_REGISTER_GPS:00000020 $d
+                            *COM*:00000004 hi2cLib
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:72     .text.Firefly_send:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:79     .text.Firefly_send:00000000 Firefly_send
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:165    .text.Firefly_send:00000068 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:170    .text.Firefly_sendDefault:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:177    .text.Firefly_sendDefault:00000000 Firefly_sendDefault
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:223    .text.Firefly_sendDefault:00000034 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:228    .text.READ_REGISTER_GPS:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:235    .text.READ_REGISTER_GPS:00000000 READ_REGISTER_GPS
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:279    .text.READ_REGISTER_GPS:00000024 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:284    .text.READ_REG_GPS:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:291    .text.READ_REG_GPS:00000000 READ_REG_GPS
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:331    .text.READ_REG_GPS:00000020 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:336    .rodata.Firefly_communication_check.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:343    .text.Firefly_communication_check:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:350    .text.Firefly_communication_check:00000000 Firefly_communication_check
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:401    .text.Firefly_communication_check:00000028 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:407    .rodata.Firefly_Initialize.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:424    .text.Firefly_Initialize:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:431    .text.Firefly_Initialize:00000000 Firefly_Initialize
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:549    .text.Firefly_Initialize:0000008c $d
+                            *COM*:0000002c FireflyHeader
+                            *COM*:00000004 firefly_int_pin
+                            *COM*:00000004 firefly_reset_pin
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:562    .rodata.Firefly_sleep.str1.4:00000000 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:566    .text.Firefly_sleep:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:573    .text.Firefly_sleep:00000000 Firefly_sleep
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:610    .text.Firefly_sleep:00000020 $d
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:615    .text.feedToProcessor:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:622    .text.feedToProcessor:00000000 feedToProcessor
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:674    .text.Firefly_receive:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:681    .text.Firefly_receive:00000000 Firefly_receive
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:716    .text.gps_get_position_dd:00000000 $t
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:723    .text.gps_get_position_dd:00000000 gps_get_position_dd
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:851    .text.gps_get_position_dd:000000ac $d
+                            *COM*:00000004 currentHdop
+                            *COM*:00000004 currentLongitude
+                            *COM*:00000004 currentLatitude
+                            *COM*:0000002c P3_header
+                            *COM*:0000002c P2_header
+                            *COM*:0000002c P1_header
+                            *COM*:00000001 stackversion_patch
+                            *COM*:00000001 stackversion_minor
+                            *COM*:00000001 stackversion_major
+                            *COM*:00000001 appversion_patch
+                            *COM*:00000001 appversion_minor
+                            *COM*:00000001 appversion_major
+                            *COM*:00000008 short_UID
+                            *COM*:00000001 hard_reset
+                            *COM*:00000001 wd_reset
+                            *COM*:00000008 octa_uid
+                            *COM*:00000004 float_union
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 24
+
+
+                            *COM*:00000002 uint16LittleEndian
+                            *COM*:00000002 int16LittleEndian
+                            *COM*:00000004 uint32LittleEndian
+                            *COM*:00000004 int32LittleEndian
+                            *COM*:00000004 rtosprintHandle
+                            *COM*:00000024 hrtc
+                            *COM*:00000064 FLASH_SPI
+                            *COM*:00000064 P3_SPI
+                            *COM*:00000064 P2_SPI
+                            *COM*:00000064 P1_SPI
+                            *COM*:0000004c P3_I2C
+                            *COM*:0000004c P2_I2C
+                            *COM*:0000004c P1_I2C
+                            *COM*:0000004c common_I2C
+                            *COM*:00000078 P3_UART
+                            *COM*:00000078 P2_UART
+                            *COM*:00000078 P1_UART
+                            *COM*:00000078 FTDI_UART
+                            *COM*:00000078 BLE_UART
+                            *COM*:00000078 USB_UART
+                            *COM*:00000010 hiwdg
+                            *COM*:00000008 P3_DIO6
+                            *COM*:00000008 P3_DIO5
+                            *COM*:00000008 P3_DIO4
+                            *COM*:00000008 P3_DIO3
+                            *COM*:00000008 P3_DIO2
+                            *COM*:00000008 P3_DIO1
+                            *COM*:00000008 P2_DIO6
+                            *COM*:00000008 P2_DIO5
+                            *COM*:00000008 P2_DIO4
+                            *COM*:00000008 P2_DIO3
+                            *COM*:00000008 P2_DIO2
+                            *COM*:00000008 P2_DIO1
+                            *COM*:00000008 P1_DIO6
+                            *COM*:00000008 P1_DIO5
+                            *COM*:00000008 P1_DIO4
+                            *COM*:00000008 P1_DIO3
+                            *COM*:00000008 P1_DIO2
+                            *COM*:00000008 P1_DIO1
+                            *COM*:00000040 htim6
+                            *COM*:00000040 htim1
+C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s:918    .rodata:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Master_Transmit
+strlen
+memset
+memcpy
+_compute_checksum
+HAL_I2C_Mem_Read
+HAL_I2C_Master_Receive
+printDBG
+printINF
+platform_getHeader
+platform_initialize_I2C
+printERR
+nmea_parse
+ARM GAS  C:\Users\tijsv\AppData\Local\Temp\cckzzOk1.s 			page 25
+
+
+nmea_have_position
+__aeabi_f2d
+__aeabi_ddiv
+__aeabi_i2d
+__aeabi_dadd
+__aeabi_d2f
+nmea_get_position
