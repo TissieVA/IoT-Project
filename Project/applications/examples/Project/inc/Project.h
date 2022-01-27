@@ -32,6 +32,10 @@ void murata_process_rx_response(void const *argument);
 void Dualstack_ApplicationCallback(void);
 void UART_Receive(void);
 
+void SleepMode(void);
+void startBLE(void);
+void wakeUp(void);
+
 #ifdef __cplusplus
 }
 #endif

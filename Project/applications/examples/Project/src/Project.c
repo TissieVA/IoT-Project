@@ -35,6 +35,21 @@ uint8_t response[50] = {0};
 int main(void)
 {
   Initialize_Platform();
+  //initialize push button pins
+  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
+  //enable interrupts
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+  GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
+  //GPIO_SetApplicationCallback(startBLE, OCTA_BTN2_Pin);
   
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
@@ -110,8 +125,20 @@ void UART_Receive(void)
     int result = HAL_UART_Receive(&BLE_UART, response, 50, 1000);
     if(result == HAL_OK){
       printINF("The Response is: %s\n\r", response);
+      if(sizeof(response)>8)
+      {
+        if(response[7] == 0x64)
+        {
+          osTimerStop(UART_TimId);
+          SleepMode();
+        }
+      } //else{
+        //  for(int i = 0; i<=3; i++)
+        //    AlarmTime[i] = response[i];
+        //  setalarm(response);
+        //}
+        // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm because we checked if the message is a time or disconnected/connected
     }
-    // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm
 }
 
 // Battery Level measurement
@@ -177,6 +204,7 @@ void LoRaWAN_send(void const *argument)
     osMutexRelease(txMutexId);
     LoRaWAN_Counter++;
 
+    printINF("Listening on UART\n");
     osTimerDef(UART_Tim, UART_Receive);
     UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
     osTimerStart(UART_TimId, UART_INTERVAL * 100);
@@ -223,6 +251,25 @@ void murata_process_rx_response(void const *argument)
     osDelay(1);
   }
   osThreadTerminate(NULL);
+}
+
+// interrupt handlers
+void wakeUp(void)
+{
+  printf("WAKE UP");
+}
+
+void SleepMode(void) {
+  printINF("Going to sleep\r\n");
+  //osTimerStop(UART_TimId);
+  osTimerStop(moduleCheckTimId);
+  osTimerStop(temp_hum_timer_id);
+  osTimerStop(loraWANTimId);
+  osTimerStop(batteryTimId);
+  HAL_SuspendTick();
+  __HAL_RCC_PWR_CLK_ENABLE();
+  HAL_PWR_EnterSLEEPMode(0, PWR_SLEEPENTRY_WFI);
+  HAL_ResumeTick();
 }
 
 void Dualstack_ApplicationCallback(void)
