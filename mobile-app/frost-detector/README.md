@@ -40,5 +40,5 @@ When a Frost Detector device is in close proximity of your phone running the app
 ![scan-overview](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/scan-overview.png)
 5. Press the 'connect' button. Once connected, you will receive a confirmation of a succesfull connection
 6. You can set the alarm time with a slider:
-![time-slider](https://github.com/TissieVA/IoT-Project/blob/master/Project/documentation/images/time-slider.png)
+![time-slider](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/time-slider.png)
 7. Finally, by pressing the 'update alarm' button, the alarm is set on the Frost Detector
