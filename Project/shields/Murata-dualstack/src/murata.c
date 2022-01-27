@@ -47,7 +47,7 @@ modem_callbacks_t modem_callbacks = {
 
 void on_modem_command_completed_callback(bool with_error, uint8_t tag_id)
 {
-    printINF("Murata modem command with tag %i completed (success = %i)\r\n", tag_id, !with_error);
+    //printINF("Murata modem command with tag %i completed (success = %i)\r\n", tag_id, !with_error);
 }
 
 void on_modem_return_file_data_callback(uint8_t file_id, uint32_t offset, uint32_t size, uint8_t *output_buffer)
@@ -169,7 +169,7 @@ uint8_t Murata_LoRaWAN_Send(uint8_t *buffer, uint8_t length)
 {
     uint8_t status = 0;
     status = modem_send_unsolicited_response(0x40, 0, length, (uint8_t *)buffer, &session_config_lora);
-    printINF("Sending LoRaWAN message with payload size %d\r\n", length);
+    //printINF("Sending LoRaWAN message with payload size %d\r\n", length);
     return status;
 }
 
