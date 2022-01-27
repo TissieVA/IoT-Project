@@ -4,22 +4,17 @@ int main(void)
 {
   Initialize_Platform();
 
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-
-  //feed IWDG every 5 seconds
-  IWDG_feed(NULL);
-  osTimerDef(iwdgTim, IWDG_feed);
-  iwdgTimId = osTimerCreate(osTimer(iwdgTim), osTimerPeriodic, NULL);
-  osTimerStart(iwdgTimId, 5 * 1000);
-
-  OCTA_LED_PWM_Init();
-  OCTA_LED_set_rgb(255, 140, 0);
-
-  osKernelStart();
+  HAL_Delay(100);
 
   while (1)
   {
+    uint8_t response[50] = {0};
+    HAL_UART_Abort(&BLE_UART);
+    int result = HAL_UART_Receive(&BLE_UART, response, 50, 1000);
+    if(result == HAL_OK){
+      printINF("%s\n\r", response);
+    }
+    IWDG_feed(NULL);
   }
 }
 

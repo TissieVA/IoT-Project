@@ -11,44 +11,34 @@
 #define LORAWAN_INTERVAL        30                //seconds
 #define MODULE_CHECK_INTERVAL   3600              //seconds
 #define LORA_MESSAGE_SIZE       10                //bytes
+#define UART_INTERVAL           1                 //seconds 
 
-//Murata Code
+// Murata Code
 uint16_t LoRaWAN_Counter = 0;
 uint8_t murata_init = 0;
 uint64_t short_UID;
 uint8_t murata_data_ready = 0;
 
-//Battery Level Code
+// Battery Level Code
 STC3115_ConfigData_TypeDef STC3115_ConfigData;
 STC3115_BatteryData_TypeDef STC3115_BatteryData;
 int batteryPercentage, batteryVoltage;
 
-//Temp/Hum Code
-osTimerId temp_hum_timer_id;
+// Temp/Hum Code
+osTimerId temp_hum_timer_id, UART_TimId;
 float SHTData[2];
+
+// UART Code
+uint8_t response[50] = {0};
+//uint8_t TimeAlarm[4];
 
 int main(void)
 {
   Initialize_Platform();
-  //initialize push button pins
-  GPIO_InitTypeDef GPIO_InitStruct;
-  GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
-  GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
-  //enable interrupts
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-  GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
-  GPIO_SetApplicationCallback(startBLE, OCTA_BTN1_Pin);
-
+  
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
-//
+
 
 //SHT (van temp/hum)
   setI2CInterface_SHT31(&common_I2C);
@@ -56,7 +46,7 @@ int main(void)
 
   osThreadDef(defaultTask, StartDefaultTask, osPriorityLow, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-//
+
 
 //Lorawan Code
 murata_init = Murata_Initialize(short_UID); //short_UID = devEUI
@@ -70,7 +60,8 @@ if (murata_init)
 // TX MUTEX ensuring no transmits are happening at the same time
 osMutexDef(txMutex);
 txMutexId = osMutexCreate(osMutex(txMutex));
-// Thread gemaakt voor murata acties
+
+// Thread made for murata actions
 osThreadDef(murata_rx_processing, murata_process_rx_response, osPriorityNormal, 0, 512);
 murata_rx_processing_handle = osThreadCreate(osThread(murata_rx_processing), NULL);
 
@@ -95,17 +86,11 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
 
   osTimerDef(loraWANTim, LoRaWAN_send);
   loraWANTimId = osTimerCreate(osTimer(loraWANTim), osTimerPeriodic, NULL);
-  osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+  osTimerStart(loraWANTimId,  LORAWAN_INTERVAL * 1000);
 
   osTimerDef(moduleCheckTim, check_modules);
   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
-
-  osTimerDef(sleep_Tim, enterSleep);
-  sleepTimId = osTimerCreate(osTimer(sleep_Tim), osTimerPeriodic, NULL);
-  osTimerStart(sleepTimId, NULL);
-
-
 
 //Join before starting the kernel
   Murata_LoRaWAN_Join();
@@ -118,21 +103,15 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
 
 }
 
-void enterSleep(void)
+//Listen on the UART if data is being sent from the BLE chip
+void UART_Receive(void)
 {
-    HAL_SuspendTick();
-    HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-    HAL_ResumeTick();
-}
-
-void wakeUp(void)
-{
-  printf("WAKE UP");
-}
-
-void startBLE(void)
-{
-  //Do BLE stuff
+    HAL_UART_Abort(&BLE_UART);
+    int result = HAL_UART_Receive(&BLE_UART, response, 50, 1000);
+    if(result == HAL_OK){
+      printINF("The Response is: %s\n\r", response);
+    }
+    // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm
 }
 
 // Battery Level measurement
@@ -145,7 +124,7 @@ void batteryLevel_measurement(void const *argument)
 }
 
 // Temperature and Humidity measurement
-void temp_hum_measurement(void)
+void temp_hum_measurement(void) 
 {
   SHT31_get_temp_hum(SHTData);
   print_temp_hum();
@@ -170,7 +149,6 @@ void LoRaWAN_send(void const *argument)
 {
   if (murata_init)
   {
-    
     uint8_t loraMessage[LORA_MESSAGE_SIZE];
     //float_union changes datatype from floats to bytes (see core/platform/common/inc/datatypes.h)
     //1 float needs 4 bytes so we need loraMessage to be 8 bytes 
@@ -198,6 +176,10 @@ void LoRaWAN_send(void const *argument)
     osDelay(3000);
     osMutexRelease(txMutexId);
     LoRaWAN_Counter++;
+
+    osTimerDef(UART_Tim, UART_Receive);
+    UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
+    osTimerStart(UART_TimId, UART_INTERVAL * 100);
   }
   else{
     printINF("murata not initialized, not sending\r\n");
@@ -247,5 +229,3 @@ void Dualstack_ApplicationCallback(void)
 {
   murata_data_ready = 1;
 }
-
-
