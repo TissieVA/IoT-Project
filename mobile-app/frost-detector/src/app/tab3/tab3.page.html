@@ -15,19 +15,45 @@
 
   <br>
 
-  <ion-list>
-    <ion-card-content ion-item *ngFor="let device of devices" [routerLink]="['/device']" [state]=device>
-      <p>{{device.name || 'Unnamed'}}</p>
-      <p>{{device.id}}</p>
-      <p> RSSI: {{device.rssi}}</p>
-    </ion-card-content>
-  </ion-list>
+  <ng-container *ngIf="bluetoothScanResults.length>0">
+    <ion-item *ngFor="let scanResult of bluetoothScanResults">
+      <ion-label>
+        <h2>{{scanResult.device?.name ?? "NO name" }}</h2>
+        <p style="font-size: 8px">{{scanResult.device.deviceId}}</p>
+      </ion-label>
+
+      <ion-button
+        (click)="disconnectFromBluetoothDevice(scanResult)"
+        color="danger"
+        slot="end">
+        Disconnect
+      </ion-button>
+
+      <ion-button (click)="connectToBluetoothDevice(scanResult)" slot="end">
+        Connect
+      </ion-button>
+    </ion-item>
+  </ng-container>
+
+
+  <ng-container *ngIf="bluetoothConnectedDevice" style="margin-top: 40px">
+    <ion-list-header>
+      CONNECTED TO: {{bluetoothConnectedDevice.device.name}} ✅
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Set alarm here</ion-label>
+      <ion-datetime displayFormat="HH:mm" hour-cycle="h23" [(ngModel)]="dateTimeFromPicker"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-button slot="end" [disabled]="!dateTimeFromPicker" (click)="sendBluetoothWriteCommand()">Update Alarm</ion-button>
+    </ion-item>
+  </ng-container>
 
 </ion-content>
 
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button expand="block" (click)="scan()">Scan</ion-button>
+    <ion-button expand="block" [disabled]="bluetoothIsScanning" (click)="scanForBluetoothDevices()">Scan</ion-button>
   </ion-toolbar>
 </ion-footer>
