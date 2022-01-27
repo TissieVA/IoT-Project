@@ -30,11 +30,12 @@ float SHTData[2];
 
 // UART Code
 uint8_t response[50] = {0};
+//uint8_t TimeAlarm[4];
 
 int main(void)
 {
   Initialize_Platform();
-
+  
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
 
@@ -85,18 +86,11 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
 
   osTimerDef(loraWANTim, LoRaWAN_send);
   loraWANTimId = osTimerCreate(osTimer(loraWANTim), osTimerPeriodic, NULL);
-  osTimerStart(loraWANTimId, LORAWAN_INTERVAL * 1000);
+  osTimerStart(loraWANTimId,  LORAWAN_INTERVAL * 1000);
 
   osTimerDef(moduleCheckTim, check_modules);
   moduleCheckTimId = osTimerCreate(osTimer(moduleCheckTim), osTimerPeriodic, NULL);
   osTimerStart(moduleCheckTimId, MODULE_CHECK_INTERVAL * 1000);
-
-
-  //! NEEDS TO BE UNCOMMENTED WHEN BUTTON IS PRESSED TO CHANGE TIME
-  // osTimerDef(UART_Tim, UART_Receive);
-  // UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
-  // osTimerStart(UART_TimId, UART_INTERVAL * 100);
-
 
 //Join before starting the kernel
   Murata_LoRaWAN_Join();
@@ -108,6 +102,7 @@ Murata_SetProcessingThread(murata_rx_processing_handle);
   }
 
 }
+
 //Listen on the UART if data is being sent from the BLE chip
 void UART_Receive(void)
 {
@@ -116,6 +111,7 @@ void UART_Receive(void)
     if(result == HAL_OK){
       printINF("The Response is: %s\n\r", response);
     }
+    // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm
 }
 
 // Battery Level measurement
@@ -153,7 +149,6 @@ void LoRaWAN_send(void const *argument)
 {
   if (murata_init)
   {
-    
     uint8_t loraMessage[LORA_MESSAGE_SIZE];
     //float_union changes datatype from floats to bytes (see core/platform/common/inc/datatypes.h)
     //1 float needs 4 bytes so we need loraMessage to be 8 bytes 
@@ -181,6 +176,10 @@ void LoRaWAN_send(void const *argument)
     osDelay(3000);
     osMutexRelease(txMutexId);
     LoRaWAN_Counter++;
+
+    osTimerDef(UART_Tim, UART_Receive);
+    UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
+    osTimerStart(UART_TimId, UART_INTERVAL * 100);
   }
   else{
     printINF("murata not initialized, not sending\r\n");
