@@ -102,7 +102,7 @@ export class Tab3Page {
         this.bluetoothConnectedDevice.device.deviceId,
         this.serviceUUID,
         this.rxCharacteristic,
-        numbersToDataView(this.getHexTimeFromDateTime(this.dateTimeFromPicker))
+        textToDataView(this.getStringTimeFromDateTime(this.dateTimeFromPicker))
       );
       alert('Alarm updated');
     } catch (error) {
@@ -143,6 +143,16 @@ export class Tab3Page {
     var t = d.split('+')[0];
     data[0] = t.split(':')[0].toString(16); // hours
     data[1] = t.split(':')[1].toString(16); // minutes
+    console.log(data);
+    return data;
+  }
+
+  getStringTimeFromDateTime(dateTime){
+    var data = '';
+    var d = dateTime.split('T')[1];
+    var t = d.split('+')[0];
+    data += t.split(':')[0]; // hours
+    data += t.split(':')[1]; // minutes
     console.log(data);
     return data;
   }
