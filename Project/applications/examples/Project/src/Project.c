@@ -35,6 +35,21 @@ uint8_t response[50] = {0};
 int main(void)
 {
   Initialize_Platform();
+  //initialize push button pins
+  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
+  //enable interrupts
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+  GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
+  GPIO_SetApplicationCallback(startBLE, OCTA_BTN2_Pin);
   
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
@@ -111,6 +126,10 @@ void UART_Receive(void)
     if(result == HAL_OK){
       printINF("The Response is: %s\n\r", response);
     }
+
+    //Go to sleep
+    SleepMode();
+
     // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm
 }
 
@@ -224,6 +243,28 @@ void murata_process_rx_response(void const *argument)
     osDelay(1);
   }
   osThreadTerminate(NULL);
+}
+
+// interrupt handlers
+void wakeUp(void)
+{
+  printf("WAKE UP");
+}
+
+void startBLE(void)
+{
+  //Do BLE stuff
+}
+
+void SleepMode(void) {
+  printINF("Going to sleep");
+  Peripherals_Deinit();
+  GPIO_Deinit();
+  HAL_SuspendTick();
+  __HAL_RCC_PWR_CLK_ENABLE();
+  HAL_PWR_EnterSLEEPMode(0, PWR_SLEEPENTRY_WFI);
+  HAL_ResumeTick();
+  GPIO_ReInit();
 }
 
 void Dualstack_ApplicationCallback(void)
