@@ -257,14 +257,16 @@ void startBLE(void)
 }
 
 void SleepMode(void) {
-  printINF("Going to sleep");
-  Peripherals_Deinit();
-  GPIO_Deinit();
+  printINF("Going to sleep\r\n");
+  osTimerStop(UART_TimId);
+  osTimerStop(moduleCheckTimId);
+  osTimerStop(temp_hum_timer_id);
+  osTimerStop(loraWANTimId);
+  osTimerStop(batteryTimId);
   HAL_SuspendTick();
   __HAL_RCC_PWR_CLK_ENABLE();
   HAL_PWR_EnterSLEEPMode(0, PWR_SLEEPENTRY_WFI);
   HAL_ResumeTick();
-  GPIO_ReInit();
 }
 
 void Dualstack_ApplicationCallback(void)
