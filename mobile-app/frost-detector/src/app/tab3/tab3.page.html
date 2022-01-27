@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Connect a Frost Detector
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Connect a Frost Detector</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <br>
+
+  <ion-list>
+    <ion-card-content ion-item *ngFor="let device of devices" [routerLink]="['/device']" [state]=device>
+      <p>{{device.name || 'Unnamed'}}</p>
+      <p>{{device.id}}</p>
+      <p> RSSI: {{device.rssi}}</p>
+    </ion-card-content>
+  </ion-list>
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="scan()">Scan</ion-button>
+  </ion-toolbar>
+</ion-footer>

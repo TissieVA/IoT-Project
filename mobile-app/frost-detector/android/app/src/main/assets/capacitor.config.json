@@ -1,0 +1,6 @@
+{
+	"appId": "com.uantwerpen.frostdetector",
+	"appName": "frost-detector",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
