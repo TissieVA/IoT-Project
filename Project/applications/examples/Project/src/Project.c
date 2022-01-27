@@ -177,6 +177,7 @@ void LoRaWAN_send(void const *argument)
     osMutexRelease(txMutexId);
     LoRaWAN_Counter++;
 
+    printINF("Listening on UART\n");
     osTimerDef(UART_Tim, UART_Receive);
     UART_TimId = osTimerCreate(osTimer(UART_Tim), osTimerPeriodic, NULL);
     osTimerStart(UART_TimId, UART_INTERVAL * 100);
