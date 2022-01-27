@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BLE } from '@awesome-cordova-plugins/ble/ngx';
+import { BluetoothLE } from '@awesome-cordova-plugins/bluetooth-le/ngx';
 
 @Component({
   selector: 'app-device',
@@ -15,11 +16,16 @@ export class DevicePage implements OnInit {
   dateTimeFromPicker: any;
   serviceUUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e'; //Nordic UART Service
   rxCharacteristic = '6e400002-b5a3-f393-e0a9-e50e24dcca9e'; //Write data to the RX Characteristic to send it on to the UART interface
-  txCharacteristic = '6e400003-b5a3-f393-e0a9-e50e24dcca9e'; 
+  txCharacteristic = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+  battery = {
+    service: '1800',
+    level: '2A00'
+};
 
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
     private ble: BLE,
+    private bluetoothle: BluetoothLE,
     private ngZone: NgZone) {
     let device = this.router.getCurrentNavigation().extras.state;
     this.setStatus('Connecting to ' + device.name || device.id);
@@ -48,9 +54,30 @@ export class DevicePage implements OnInit {
 
   updateAlarmOverBLE() {
     // Convert datetime in a 3 byte array with time values
-    var data = this.getHexTimeFromDateTime(this.dateTimeFromPicker);
-    this.ble.writeWithoutResponse(this.peripheral, this.serviceUUID, this.rxCharacteristic, data.buffer);
+    //var data = this.getHexTimeFromDateTime(this.dateTimeFromPicker);
+    var data = this.stringToBytes('test');
+    const encoder = new TextEncoder();
+    this.ble.write(this.peripheral, this.battery.service, this.battery.level, encoder.encode('test')).then(
+      succ => {alert("wrote back");},
+      fail => {alert("did not write back");}
+    );
   }
+
+  readBLE(){
+    // read data from a characteristic, do something with output data
+    this.ble.read(this.peripheral, this.battery.service, this.battery.level).then(
+      succ => {alert("READ SUCCESS");},
+      fail => {alert("READ FAILURE");}
+    );
+  }
+
+  readSucc(data){
+    console.log("Hooray we have data"+JSON.stringify(data));
+    alert("Successfully read data from device."+JSON.stringify(data));
+  };
+  readFail(failure){
+    alert("Failed to read characteristic from device.");
+  };
 
   getHexTimeFromDateTime(dateTime){
     var data = new Uint8Array(3);
@@ -67,7 +94,7 @@ export class DevicePage implements OnInit {
     for (var i = 0, l = string.length; i < l; i++) {
         array[i] = string.charCodeAt(i);
     }
-    return array.buffer;
+    return array;
   }
 
   // Disconnect peripheral when leaving the page

@@ -1,5 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { BLE } from '@awesome-cordova-plugins/ble/ngx';
+import { BluetoothLE } from '@awesome-cordova-plugins/bluetooth-le/ngx';
 
 @Component({
   selector: 'app-tab3',
@@ -10,8 +11,9 @@ export class Tab3Page {
 
   devices:any[] = [];
   statusMessage: string;
+  serviceUUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e'; //Nordic UART Service
 
-  constructor(private ble: BLE, private ngZone: NgZone) {}
+  constructor(private ble: BLE, private ble2: BluetoothLE, private ngZone: NgZone) {}
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter');
