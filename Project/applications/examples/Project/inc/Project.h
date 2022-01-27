@@ -35,6 +35,7 @@ void UART_Receive(void);
 void SleepMode(void);
 void startBLE(void);
 void wakeUp(void);
+void GPIO_ReInit(void);
 
 #ifdef __cplusplus
 }
