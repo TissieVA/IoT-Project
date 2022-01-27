@@ -49,7 +49,7 @@ int main(void)
   HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
   GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
-  GPIO_SetApplicationCallback(startBLE, OCTA_BTN2_Pin);
+  //GPIO_SetApplicationCallback(startBLE, OCTA_BTN2_Pin);
   
 // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
@@ -125,12 +125,20 @@ void UART_Receive(void)
     int result = HAL_UART_Receive(&BLE_UART, response, 50, 1000);
     if(result == HAL_OK){
       printINF("The Response is: %s\n\r", response);
+      if(sizeof(response)>8)
+      {
+        if(response[7] == 0x64)
+        {
+          osTimerStop(UART_TimId);
+          SleepMode();
+        }
+      } //else{
+        //  for(int i = 0; i<=3; i++)
+        //    AlarmTime[i] = response[i];
+        //  setalarm(response);
+        //}
+        // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm because we checked if the message is a time or disconnected/connected
     }
-
-    //Go to sleep
-    SleepMode();
-
-    // If our alarm (RTC clock) worked we would use this response as a string to set the time on the alarm
 }
 
 // Battery Level measurement
@@ -251,14 +259,9 @@ void wakeUp(void)
   printf("WAKE UP");
 }
 
-void startBLE(void)
-{
-  //Do BLE stuff
-}
-
 void SleepMode(void) {
   printINF("Going to sleep\r\n");
-  osTimerStop(UART_TimId);
+  //osTimerStop(UART_TimId);
   osTimerStop(moduleCheckTimId);
   osTimerStop(temp_hum_timer_id);
   osTimerStop(loraWANTimId);
