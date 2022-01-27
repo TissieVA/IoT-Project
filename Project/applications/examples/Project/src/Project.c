@@ -267,6 +267,17 @@ void SleepMode(void) {
   __HAL_RCC_PWR_CLK_ENABLE();
   HAL_PWR_EnterSLEEPMode(0, PWR_SLEEPENTRY_WFI);
   HAL_ResumeTick();
+  GPIO_ReInit();
+}
+
+void GPIO_ReInit(void) {
+  HAL_Init();
+  //SystemClock_Config();
+  OCTA_GPIO_Init();
+  /* Init UART, I2C & SPI */
+  FLASH_SPI_Init();
+  common_I2C_Init();
+  USB_UART_Init(115200);
 }
 
 void Dualstack_ApplicationCallback(void)
