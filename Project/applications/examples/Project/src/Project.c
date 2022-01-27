@@ -35,21 +35,6 @@ uint8_t TimeAlarm[4];
 int main(void)
 {
   Initialize_Platform();
-  // initialize push button pins
-  GPIO_InitTypeDef GPIO_InitStruct;
-  GPIO_InitStruct.Pin = OCTA_BTN1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(OCTA_BTN1_GPIO_Port, &GPIO_InitStruct);
-  GPIO_InitStruct.Pin = OCTA_BTN2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(OCTA_BTN2_GPIO_Port, &GPIO_InitStruct);
-  // enable interrupts
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 6, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-  GPIO_SetApplicationCallback(wakeUp, OCTA_BTN1_Pin);
-  // GPIO_SetApplicationCallback(startBLE, OCTA_BTN2_Pin);
 
   // Battery monitoring
   GasGauge_Initialization(&common_I2C, &STC3115_ConfigData, &STC3115_BatteryData);
@@ -256,7 +241,6 @@ void murata_process_rx_response(void const *argument)
   osThreadTerminate(NULL);
 }
 
-// interrupt handlers
 void wakeUp(void)
 {
   printf("WAKE UP");
@@ -265,7 +249,6 @@ void wakeUp(void)
 void SleepMode(void)
 {
   printINF("Going to sleep\r\n");
-  // osTimerStop(UART_TimId);
   osTimerStop(moduleCheckTimId);
   osTimerStop(temp_hum_timer_id);
   osTimerStop(loraWANTimId);
