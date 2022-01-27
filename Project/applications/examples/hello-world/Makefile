@@ -13,5 +13,6 @@ DEBUG = 1
 # Path to the octa-stack base directory:
 STACKBASE ?= ../../..
 FOLDER = examples
+USE_BLE = 1
 
 include $(STACKBASE)/core/Makefile.core

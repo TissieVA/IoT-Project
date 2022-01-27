@@ -33,11 +33,11 @@ void OCTA_Initialize_Common_Peripherals(void)
     #if USE_FTDI_LOGGING
         FTDI_UART_Init(115200);
     #endif
-    #if USE_BOOTLOADER
+    #if USE_BOOTLOADER || USE_BLE
         printINF("\r\nusing bootloader, initializing BLE UART\r\n");
         BLE_UART_Init(115200); 
-        bootloader_initialize(&BLE_UART);
-        UART_BLE_SetRxCallback(bootloader_parse_data);   
+        //bootloader_initialize(&BLE_UART);
+        //UART_BLE_SetRxCallback(bootloader_parse_data);   
     #endif
 
     // Get Unique ID of octa

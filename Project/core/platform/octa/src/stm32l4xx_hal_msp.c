@@ -430,7 +430,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     /* Peripheral clock enable */
     __HAL_RCC_USART2_CLK_ENABLE();
   
-    #if USE_BOOTLOADER
+    #if USE_BOOTLOADER || USE_BLE
       __HAL_RCC_GPIOD_CLK_ENABLE();
 
       /**USART2 BLE GPIO Configuration    

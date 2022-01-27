@@ -9,6 +9,7 @@ extern "C" {
 
 osTimerId iwdgTimId;
 osTimerId batteryTimId;
+osTimerId UART_TimId;
 osThreadId defaultTaskHandle;
 
 osThreadId defaultTaskHandle;
@@ -29,6 +30,7 @@ void LoRaWAN_send(void const *argument);
 void check_modules(void const *argument);
 void murata_process_rx_response(void const *argument);
 void Dualstack_ApplicationCallback(void);
+void UART_Receive(void);
 
 #ifdef __cplusplus
 }
