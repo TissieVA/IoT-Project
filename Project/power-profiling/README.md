@@ -1,7 +1,7 @@
 # Power Profiling
 We profiled the power consumption of our application using a Power Profiler Kit (PPK) on top of a nRF52840 DK made by Nordic. 
 
-![](https://infocenter.nordicsemi.com/topic/ug_ppk/UG/ppk/PPK_images/usecase_3_ext_hw_dk_jlink-01.svg)
+![](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/ext_hw_dk_jlink.jpg)
 
 To measure the power profile of an external device with the PPK, the following steps are required:
 1. Set the DUT select switch on: External
@@ -14,11 +14,11 @@ To measure the power profile of an external device with the PPK, the following s
 
 ## Active power profile: readings + LoRaWAN messages
 Below is the energy profile of our Frost Detector device while it has done 2 measurements and has sent 2 LoRaWAN messages. The measurements are represented by the lower peaks and the LoRaWAN messages are represented by the largest peaks.
-![active-power-profile](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/active-profile-lorawan+reading.png)
+![active-power-profile](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/active-profile-lorawan+reading.PNG)
 
 ## Active power profile: BLE connect + BLE receive
 After being awoken by the bluetooth button on the Frost Detector device and after a BLE connection was established, we measured the following power profile:
-![active-2-power-profile](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/sleep-profile.png)
+![active-2-power-profile](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/sleep-profile.PNG)
 
 ## Sleep mode profile
 When our Frost Detector device is in sleep mode, we measured the following power profile:
