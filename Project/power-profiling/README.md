@@ -18,8 +18,8 @@ Below is the energy profile of our Frost Detector device while it has done 2 mea
 
 ## Active power profile: BLE connect + BLE receive
 After being awoken by the bluetooth button on the Frost Detector device and after a BLE connection was established, we measured the following power profile:
-![active-2-power-profile](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/sleep-profile.PNG)
+![active-2-power-profile]()
 
 ## Sleep mode profile
 When our Frost Detector device is in sleep mode, we measured the following power profile:
-![sleep-power-profile]()
+![sleep-power-profile](https://github.com/TissieVA/IoT-Project/blob/master/Project/Wiki-Docs/images/sleep-profile.PNG)
